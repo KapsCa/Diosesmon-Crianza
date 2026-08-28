@@ -1,10 +1,15 @@
 # Repository Standards
 
-## Branch Protection
+## Branch Protection (GitHub)
 
 - **No push directo a `main`** — siempre usar PR
 - **PR obligatorio** — GitHub requiere PR antes de merge
-- **Checks funcionales** — CI debe pasar antes de merge
+- **Checks funcionales** — CI debe pasar antes de merge (status check: `test`)
+- **Conversation resolution** — todas las conversaciones deben resolverse
+- **Dismiss stale reviews** — reviews se invalidan con nuevos pushes
+- **No force pushes** — bloqueado en `main`
+- **No deletions** — bloqueado en `main`
+- **Enforce admins** — las reglas aplican incluso a administradores
 
 ## Commits
 
