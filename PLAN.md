@@ -159,22 +159,30 @@ State A ≡ State B cuando:
 
 ```typescript
 interface CostModel {
-  // Dinero
+  // Dinero (participa en optimización PRIMARY)
   itemCost: number;           // 500$ por Power Item
   genderSelectionCost: number; // 500$ para elegir género
+  nurserySlotCost: number;    // 10,000$ por slot extra (decisión REAL de dinero)
   
-  // No incluido en optimización (solo informativo)
+  // Breedings (participa en optimización SECONDARY)
+  // Conteo de operaciones de breed
+  
+  // NO incluido en optimización (solo informativo/metadata)
   captureCost: number;        // Variable, NO optimizar
   timeCost: number;           // Minutos, NO optimizar en MVP
 }
 ```
 
-### 4.2 Política de Optimización
+### 4.2 Política de Optimización (Lexicográfica con Scalarización)
 
 ```
-PRIMARY   = minimizar dinero (items + selección de género)
+PRIMARY   = minimizar dinero (items + selección de género + slots extra)
 SECONDARY = minimizar número de breedings
-TERTIARY  = minimizar tiempo (solo informativo)
+
+Implementación: g(n) = dinero(n) * K + breedings(n)
+donde K > maxPossibleBreedings (ej. K = 1000)
+
+Heurística escalada: h(n) = missingIVs * 500 * K
 
 DESEMPATE = orden canónico de operaciones (determinista)
 ```
@@ -197,17 +205,31 @@ type SolverResult =
 ### 5.1 Definición
 
 ```typescript
+const K = 1000; // Mayor que max posibles breedings
+
+function g(n: SearchState): number {
+  return n.moneyCost * K + n.breedingCount;
+}
+
 function heuristic(state: SearchState, goal: BreedingGoal): number {
   const missingIVs = countMissingIVs(state.inventory, goal.requiredIVs);
-  return missingIVs * 500;  // Costo mínimo estimado
+  const moneyH = missingIVs * 500;
+  // HEURÍSTICA PURA (sin K) — admisible solo en dinero
+  return moneyH * K;
 }
 ```
 
 ### 5.2 Admisibilidad (A demostrar)
 
 ```
-Para que A* encuentre el óptimo:
-  h(n) <= costoÓptimoRestante(n)  para todo estado n
+Para que A* encuentre el óptimo lexicográfico:
+  h(n) <= optimalCost(n)  para todo estado n
+
+La heurística subestima breedings (los pone en 0) — esto es admisible porque
+underestimate está permitido. El dinero estimado nunca sobreestima porque
+cada IV faltante requiere mínimo 1 item de 500$.
+
+DEMO: h(n) <= g*(n) donde g* es el costo óptimo real desde n.
 
 ESTO DEBE DEMOSTRARSE CON TESTS CONTRA UN REFERENCE SOLVER.
 ```
@@ -220,23 +242,28 @@ ESTO DEBE DEMOSTRARSE CON TESTS CONTRA UN REFERENCE SOLVER.
 // INV-001: IV mask solo utiliza bits 0..5
 INV001: (ivs & ~0x3F) === 0
 
-// INV-002: Operación válida nunca elimina IVs heredados permanentes
-INV002: isSubset(parents.ivs, child.ivs) para IVs protegidos
+// INV-002: IVs garantizados (overlap + items) SIEMPRE están en el hijo
+// NO: isSubset(parents.ivs, child.ivs) — eso sería falso
+// SÍ: guaranteedIVs ⊆ child.ivs
+INV002: guaranteedInheritedIVs(overlap(parentA, parentB), items) ⊆ child.ivs
 
 // INV-003: La especie del hijo cumple la regla
 INV003: child.species === mother.species
 
-// INV-004: Un padre no puede utilizar más de un item
-INV004: items.length <= 2 (1 por padre)
+// INV-004: Máximo 1 item por padre (estructuralmente tipado)
+INV004: items.parentA === null | HeldItem, items.parentB === null | HeldItem
 
 // INV-005: Solo padres compatibles pueden generar una cría
 INV005: checkCompatibility(parentA, parentB) === true
 
-// INV-006: Los padres consumidos dejan de estar disponibles
-INV006: inventory.length decreases by 1 after breed
+// INV-006: Los padres se CONSUMEN al criar (confirmado Diosesmon)
+INV006: inventory.length decreases by 1 after breed (2 padres → 1 hijo neto)
 
 // INV-007: Un Pokémon nunca puede tener más de seis IVs perfectos
 INV007: countPerfectIVs(ivs) <= 6
+
+// INV-008: requiredGender requiere que la especie tenga género
+INV008: goal.requiredGender !== undefined → species.genderRate !== -1
 ```
 
 ---
@@ -393,7 +420,19 @@ visited = Map<canonicalState, mejorCosto>
 
 ## 12. Testing Strategy
 
-### 12.1 Categorías de Tests
+### 12.1 Prioridad de Calidad (NO es solo coverage)
+
+```
+1. Domain Invariants (INV-001 a INV-008)
+2. Property-Based Tests (fast-check)
+3. Reference Solver validation
+4. Optimality Tests
+5. Determinism Tests
+6. Mutation Testing (si viable)
+7. Coverage como métrica secundaria
+```
+
+### 12.2 Categorías de Tests
 
 ```
 Functional Tests:
@@ -401,11 +440,13 @@ Functional Tests:
   - Overlap funciona
   - Compatibilidad funciona
   - Canonicalización funciona
+  - Genderless validation (INV-008)
 
 Optimality Tests:
   - Reference Solver == Optimized Solver en fixtures
   - Heurística nunca sobreestima (admisibilidad)
   - No existe ruta más barata que la encontrada
+  - Costo lexicográfico correcto (dinero primero, breedings después)
 
 Property-Based Tests:
   - overlap(A, B) ⊆ A
@@ -413,6 +454,7 @@ Property-Based Tests:
   - countPerfect(mask) ∈ [0,6]
   - canonicalize(state) es idempotente
   - child.species === mother.species
+  - guaranteedInheritedIVs ⊆ child.ivs
 
 Determinism Tests:
   - solve(input) === solve(input) siempre
@@ -444,15 +486,16 @@ NO se implementará en esta versión:
 ```
 ANTES de implementar el solver, resolver:
 
-1. ¿Qué IVs hereda exactamente un hijo? → YA RESUELTO
-2. ¿Cómo funciona exactamente Power Item? → YA RESUELTO
-3. ¿Qué sucede con dos Power Items? → YA RESUELTO (máx 2, diferentes stats)
-4. ¿El género seleccionado cuesta siempre $500? → YA RESUELTO
-5. ¿La captura se considera costo? → NO (solo informativo)
-6. ¿El tiempo de guardería es por breeding? → SÍ
-7. ¿Los slots funcionan simultáneamente? → SÍ (paralelo)
+1. ¿Los padres se consumen al criar? → **SÍ** (confirmado Diosesmon)
+2. ¿Qué IVs hereda exactamente un hijo? → RESUELTO (overlap + items = garantizados)
+3. ¿Cómo funciona exactamente Power Item? → RESUELTO (protege 1 IV específico del padre equipado)
+4. ¿Qué sucede con dos Power Items? → RESUELTO (máximo 2, diferentes stats, 1 por padre)
+5. ¿El género seleccionado cuesta siempre $500? → RESUELTO
+6. ¿La captura se considera costo? → NO (solo informativo)
+7. ¿El tiempo de guardería es por breeding? → SÍ
 8. ¿Qué generaciones cubrimos? → TODAS (Gen 1-9, ~1025 Pokémon)
-9. ¿Qué reglas especiales tiene Diosesmon vs Cobblemon vanilla? → PREGUNTAR
+9. ¿Qué reglas especiales tiene Diosesmon vs Cobblemon vanilla? → Confirmado: padres se consumen (diferente a vanilla)
+10. ¿Validación de requiredGender en genderless? → Inv-008 agregada (error explícito)
 ```
 
 ---
@@ -510,28 +553,30 @@ diosesmon-crianza/
 │   ├── application/
 │   │   ├── calculate-breeding-route.ts
 │   │   └── analyze-capture-requirements.ts
-│   ├── workers/
-│   │   └── solver.worker.ts       # Web Worker para A*
 │   ├── adapters/
-│   │   ├── ui/
-│   │   │   ├── components/
-│   │   │   │   ├── atoms/         # IVBadge, GenderIcon, StatBar
-│   │   │   │   ├── molecules/     # PokemonCard, CostSummary
-│   │   │   │   └── organisms/     # BreedingTree (React Flow)
-│   │   │   ├── pages/
-│   │   │   │   ├── Home.tsx       # Selección de Pokémon objetivo
-│   │   │   │   ├── Inventory.tsx  # Registro de inventario
-│   │   │   │   └── Result.tsx     # Árbol visual
-│   │   │   ├── hooks/
-│   │   │   │   └── useBreedingCalculator.ts
-│   │   │   ├── App.tsx
-│   │   │   └── main.tsx
-│   │   └── persistence/
-│   │       └── localStorage.ts    # Zustand persist middleware
-│   ├── stores/
-│   │   └── inventoryStore.ts      # Zustand store con persist
+│   │   ├── solver/
+│   │   │   └── solver.worker.ts       # Web Worker para A* (implementa SolverPort)
+│   │   ├── persistence/
+│   │   │   └── localStorage.ts        # Zustand persist middleware
+│   │   ├── state/
+│   │   │   └── inventoryStore.ts      # Zustand store (implementa StatePort)
+│   │   └── ui/
+│   │       ├── components/
+│   │       │   ├── atoms/             # IVBadge, GenderIcon, StatBar
+│   │       │   ├── molecules/         # PokemonCard, CostSummary
+│   │       │   └── organisms/         # BreedingTree (React Flow)
+│   │       ├── pages/
+│   │       │   ├── Home.tsx           # Selección de Pokémon objetivo
+│   │       │   ├── Inventory.tsx      # Registro de inventario
+│   │       │   └── Result.tsx         # Árbol visual
+│   │       ├── hooks/
+│   │       │   └── useBreedingCalculator.ts
+│   │       ├── App.tsx
+│   │       └── main.tsx
 │   └── ports/
-│       └── index.ts
+│       ├── solver.port.ts             # SolverPort (interfaz para solver)
+│       ├── persistence.port.ts        # PersistencePort (interfaz para storage)
+│       └── state.port.ts              # StatePort (interfaz para estado)
 ├── scripts/
 │   └── fetch-species.ts           # Ingesta de datos desde PokeAPI
 ├── tests/
@@ -599,8 +644,8 @@ diosesmon-crianza/
 
 | # | Tarea | Archivo |
 |---|-------|---------|
-| 2.1 | Script de ingesta PokeAPI | `scripts/fetch-species.ts` |
-| 2.2 | Fetch ID 1-1025 (Gen 1-9) | `scripts/fetch-species.ts` |
+| 2.1 | Script de ingesta PokeAPI con rate-limiting | `scripts/fetch-species.ts` |
+| 2.2 | Fetch ID 1-1025 (Gen 1-9) con retry + backoff exponencial | `scripts/fetch-species.ts` |
 | 2.3 | Extraer: name, egg_groups, gender_rate | `scripts/fetch-species.ts` |
 | 2.4 | Filtrar: excluir sin egg_group válido | `scripts/fetch-species.ts` |
 | 2.5 | Convertir egg_groups a Bitmasks | `scripts/fetch-species.ts` |
@@ -621,7 +666,7 @@ diosesmon-crianza/
 
 ### Fase 4: Solver Optimizado y Web Worker (Días 7-10)
 **Objetivo:** Búsqueda A* aislada e inmaculada.
-**Output:** Capacidad de resolver 64 Pokémon en < 5 segundos.
+**Output:** Capacidad de resolver 64 Pokémon (meta aspiracional — validar con benchmarks).
 
 | # | Tarea | Archivo | Test |
 |---|-------|---------|------|
