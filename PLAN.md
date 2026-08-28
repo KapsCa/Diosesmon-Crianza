@@ -66,22 +66,21 @@ function breed(
     parentA: HeldItem | null;
     parentB: HeldItem | null;
   },
-  rules: BreedingRules
+  rules: BreedingRules,
+  forceGender?: Gender  // Opcional: si se especifica, se paga $500 y se fuerza el género
 ): Offspring
 
 // Donde:
 interface Offspring {
   species: SpeciesId;      // Siempre la madre
   gender: Gender;          // Resultado final
-  genderSelection: GenderSelection; // Cómo se determinó el género
+  genderIsDeterministic: boolean; // true si se forzó ($500), false si fue random
   ivs: IVBitmask;         // Heredados según reglas
   inheritedFrom: Stat[];  // Qué IVs vinieron de cada padre
 }
 
-// Separar selección de género del resultado
-type GenderSelection = 
-  | { type: 'random' }           // Aleatorio, costo $0
-  | { type: 'forced'; cost: 500 }; // Forzado, costo $500
+// El offspring se convierte en BreedingCapability para seguir criando
+// genderIsDeterministic se preserva para que el solver sepa si el género es confiable
 ```
 
 ### 2.3 Reglas de Herencia de IVs
@@ -139,6 +138,7 @@ interface BreedingCapability {
   gender: Gender;
   ivs: IVBitmask;
   isDitto: boolean;  // Flag explícito — se setea durante ingesta
+  genderIsDeterministic: boolean; // true si el género fue forzado ($500), false si fue random
   // NO incluir: nickname, level, stats base (irrelevante para solver)
 }
 ```
@@ -148,18 +148,13 @@ interface BreedingCapability {
 ```typescript
 // Dos Pokémon con mismos IVs = mismo estado para el solver
 function canonicalize(state: SearchState): string {
-  // Incluir: species, IVs, gender, resources (items, money)
-  // NO incluir: IDs físicos, nicknames, orden
-  const sorted = state.inventory
-    .map(p => `${p.species}:${p.gender}:${p.ivs}`)
-    .sort()
-    .join('|');
-  const resources = `${state.moneyCost}:${state.breedingCount}`;
-  return `${sorted}#${resources}`;
+  // SOLO capacidad genética — SIN costo
+  // El costo va como VALOR en visited, no como parte de la LLAVE
+  return state.inventory.map(p => `${p.species}:${p.gender}:${p.ivs}`).sort().join('|');
 }
 
-// Propiedad: canonicalize(A) === canonicalize(B) si A y B son equivalentes
-// Equivalencia: mismas capacidades futuras + mismos recursos
+// visited: Map<canonicalKey, { cost: LexicographicCost; parent: SearchState | null; action: BreedingAction | null }>
+// Al llegar a una llave ya vista, comparas costos y te quedas con el mínimo
 ```
 
 ### 3.3 Equivalencia de Estados
@@ -169,7 +164,10 @@ State A ≡ State B cuando:
 - Mismas especies disponibles
 - Mismos IVs en cada especie
 - Mismos géneros disponibles
-- Mismos recursos (items, dinero)
+
+NO incluir: recursos (items, dinero) — esos son parte del COSTO, no de la CAPACIDAD
+Dos estados con misma capacidad genética pero diferente costo son el MISMO estado
+con diferente camino de llegada. El solver compara costos y se queda con el mínimo.
 ```
 
 ---
@@ -314,7 +312,7 @@ INV005: checkCompatibility(parentA, parentB) === true
 
 // INV-006: Los padres se CONSUMEN al criar (confirmado Diosesmon)
 INV006: 
-  - child.species === mother.species
+  - child.species === resolveSpecies(parentA, parentB)  // Consistente con INV-003
   - child ∉ previous inventory
   - parents ∉ new inventory
   - inventory.length decreases by 1 (2 padres → 1 hijo neto)
@@ -469,9 +467,13 @@ visited = Map<canonicalState, { cost: LexicographicCost; parent: SearchState | n
       - pokemon.species === goal.species
       - (pokemon.ivs & goal.requiredIVs) === goal.requiredIVs
       - goal.requiredGender === undefined OR 
-        (pokemon.gender === goal.requiredGender AND genderWasForced === true)
+        (pokemon.gender === goal.requiredGender AND pokemon.genderIsDeterministic === true)
       → ¡ENCONTRADO! Reconstruir camino desde parent pointers en visited
    c. Generar todos los cruces posibles (compatibilidad + items)
+      - Para cada cruce, generar DOS variantes:
+        1. Género aleatorio ($0) — útil si el hijo SOLO cría con Ditto después
+        2. Género forzado (+$500) — necesario si el hijo cría con no-Ditto después
+      - Cada variante es una rama DISTINTA del árbol de búsqueda
    d. Para cada hijo, si canonicalize(hijo) mejora estado conocido → agregar
 3. Heurística h(n) = 0 (Dijkstra) o lower bound correcto
 ```
@@ -732,6 +734,7 @@ diosesmon-crianza/
 ### Fase 3: Reference Solver (Días 5-6)
 **Objetivo:** Solver de referencia para validar optimalidad.
 **Output:** Solver que resuelve escenarios pequeños correctamente.
+**Benchmark temprano:** Correr con 5-10 Pokémon para obtener número REAL de estados explorados. Si es muy lento, la Fase 2 de la heurística (sección 5.3) se vuelve bloqueante para el MVP.
 
 | # | Tarea | Archivo | Test |
 |---|-------|---------|------|
@@ -742,7 +745,7 @@ diosesmon-crianza/
 
 ### Fase 4: Solver Optimizado y Web Worker (Días 7-10)
 **Objetivo:** Búsqueda A* aislada e inmaculada.
-**Output:** Capacidad de resolver 64 Pokémon (meta aspiracional — validar con benchmarks).
+**Output:** Capacidad de resolver 64 Pokémon (meta aspiracional — validar con benchmarks tempranos en Fase 3 con Reference Solver antes de comprometerse).
 
 | # | Tarea | Archivo | Test |
 |---|-------|---------|------|
