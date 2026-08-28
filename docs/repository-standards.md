@@ -17,6 +17,31 @@
 - **Commits atómicos** — un cambio lógico por commit
 - **Tests con código** — si cambias comportamiento, actualiza tests
 
+## Estructura del repositorio
+
+### Regla general
+- Mantener la raíz del repo lo más limpia posible.
+- En `root` solo deben vivir archivos de coordinación del proyecto: configuración, documentación principal y archivos que realmente sean globales.
+- Si un archivo ya no aporta al flujo diario, moverlo a `docs/`, `tests/` o eliminarlo cuando deje de servir.
+
+### React / Vite
+- `src/` contiene todo el código de la app.
+- `App.tsx` y `main.tsx` deben quedar livianos: composición, providers y arranque.
+- La lógica de negocio no debe vivir en componentes raíz.
+- Preferir organización por **feature** o por **dominio** cuando el proyecto crezca.
+- Compartir solo lo realmente reusable en carpetas comunes pequeñas.
+- Evitar deep nesting innecesario y imports cruzados entre features si se puede.
+
+### Estructura recomendada para este repo
+```text
+src/
+  app/        # composición global, providers, layout
+  features/   # módulos por dominio o funcionalidad
+  shared/     # utilidades y UI reutilizable
+  domain/     # reglas y tipos del negocio
+  assets/     # recursos estáticos de la app
+```
+
 ## Flujo de Trabajo
 
 ```bash
