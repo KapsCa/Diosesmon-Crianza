@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Crianza: Beldum 6x31</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1a202c; /* Tailwind gray-900 */
+            color: #e2e8f0; /* Tailwind gray-200 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Prevent body scroll, handle via container */
+        }
+
+        /* Colores basados en los anillos de la guardería de Diosesmon */
+        .badge-HP { background-color: #4caf50; color: white; }
+        .badge-ATK { background-color: #e91e63; color: white; }
+        .badge-DEF { background-color: #ff9800; color: white; }
+        .badge-SPA { background-color: #9c27b0; color: white; }
+        .badge-SPD { background-color: #ffeb3b; color: black; }
+        .badge-SPE { background-color: #2196f3; color: white; }
+
+        /* Contenedor principal para Pan y Zoom */
+        #viewport {
+            width: 100vw;
+            height: calc(100vh - 80px);
+            overflow: auto;
+            cursor: grab;
+            position: relative;
+        }
+        #viewport:active {
+            cursor: grabbing;
+        }
+
+        #tree-container {
+            transform-origin: top center;
+            padding: 40px;
+            min-width: max-content; /* Ensure tree doesn't wrap */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Estructura del Árbol Jerárquico (CSS Tree) */
+        .tree ul {
+            padding-top: 20px; 
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-inline-start: 0;
+        }
+
+        .tree li {
+            float: left; text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+        }
+
+        /* Líneas de conexión */
+        .tree li::before, .tree li::after {
+            content: '';
+            position: absolute; top: 0; right: 50%;
+            border-top: 2px solid #4a5568; /* Tailwind gray-600 */
+            width: 50%; height: 20px;
+        }
+        .tree li::after {
+            right: auto; left: 50%;
+            border-left: 2px solid #4a5568;
+        }
+
+        /* Limpiar líneas para los hijos únicos o extremos */
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child { padding-top: 0;}
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid #4a5568;
+            border-radius: 0 5px 0 0;
+        }
+
+        /* Línea que baja hacia el nodo */
+        .tree ul ul::before{
+            content: '';
+            position: absolute; top: 0; left: 50%;
+            border-left: 2px solid #4a5568;
+            width: 0; height: 20px;
+            margin-left: -1px;
+        }
+
+        /* Estilo de la Tarjeta del Nodo */
+        .node-card {
+            background-color: #2d3748; /* Tailwind gray-800 */
+            border: 2px solid #4a5568; /* Tailwind gray-600 */
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 110px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        .node-card:hover {
+            border-color: #63b3ed; /* Tailwind blue-300 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(99, 179, 237, 0.2);
+        }
+
+        /* Estado Completado */
+        .node-card.completed {
+            background-color: #22543d; /* Tailwind green-900 */
+            border-color: #48bb78; /* Tailwind green-400 */
+            opacity: 0.85;
+        }
+        .node-card.completed .node-title {
+            color: #9ae6b4; /* Tailwind green-200 */
+        }
+        .node-card.completed::before {
+            content: '✓ ';
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        /* Elementos Internos de la Tarjeta */
+        .node-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #e2e8f0;
+        }
+        .iv-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3px;
+        }
+        .iv-badge {
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 4px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+        }
+        .iv-badge.badge-SPD {
+             text-shadow: none; /* Yellow badge needs dark text and no shadow */
+        }
+        
+        /* Efecto Especial para el 6x31 Final */
+        .node-6x31 {
+            background: linear-gradient(135deg, #744210 0%, #b7791f 100%);
+            border-color: #ecc94b;
+        }
+        .node-6x31 .node-title {
+            font-size: 1rem;
+            color: #fefcbf;
+        }
+
+        /* --- NUEVO: Estilos para las etiquetas de los Brazales --- */
+        .bracelets-info {
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px dashed #4a5568;
+            font-size: 0.65rem;
+            color: #a0aec0;
+        }
+        .bracelets-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #cbd5e0;
+        }
+        .bracelet-tag {
+            display: inline-block;
+            padding: 1px 4px;
+            border-radius: 3px;
+            margin: 1px;
+            font-weight: bold;
+            font-size: 0.6rem;
+        }
+        
+        /* Colores de brazales adaptados */
+        .bracelet-tag.HP { background-color: rgba(76, 175, 80, 0.2); border: 1px solid #4caf50; color: #81c784; }
+        .bracelet-tag.ATK { background-color: rgba(233, 30, 99, 0.2); border: 1px solid #e91e63; color: #f06292; }
+        .bracelet-tag.DEF { background-color: rgba(255, 152, 0, 0.2); border: 1px solid #ff9800; color: #ffb74d; }
+        .bracelet-tag.SPA { background-color: rgba(156, 39, 176, 0.2); border: 1px solid #9c27b0; color: #ba68c8; }
+        .bracelet-tag.SPD { background-color: rgba(255, 235, 59, 0.2); border: 1px solid #ffeb3b; color: #fff176; }
+        .bracelet-tag.SPE { background-color: rgba(33, 150, 243, 0.2); border: 1px solid #2196f3; color: #64b5f6; }
+
+
+        #chat-window {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+        #chat-window.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 88%;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        .msg-user {
+            background-color: #3182ce; /* Tailwind blue-500 */
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        .msg-ai {
+            background-color: #4a5568; /* Tailwind gray-600 */
+            color: #f7fafc;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #718096;
+        }
+        /* Custom Scrollbar for chat */
+        #chat-messages::-webkit-scrollbar { width: 6px; }
+        #chat-messages::-webkit-scrollbar-track { background: transparent; }
+        #chat-messages::-webkit-scrollbar-thumb { background-color: #718096; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header y Controles -->
+    <header class="bg-gray-800 border-b border-gray-700 p-4 flex flex-col md:flex-row justify-between items-center z-10 relative shadow-md">
+        <div>
+            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                🧬 Plan Maestro: Metagross 6x31
+            </h1>
+            <p class="text-xs text-gray-400 mt-1">Haz clic en los cuadros para marcarlos como completados. Arrastra para mover el lienzo.</p>
+        </div>
+        <div class="flex gap-2 mt-3 md:mt-0">
+            <button onclick="zoomIn()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded shadow text-sm transition">➕ Zoom In</button>
+            <button onclick="zoomOut()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded shadow text-sm transition">➖ Zoom Out</button>
+            <button onclick="resetView()" class="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded shadow text-sm transition">↺ Resetear</button>
+        </div>
+    </header>
+
+    <!-- Área de Visualización -->
+    <div id="viewport">
+        <div id="tree-container">
+            <div class="tree" id="tree-root">
+                <!-- El árbol se generará aquí mediante JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Flotante del Chat -->
+    <button id="chat-fab" onclick="toggleChat()" class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-500 text-white rounded-full p-4 shadow-[0_0_15px_rgba(49,130,206,0.6)] flex items-center justify-center transition-all hover:scale-110 z-40">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+    </button>
+
+    <!-- Ventana del Chat -->
+    <div id="chat-window" class="fixed bottom-24 right-6 w-80 md:w-96 bg-gray-800 border border-gray-600 rounded-xl shadow-2xl flex flex-col overflow-hidden h-[30rem] max-h-[70vh]">
+        <div class="bg-gray-700 p-4 border-b border-gray-600 flex justify-between items-center shadow-sm z-10">
+            <h3 class="font-bold text-white flex items-center gap-2">
+                🤖 CrianzaBot IA
+            </h3>
+            <button onclick="toggleChat()" class="text-gray-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3 relative bg-gray-900 bg-opacity-50">
+            <div class="chat-message msg-ai">¡Qué onda, carnal! Soy tu asistente IA de crianza para Diosesmon. ¿En qué nodo te quedaste atorado o qué IVs quieres solapar hoy?</div>
+        </div>
+        <div class="p-3 border-t border-gray-600 bg-gray-700 flex gap-2">
+            <input type="text" id="chat-input" placeholder="Ej: ¿Si cruzo un 3x31 con un 2x31...?" class="flex-1 bg-gray-800 text-white border border-gray-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-400 transition-colors" onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm transition-colors shadow-sm font-semibold">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de IVs y sus nombres en UI
+        const IVS_ORDER = ["HP", "ATK", "DEF", "SPA", "SPD", "SPE"];
+        const IV_LABELS = {
+            "HP": "HP", "ATK": "Atk", "DEF": "Def", 
+            "SPA": "SpAtk", "SPD": "SpDef", "SPE": "Vel"
+        };
+
+        // ALGORITMO DETERMINISTA: Genera el árbol asegurando el solapamiento correcto.
+        // Un hijo Nx31 siempre vendrá de dos padres (N-1)x31.
+        // P1 comparte todos los IVs excepto el último del target.
+        // P2 comparte todos los IVs excepto el penúltimo del target.
+        function generateTreeData(targetIVs) {
+            if (targetIVs.length === 1) {
+                return {
+                    label: `1x31 (Base)`,
+                    type: 'base',
+                    ivs: targetIVs,
+                    children: [],
+                    braceletsRequired: [] // Base no requiere cruce previo
+                };
+            }
+
+            const parent1IVs = targetIVs.slice(0, targetIVs.length - 1);
+            const parent2IVs = targetIVs.filter((_, index) => index !== targetIVs.length - 2);
+
+            // --- NUEVO: Calcular exactamente qué brazales se necesitan ---
+            // Para llegar al 'targetIVs', necesitamos forzar los IVs que NO se solapan.
+            // P1 NO tiene el último IV del target. P2 NO tiene el penúltimo.
+            // Por lo tanto, necesitamos forzar el último y el penúltimo del target.
+            const requiredBracelet1 = targetIVs[targetIVs.length - 1]; // Lo aporta P2
+            const requiredBracelet2 = targetIVs[targetIVs.length - 2]; // Lo aporta P1
+
+            let label = `Beldum ${targetIVs.length}x31`;
+            if (targetIVs.length === 6) label = "Metagross 6x31";
+
+            return {
+                label: label,
+                type: `cria-${targetIVs.length}`,
+                ivs: targetIVs,
+                children: [
+                    generateTreeData(parent1IVs),
+                    generateTreeData(parent2IVs)
+                ],
+                braceletsRequired: [requiredBracelet2, requiredBracelet1] 
+            };
+        }
+
+        // Renderizado HTML recursivo del árbol
+        function renderNode(node) {
+            const isBase = node.children.length === 0;
+            const isTop = node.ivs.length === 6;
+            
+            // Construir los badges de IVs
+            let badgesHtml = node.ivs.map(iv => 
+                `<span class="iv-badge badge-${iv}">${IV_LABELS[iv]}</span>`
+            ).join('');
+
+            // --- NUEVO: Construir la sección de Brazales Requeridos ---
+            let braceletsHtml = '';
+            if (!isBase && node.braceletsRequired.length === 2) {
+                const b1 = node.braceletsRequired[0];
+                const b2 = node.braceletsRequired[1];
+                braceletsHtml = `
+                    <div class="bracelets-info">
+                        <div class="bracelets-title">Equipar para criar:</div>
+                        <span class="bracelet-tag ${b1}">${IV_LABELS[b1]}</span> + 
+                        <span class="bracelet-tag ${b2}">${IV_LABELS[b2]}</span>
+                    </div>
+                `;
+            }
+
+            // Modificador de clase para estilo
+            let cardClass = "node-card";
+            if (isTop) cardClass += " node-6x31";
+            
+            // Título ajustado para las bases
+            let title = node.label;
+            if (isBase) {
+                title = "Ditto/Beldum<br><span class='text-gray-400'>1x31</span>";
+            }
+
+            let html = `
+                <li>
+                    <div class="${cardClass}" onclick="toggleCompleted(this)">
+                        <div class="node-title">${title}</div>
+                        <div class="iv-container">
+                            ${badgesHtml}
+                        </div>
+                        ${braceletsHtml}
+                    </div>
+            `;
+
+            if (!isBase) {
+                html += `<ul>`;
+                html += renderNode(node.children[0]);
+                html += renderNode(node.children[1]);
+                html += `</ul>`;
+            }
+
+            html += `</li>`;
+            return html;
+        }
+
+        // Inicialización
+        const treeData = generateTreeData(IVS_ORDER);
+        document.getElementById('tree-root').innerHTML = `<ul>${renderNode(treeData)}</ul>`;
+
+        // Lógica de UI: Marcar como completado
+        function toggleCompleted(element) {
+            element.classList.toggle('completed');
+        }
+
+        // Lógica de UI: Pan y Zoom (Arrastrar lienzo)
+        const viewport = document.getElementById('viewport');
+        const treeContainer = document.getElementById('tree-container');
+        
+        let scale = 0.8; // Escala inicial para que se vea un poco más del árbol
+        let isDragging = false;
+        let startX, startY;
+        let translateX = 0;
+        let translateY = 0;
+
+        function updateTransform() {
+            treeContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        function zoomIn() {
+            scale = Math.min(scale + 0.1, 2);
+            updateTransform();
+        }
+
+        function zoomOut() {
+            scale = Math.max(scale - 0.1, 0.2);
+            updateTransform();
+        }
+
+        function resetView() {
+            scale = 0.8;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+            viewport.scrollTo(0, 0);
+        }
+
+        // Eventos de arrastre
+        viewport.addEventListener('mousedown', (e) => {
+            // No arrastrar si hicimos clic en una tarjeta
+            if(e.target.closest('.node-card')) return;
+            
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        // Aplicar escala inicial
+        updateTransform();
+
+        // Centrar visualmente el contenedor al inicio mediante scroll
+        window.onload = () => {
+            const viewportWidth = viewport.clientWidth;
+            const treeWidth = treeContainer.scrollWidth * scale;
+            if(treeWidth > viewportWidth) {
+                 viewport.scrollLeft = (treeWidth - viewportWidth) / 2;
+            }
+        };
+
+        // --- LÓGICA DEL ASISTENTE IA (GEMINI API) ---
+        const chatWindow = document.getElementById('chat-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        
+        // El API key se inyecta en el backend del Canvas automáticamente
+        const apiKey = ""; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+        
+        let chatHistory = [];
+        // System prompt que define las reglas estrictas de tu servidor
+        const systemPrompt = `Eres un experto calculador en crianza Pokémon del servidor Diosesmon (basado en mecánicas de PokéMMO). 
+REGLAS ESTRICTAS DE CRIANZA DEL SERVER:
+1. La crianza es 100% determinista. NO dependes de la suerte si usas los objetos correctos.
+2. Los padres desaparecen al criar. Siempre hay que considerar el costo y el género de las crías.
+3. Se pueden usar Brazales/Lentes/Anillos para heredar un IV de 31 asegurado. SOLO se pueden usar 2 objetos en total (uno por padre).
+4. Solapamiento Natural (OVERLAP): Si AMBOS padres tienen 31 en una estadística (ej. ambos tienen HP 31), el hijo la hereda 100% natural SIN necesidad de gastar objeto.
+5. Las estadísticas diferentes que no están protegidas por objetos se heredan al azar (se pierden). 
+Por lo tanto, para subir de 2x31 a 3x31, los padres deben compartir un stat (para que pase natural) y diferir en otros dos (usando objetos).
+Tu tono es directo, proactivo y amigable ("carnal", "ponte pilas"). Resuelve dudas de solapamiento de IVs, costos y rutas de crianza en 1 o 2 párrafos cortos y precisos.`;
+
+        function toggleChat() {
+            chatWindow.classList.toggle('active');
+            if(chatWindow.classList.contains('active')) {
+                chatInput.focus();
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function appendMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('chat-message');
+            msgDiv.classList.add(sender === 'user' ? 'msg-user' : 'msg-ai');
+            
+            // Un pequeño parser para markdown básico (negritas y saltos de línea)
+            let formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            
+            msgDiv.innerHTML = formattedText;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Mostrar el mensaje del usuario
+            appendMessage(text, 'user');
+            chatInput.value = '';
+            
+            // Añadir al historial de Gemini
+            chatHistory.push({ role: "user", parts: [{ text: text }] });
+
+            // Mostrar indicador de carga
+            const loadingId = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = loadingId;
+            loadingDiv.classList.add('chat-message', 'msg-ai');
+            loadingDiv.innerHTML = '<span class="flex items-center gap-2"><svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Pensando la ruta...</span>';
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Preparar Payload
+            const payload = {
+                contents: chatHistory,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            // Implementando backoff simple por si hay throttling
+            const fetchWithRetry = async (url, options, retries = 3, delay = 1000) => {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const res = await fetch(url, options);
+                        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                        return res;
+                    } catch (e) {
+                        if (i === retries - 1) throw e;
+                        await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+                    }
+                }
+            };
+
+            try {
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                document.getElementById(loadingId).remove(); // Quitar loading
+
+                if (result.candidates && result.candidates.length > 0) {
+                    const aiText = result.candidates[0].content.parts[0].text;
+                    appendMessage(aiText, 'ai');
+                    // Guardar la respuesta de la IA en el historial
+                    chatHistory.push({ role: "model", parts: [{ text: aiText }] });
+                } else {
+                    appendMessage("Hubo un cortocircuito en las cajas de PC. Intenta de nuevo.", 'ai');
+                }
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                appendMessage("❌ Error de conexión. Revisa el link con la API.", 'ai');
+            }
+        }
+
+    </script>
+</body>
+</html>
