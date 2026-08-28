@@ -1,32 +1,26 @@
-# React + TypeScript + Vite
+# Diosesmon Crianza
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Una app sencilla para ayudarte a planear y organizar tu crianza en Diosesmon.
 
-Currently, two official plugins are available:
+## ¿Qué hace?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Te ayuda a pensar mejor tus cruces
+- Ordena la información de forma clara
+- Hace más fácil seguir tu progreso
+- Te ahorra tiempo y confusión
 
-## React Compiler
+## ¿Para quién es?
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Para cualquiera que quiera criar sin perderse entre cálculos, notas o decisiones complicadas.
 
-## Expanding the Oxlint configuration
+## Idea principal
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+La app busca que todo sea más simple: elegir, comparar y avanzar con una vista clara de lo que necesitás.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+## Estado del proyecto
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Está en desarrollo y va creciendo paso a paso.
+
+---
+
+Hecho con cariño para la comunidad de Diosesmon.
