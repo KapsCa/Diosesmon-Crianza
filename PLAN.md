@@ -127,10 +127,10 @@ interface SearchState {
   inventory: BreedingCapability[];
   
   // Costo lexicográfico (para comparación)
-  moneyCost: number;      // Dinero gastado (items + gender selection + slots)
+  moneyCost: number;      // Dinero gastado (items + gender selection)
   breedingCount: number;  // Número de operaciones de breed
   
-  // NO incluir: steps (solo para reconstruir solución)
+  // NO incluir: steps (solo para reconstruir solución con parent pointers)
 }
 
 // Identidad física vs capacidad genética
@@ -180,14 +180,11 @@ State A ≡ State B cuando:
 ```typescript
 interface CostModel {
   // Dinero (participa en optimización PRIMARY)
-  itemCost: number;           // 500$ por Power Item
+  itemCost: number;           // 500$ por Power Item (confirmado: se consume por cada cruce)
   genderSelectionCost: number; // 500$ para elegir género
-  nurserySlotCost: number;    // 10,000$ por slot extra (decisión REAL de dinero)
   
-  // Breedings (participa en optimización SECONDARY)
-  // Conteo de operaciones de breed
-  
-  // NO incluido en optimización (solo metadata)
+  // NO incluido en optimización del MVP (solo metadata)
+  nurserySlotCost: number;    // 10,000$ por slot extra (informativo en MVP)
   captureCost: number;        // Variable, NO optimizar
   estimatedTime: number;      // Minutos estimados (metadata, NO optimizar)
 }
@@ -461,7 +458,8 @@ visited = Map<canonicalState, { cost: LexicographicCost; parent: SearchState | n
    b. Si ∃ pokemon ∈ inventory donde:
       - pokemon.species === goal.species
       - (pokemon.ivs & goal.requiredIVs) === goal.requiredIVs
-      - gender válido si goal.requiredGender existe
+      - goal.requiredGender === undefined OR 
+        (pokemon.gender === goal.requiredGender AND genderWasForced === true)
       → ¡ENCONTRADO! Reconstruir camino desde parent pointers en visited
    c. Generar todos los cruces posibles (compatibilidad + items)
    d. Para cada hijo, si canonicalize(hijo) mejora estado conocido → agregar
@@ -555,7 +553,7 @@ ANTES de implementar el solver, resolver:
 
 1. ¿Los padres se consumen al criar? → **SÍ** (confirmado Diosesmon)
 2. ¿Qué IVs hereda exactamente un hijo? → RESUELTO (overlap + items = garantizados)
-3. ¿Cómo funciona exactamente Power Item? → RESUELTO (protege 1 IV específico del padre equipado)
+3. ¿Cómo funciona exactamente Power Item? → RESUELTO (protege 1 IV específico, se consume por cada cruce, 500$ cada uso)
 4. ¿Qué sucede con dos Power Items? → RESUELTO (máximo 2, diferentes stats, 1 por padre)
 5. ¿El género seleccionado cuesta siempre $500? → RESUELTO
 6. ¿La captura se considera costo? → NO (solo informativo)
@@ -853,7 +851,7 @@ Nivel N (raíz):     Pokémon objetivo (6x31 o 5x31)
 | 14 | ¿Exclusiones? | BreedingEligibility (declarativo) |
 | 15 | ¿Reference Solver? | **Sí** (validar optimalidad) |
 | 16 | ¿Capa Application? | **Sí** (orquestación) |
-| 17 | ¿Domain Invariants? | **Sí** (INV-001 a INV-007) |
+| 17 | ¿Domain Invariants? | **Sí** (INV-001 a INV-008) |
 | 18 | ¿Property-Based Tests? | **Sí** (fast-check) |
 
 ---
