@@ -30,11 +30,13 @@ git commit -m "feat(core): add new feature"
 git push -u origin feat/mi-cambio
 
 # 4. Abrir PR
-gh pr create --fill
+gh pr create
 
 # 5. Esperar checks
 # 6. Merge cuando todo pase
 ```
+
+> El cuerpo de la PR se completa y se refresca automáticamente con un bot que resume los archivos cambiados.
 
 ## Stack
 
