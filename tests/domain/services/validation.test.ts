@@ -6,7 +6,7 @@ import {
   getOffspringSpecies,
 } from '../../../src/domain/services/validation';
 import { Stat } from '../../../src/domain/types/stat';
-import { Gender, Species } from '../../../src/domain/types/pokemon';
+import { Gender } from '../../../src/domain/types/pokemon';
 import {
   createMockPokemon,
   createDitto,

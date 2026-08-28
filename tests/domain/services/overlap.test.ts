@@ -7,7 +7,7 @@ import {
 } from '../../../src/domain/services/overlap';
 import { Stat } from '../../../src/domain/types/stat';
 import { Gender } from '../../../src/domain/types/pokemon';
-import { createMockPokemon, createPokemonWithPerfectIVs } from '../../helpers';
+import { createPokemonWithPerfectIVs } from '../../helpers';
 
 describe('analyzeOverlap', () => {
   // ─── CASO BASE: ambos padres comparten 31 en HP ──────
