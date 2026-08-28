@@ -433,7 +433,7 @@ NO se implementará en esta versión:
 - Autenticación
 - Optimización multiobjetivo avanzada
 - Automatización dentro del juego
-- Datos fuera de Gen 1-3
+- Datos fuera de todas las generaciones (Gen 1-9) — **EXPANDIDO**
 - Scheduler de guardería (solo estimación)
 ```
 
@@ -451,7 +451,7 @@ ANTES de implementar el solver, resolver:
 5. ¿La captura se considera costo? → NO (solo informativo)
 6. ¿El tiempo de guardería es por breeding? → SÍ
 7. ¿Los slots funcionan simultáneamente? → SÍ (paralelo)
-8. ¿Gen 1-3 es una limitación real? → MVP, expandir después
+8. ¿Qué generaciones cubrimos? → TODAS (Gen 1-9, ~1025 Pokémon)
 9. ¿Qué reglas especiales tiene Diosesmon vs Cobblemon vanilla? → PREGUNTAR
 ```
 
@@ -506,7 +506,7 @@ diosesmon-crianza/
 │   │   │   └── gender.ts          # Compatibilidad género
 │   │   └── data/
 │   │       ├── species.ts         # Interface SpeciesData
-│   │       └── species.json       # Gen 1-3 estático (generado por script)
+│   │       └── species.json       # Gen 1-9 estático (generado por script)
 │   ├── application/
 │   │   ├── calculate-breeding-route.ts
 │   │   └── analyze-capture-requirements.ts
@@ -600,7 +600,7 @@ diosesmon-crianza/
 | # | Tarea | Archivo |
 |---|-------|---------|
 | 2.1 | Script de ingesta PokeAPI | `scripts/fetch-species.ts` |
-| 2.2 | Fetch ID 1-386 (Gen 1-3) | `scripts/fetch-species.ts` |
+| 2.2 | Fetch ID 1-1025 (Gen 1-9) | `scripts/fetch-species.ts` |
 | 2.3 | Extraer: name, egg_groups, gender_rate | `scripts/fetch-species.ts` |
 | 2.4 | Filtrar: excluir sin egg_group válido | `scripts/fetch-species.ts` |
 | 2.5 | Convertir egg_groups a Bitmasks | `scripts/fetch-species.ts` |
@@ -840,7 +840,7 @@ LO QUE NO TIENE POKÉAPI (específico de Cobblemon):
 
 ```
 PANTALLA 1: Selección de Pokémon objetivo
-├── Dropdown con todos los Pokémon Gen 1-3
+├── Dropdown con todos los Pokémon Gen 1-9
 ├── Al seleccionar, muestra stats base
 ├── Checkboxes: "¿Qué IVs quieres?" (HP, Atk, Def, SpAtk, SpDef, Speed)
 ├── Default: todos marcados (6x31)
