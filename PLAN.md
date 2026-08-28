@@ -6,12 +6,12 @@
 
 **Stack:** React + Vite + TypeScript + Vitest + React Flow + Web Workers + Zustand
 **Arquitectura:** Screaming Architecture / Hexagonal
-**Solver:** A* + Branch & Bound (garantiza ruta óptima)
+**Solver:** A* + Branch & Bound (diseñado para garantizar optimalidad bajo las condiciones especificadas)
 **MVP:** Algoritmo core + árbol visual interactivo
 
 ### Directivas Estrictas para el Agente
 
-- **BASES SÓLIDAS:** CONCEPTOS > CÓDIGO. Prohibido codificar interfaces visuales antes de que el dominio esté cerrado con TDD (cobertura total).
+- **BASES SÓLIDAS:** CONCEPTOS > CÓDIGO. Prohibido codificar interfaces visuales antes de que el dominio esté cerrado con TDD (invariantes + properties + reference solver).
 - **Commits:** Usar estrictamente **Conventional Commits** en cada iteración. No generar código sin su respectivo commit.
 - **Inmutabilidad:** Todo el dominio debe diseñarse sin mutar el estado original.
 - **Bloqueos:** Si falta contexto técnico para implementar una función matemática o de negocio, **DETENERSE Y PREGUNTAR.** Cero alucinaciones.
@@ -62,17 +62,26 @@ Permite objetivos como: `Feebas + HP|DEF|SPATK|SPDEF|SPEED` sin hardcodear "5x31
 function breed(
   parentA: BreedingCapability,
   parentB: BreedingCapability,
-  items: [HeldItem | null, HeldItem | null],
+  items: {
+    parentA: HeldItem | null;
+    parentB: HeldItem | null;
+  },
   rules: BreedingRules
 ): Offspring
 
 // Donde:
 interface Offspring {
   species: SpeciesId;      // Siempre la madre
-  gender: Gender;          // Aleatorio o forzado
+  gender: Gender;          // Resultado final
+  genderSelection: GenderSelection; // Cómo se determinó el género
   ivs: IVBitmask;         // Heredados según reglas
   inheritedFrom: Stat[];  // Qué IVs vinieron de cada padre
 }
+
+// Separar selección de género del resultado
+type GenderSelection = 
+  | { type: 'random' }           // Aleatorio, costo $0
+  | { type: 'forced'; cost: 500 }; // Forzado, costo $500
 ```
 
 ### 2.3 Reglas de Herencia de IVs
@@ -116,8 +125,12 @@ El solver NO debe considerar capturas como "gratis". El Capture Advisor indica q
 interface SearchState {
   // Capacidad genética del inventario (no identidad física)
   inventory: BreedingCapability[];
-  cost: number;
-  // NO incluir steps aquí (solo para reconstruir solución)
+  
+  // Costo lexicográfico (para comparación)
+  moneyCost: number;      // Dinero gastado (items + gender selection + slots)
+  breedingCount: number;  // Número de operaciones de breed
+  
+  // NO incluir: steps (solo para reconstruir solución)
 }
 
 // Identidad física vs capacidad genética
@@ -134,11 +147,18 @@ interface BreedingCapability {
 ```typescript
 // Dos Pokémon con mismos IVs = mismo estado para el solver
 function canonicalize(state: SearchState): string {
-  // Ordenar inventory por species + ivs
-  // No incluir IDs físicos ni nicknames
+  // Incluir: species, IVs, gender, resources (items, money)
+  // NO incluir: IDs físicos, nicknames, orden
+  const sorted = state.inventory
+    .map(p => `${p.species}:${p.gender}:${p.ivs}`)
+    .sort()
+    .join('|');
+  const resources = `${state.moneyCost}:${state.breedingCount}`;
+  return `${sorted}#${resources}`;
 }
 
 // Propiedad: canonicalize(A) === canonicalize(B) si A y B son equivalentes
+// Equivalencia: mismas capacidades futuras + mismos recursos
 ```
 
 ### 3.3 Equivalencia de Estados
@@ -167,9 +187,9 @@ interface CostModel {
   // Breedings (participa en optimización SECONDARY)
   // Conteo de operaciones de breed
   
-  // NO incluido en optimización (solo informativo/metadata)
+  // NO incluido en optimización (solo metadata)
   captureCost: number;        // Variable, NO optimizar
-  timeCost: number;           // Minutos, NO optimizar en MVP
+  estimatedTime: number;      // Minutos estimados (metadata, NO optimizar)
 }
 ```
 
@@ -190,49 +210,78 @@ DESEMPATE = orden canónico de operaciones (determinista)
 ### 4.3 Categorías de Resultado
 
 ```typescript
+interface LexicographicCost {
+  money: number;
+  breedings: number;
+}
+
 type SolverResult = 
-  | { status: 'SUCCESS'; route: BreedingRoute; cost: number }
+  | { status: 'SUCCESS'; route: BreedingRoute; cost: LexicographicCost }
   | { status: 'NO_SOLUTION'; reason: string }
   | { status: 'SEARCH_LIMIT_REACHED'; statesExplored: number }
   | { status: 'CANCELLED' }
   | { status: 'INVALID_INPUT'; errors: string[] };
+
+// Comparación lexicográfica
+function compareCost(a: LexicographicCost, b: LexicographicCost): 'LESS' | 'EQUAL' | 'GREATER' {
+  if (a.money !== b.money) return a.money < b.money ? 'LESS' : 'GREATER';
+  if (a.breedings !== b.breedings) return a.breedings < b.breedings ? 'LESS' : 'GREATER';
+  return 'EQUAL';
+}
 ```
 
 ---
 
 ## 5. Función Heurística
 
-### 5.1 Definición
+### 5.1 Estado Actual: h(n) = 0 (Dijkstra)
 
 ```typescript
-const K = 1000; // Mayor que max posibles breedings
-
-function g(n: SearchState): number {
-  return n.moneyCost * K + n.breedingCount;
-}
-
 function heuristic(state: SearchState, goal: BreedingGoal): number {
-  const missingIVs = countMissingIVs(state.inventory, goal.requiredIVs);
-  const moneyH = missingIVs * 500;
-  // HEURÍSTICA PURA (sin K) — admisible solo en dinero
-  return moneyH * K;
+  return 0; // Siempre admisible, convierte A* en Dijkstra
 }
 ```
 
-### 5.2 Admisibilidad (A demostrar)
+### 5.2 Por qué h(n) = 0
+
+La heurística `missingIVs * 500` **NO es admisible**. Contraejemplo:
 
 ```
-Para que A* encuentre el óptimo lexicográfico:
-  h(n) <= optimalCost(n)  para todo estado n
-
-La heurística subestima breedings (los pone en 0) — esto es admisible porque
-underestimate está permitido. El dinero estimado nunca sobreestima porque
-cada IV faltante requiere mínimo 1 item de 500$.
-
-DEMO: h(n) <= g*(n) donde g* es el costo óptimo real desde n.
-
-ESTO DEBE DEMOSTRARSE CON TESTS CONTRA UN REFERENCE SOLVER.
+Padre A: HP, DEF, SPE = 31
+Padre B: HP, DEF, SPE = 31
+Objetivo: 6x31
+missingIVs = 6 (contando los que faltan en AMBOS)
+h(n) = 6 × 500 = $3000
+Pero: overlap da HP, DEF, SPE gratis → costo real = $0 para esos 3
+Y los otros 3 (ATK, SPATK, SPDEF) pueden venir de otros padres
+→ h(n) sobreestima cuando hay overlap significativo
 ```
+
+**Regla:** Una heurística que sobreestima produce rutas SUBÓPTIMAS.
+
+### 5.3 Estrategia de Implementación
+
+```
+FASE 1: h(n) = 0 (Dijkstra correcto)
+   ↓
+FASE 2: Calcular lower bound real
+   - Para cada IV faltante, verificar si algún padre lo tiene
+   - IVs ausentes en TODOS los padres = mínimo 500$ cada uno
+   - IVs presentes en al menos un padre = pueden ser gratis (overlap/item)
+   ↓
+FASE 3: Demostrar admisibilidad con Reference Solver
+   h(n) <= referenceOptimalCost(n) para todo estado n
+```
+
+### 5.4 Tradeoff
+
+| Heurística | Admisible | Velocidad | Complejidad |
+|------------|-----------|-----------|-------------|
+| h(n) = 0 | ✅ Siempre | Lenta (Dijkstra) | Trivial |
+| h(n) = missingFromAll * 500 | ✅ Si | Media | Baja |
+| h(n) = missingIVs * 500 | ❌ No | Rápida | Baja |
+
+**Decisión MVP:** Empezar con h(n) = 0. Optimizar después con heurística correcta.
 
 ---
 
@@ -257,7 +306,11 @@ INV004: items.parentA === null | HeldItem, items.parentB === null | HeldItem
 INV005: checkCompatibility(parentA, parentB) === true
 
 // INV-006: Los padres se CONSUMEN al criar (confirmado Diosesmon)
-INV006: inventory.length decreases by 1 after breed (2 padres → 1 hijo neto)
+INV006: 
+  - child.species === mother.species
+  - child ∉ previous inventory
+  - parents ∉ new inventory
+  - inventory.length decreases by 1 (2 padres → 1 hijo neto)
 
 // INV-007: Un Pokémon nunca puede tener más de seis IVs perfectos
 INV007: countPerfectIVs(ivs) <= 6
@@ -285,8 +338,9 @@ Implementar un solver SIMPLE y LENTO que:
 const reference = referenceSolver(input);
 const optimized = aStarSolver(input);
 
-assert(reference.cost === optimized.cost);
-assert(reference.routeisValid(optimized.route));
+// Usar compareCost para comparación lexicográfica
+assert(compareCost(reference.cost, optimized.cost) === 'EQUAL');
+assert(reference.routeIsValid(optimized.route));
 ```
 
 ---
@@ -399,20 +453,33 @@ const countPerfect = (ivs: number) => bits_set_lookup[ivs]; // Lookup table O(1)
 
 ```
 PriorityQueue ordenada por (costo_acumulado + heurística)
-visited = Map<canonicalState, mejorCosto>
+visited = Map<canonicalState, { cost: LexicographicCost; parent: SearchState | null; action: BreedingAction | null }>
 
 1. Estado inicial = inventario del usuario
 2. Mientras haya estados por explorar:
    a. Sacar estado con menor f(n) = g(n) + h(n)
-   b. Si goal.requiredIVs ⊆ mejorIVsDelInventario → ¡ENCONTRADO!
+   b. Si ∃ pokemon ∈ inventory donde:
+      - pokemon.species === goal.species
+      - (pokemon.ivs & goal.requiredIVs) === goal.requiredIVs
+      - gender válido si goal.requiredGender existe
+      → ¡ENCONTRADO! Reconstruir camino desde parent pointers en visited
    c. Generar todos los cruces posibles (compatibilidad + items)
    d. Para cada hijo, si canonicalize(hijo) mejora estado conocido → agregar
-3. Heurística h(n) = IVs_faltantes * 500
+3. Heurística h(n) = 0 (Dijkstra) o lower bound correcto
 ```
 
 ### Podas
 
 - Si `costo_actual > mejor_solución_encontrada` → podar
+
+### 11.2 Estrategia de Upper Bound
+
+```
+1. Encontrar CUALQUIER solución válida (busqueda greedy o BFS rápida)
+2. Usar su costo como upper bound inicial
+3. A* busca mejorarla
+4. Cada solución encontrada actualiza el upper bound
+```
 - Si `canonicalize(estado) ya visitado con menor costo` → podar
 - Si `inventario_vacío` y no hay solución → podar
 
@@ -546,7 +613,8 @@ diosesmon-crianza/
 │   │   │   └── capture-advisor.ts # Análisis de desbloqueo
 │   │   ├── rules/
 │   │   │   ├── egg-groups.ts      # Reglas de grupo huevo (declarativo)
-│   │   │   └── gender.ts          # Compatibilidad género
+│   │   │   ├── gender.ts          # Compatibilidad género
+│   │   │   └── compatibility.ts   # Reglas de compatibilidad (egg group intersection)
 │   │   └── data/
 │   │       ├── species.ts         # Interface SpeciesData
 │   │       └── species.json       # Gen 1-9 estático (generado por script)
@@ -739,8 +807,8 @@ diosesmon-crianza/
 ### Árbol Visual (Bottom → Up) con React Flow
 
 ```
-Nivel 0 (base):     Pokémon a capturar (IVs1x31)
-Nivel 1:            Primeras crías 2x31
+Nivel 0 (base):     Pokémon a capturar (fuera del solver — solo sugerencia)
+Nivel 1:            Primeras crías 2x31 (inicio de la ruta del solver)
 Nivel 2:            Crías 3x31
 ...
 Nivel N (raíz):     Pokémon objetivo (6x31 o 5x31)
@@ -954,7 +1022,7 @@ LO QUE FALTA POR HACER:
     Equipar: HP+Def     Equipar: SpAtk+Speed
     ┌───────────┘           ┌───────────┘
 ┌───┴───┐               ┌───┴───┐
-[Ditto♀ 1x31] [Ditto♂ 1x31] [Ditto♀ 1x31] [Ditto♂ 1x31]
+[Ditto 1x31] [Ditto 1x31] [Ditto 1x31] [Ditto 1x31]
    HP            Atk          SpAtk          Speed
    Equipar: -    Equipar: -   Equipar: -     Equipar: -
    ↓ capturar    ↓ capturar   ↓ capturar     ↓ capturar
@@ -973,7 +1041,7 @@ LO QUE FALTA POR HACER:
 | **Everstone** | Objeto que hereda la naturaleza (no IVs) |
 | **Lazo Destino** | Objeto que hereda 5 IVs de 12 + 1 random (PROHIBIDO) |
 | **Egg Group** | Grupo de compatibilidad para breeding |
-| **Genderless** | Sin género. Solo cría con Ditto |
+| **Genderless** | Sin género. Regla de compatibilidad determinada por `BreedingRules.checkCompatibility()` |
 | **Ditto** | Pokémon genderless que puede criar con cualquiera |
 | **Bitmask** | Representación de IVs como entero binario (ej. 0b111111 = 6x31) |
 | **A*** | Algoritmo de búsqueda que garantiza la ruta óptima |
