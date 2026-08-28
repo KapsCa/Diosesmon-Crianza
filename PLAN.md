@@ -148,9 +148,13 @@ interface BreedingCapability {
 ```typescript
 // Dos Pokémon con mismos IVs = mismo estado para el solver
 function canonicalize(state: SearchState): string {
-  // SOLO capacidad genética — SIN costo
-  // El costo va como VALOR en visited, no como parte de la LLAVE
-  return state.inventory.map(p => `${p.species}:${p.gender}:${p.ivs}`).sort().join('|');
+  // Capacidad genética COMPLETA — incluye genderIsDeterministic
+  // Porque el chequeo de meta requiere genderIsDeterministic === true
+  // Si no está en la llave, el solver puede podar el estado correcto
+  return state.inventory
+    .map(p => `${p.species}:${p.gender}:${p.ivs}:${p.genderIsDeterministic}`)
+    .sort()
+    .join('|');
 }
 
 // visited: Map<canonicalKey, { cost: LexicographicCost; parent: SearchState | null; action: BreedingAction | null }>
@@ -164,6 +168,7 @@ State A ≡ State B cuando:
 - Mismas especies disponibles
 - Mismos IVs en cada especie
 - Mismos géneros disponibles
+- Mismos valores de genderIsDeterministic en cada individuo
 
 NO incluir: recursos (items, dinero) — esos son parte del COSTO, no de la CAPACIDAD
 Dos estados con misma capacidad genética pero diferente costo son el MISMO estado
@@ -308,7 +313,11 @@ function resolveSpecies(parentA: BreedingCapability, parentB: BreedingCapability
 INV004: items.parentA === null | HeldItem, items.parentB === null | HeldItem
 
 // INV-005: Solo padres compatibles pueden generar una cría
+// Además: individuos con genderIsDeterministic=false SOLO pueden criar con Ditto
+// (porque sin género forzado, el cruce con no-Ditto podría fallar en ejecución real)
 INV005: checkCompatibility(parentA, parentB) === true
+  AND (parentA.genderIsDeterministic === true OR parentA.isDitto OR parentB.isDitto)
+  AND (parentB.genderIsDeterministic === true OR parentA.isDitto OR parentB.isDitto)
 
 // INV-006: Los padres se CONSUMEN al criar (confirmado Diosesmon)
 INV006: 
@@ -470,9 +479,12 @@ visited = Map<canonicalState, { cost: LexicographicCost; parent: SearchState | n
         (pokemon.gender === goal.requiredGender AND pokemon.genderIsDeterministic === true)
       → ¡ENCONTRADO! Reconstruir camino desde parent pointers en visited
    c. Generar todos los cruces posibles (compatibilidad + items)
-      - Para cada cruce, generar DOS variantes:
-        1. Género aleatorio ($0) — útil si el hijo SOLO cría con Ditto después
-        2. Género forzado (+$500) — necesario si el hijo cría con no-Ditto después
+      - Para cada cruce, generar variantes según la especie:
+        1. Género aleatorio ($0) — siempre disponible
+        2. Género forzado a Male (+$500) — solo si species.genderRate no es 100% Male
+        3. Género forzado a Female (+$500) — solo si species.genderRate no es 100% Female
+      - Para especies de género fijo (genderRate = 0 o 8): SOLO generar variante aleatoria
+        (forzar género es tirar $500 a la basura — el género YA es determinista)
       - Cada variante es una rama DISTINTA del árbol de búsqueda
    d. Para cada hijo, si canonicalize(hijo) mejora estado conocido → agregar
 3. Heurística h(n) = 0 (Dijkstra) o lower bound correcto
@@ -530,7 +542,7 @@ Property-Based Tests:
   - overlap(A, B) ⊆ B
   - countPerfect(mask) ∈ [0,6]
   - canonicalize(state) es idempotente
-  - child.species === mother.species
+  - child.species === resolveSpecies(parentA, parentB)
   - guaranteedInheritedIVs ⊆ child.ivs
 
 Determinism Tests:
