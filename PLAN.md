@@ -349,3 +349,197 @@ Nivel N (raíz):     Pokémon objetivo (6x31 o 5x31)
 
 - **URL:** https://github.com/KapsCa/Diosesmon-Crianza
 - **Branch principal:** main
+
+---
+
+<!-- 
+================================================================================
+CONTEXTO COMPLETO PARA IA — NO FORMA PARTE DEL PLAN
+================================================================================
+Esta sección es un bloque de contexto puro para que cualquier IA entienda el 
+proyecto al 100% sin necesidad de preguntar. Si le pasas este PLAN.md a otra IA,
+esta sección le dará todo el contexto necesario.
+================================================================================
+-->
+
+## CONTEXTO COMPLETO PARA IA (Referencia Rápida)
+
+### ¿Qué es este proyecto?
+
+Una aplicación web SPA que resuelve ESTE problema específico:
+
+**Problema:** Un jugador de Pokémon en el servidor "Diosesmon" (basado en el mod Cobblemon de Minecraft) quiere criar un Pokémon con todos sus IVs en 31 (6x31 o 5x31 ignorando stats irrelevantes). Actualmente hace esto en papel, calculando mentalmente los cruces necesarios, lo cual es lento, propenso a errores y no optimiza costos.
+
+**Solución:** Una app web donde el usuario:
+1. Selecciona qué Pokémon quiere criar (ej. Milotic)
+2. La app conoce los stats base y sugiere qué IVs ignorar (ej. "Attack no importa en Milotic, cria 5x31")
+3. El usuario registra qué Pokémon tiene en su inventario (o empieza desde cero)
+4. La app calcula la ruta de crianza MÁS BARATA (algoritmo A*)
+5. Muestra un árbol visual ascendente (bottom→up) con cada paso detallado
+
+### ¿Qué es PokéMMO / Cobblemon / Diosesmon?
+
+- **PokéMMO:** Un MMO público basado en los juegos principales de Pokémon
+- **Cobblemon:** Un mod de Minecraft que agrega mecánicas de Pokémon al juego
+- **Diosesmon:** Un servidor específico que usa Cobblemon con mecánicas personalizadas de breeding
+
+### Mecánicas de Breeding en Diosesmon (CRÍTICO para entender el dominio)
+
+```
+CÓMO FUNCIONA LA CRÍA:
+1. Pones dos Pokémon en la guardería (máximo 7 slots según tu rango)
+2. Esperas 25 min (usuario) o 10 min (maestro)
+3. Sale un huevo con la ESPECIE de la MADRE siempre
+4. El sexo del huevo es ALEATORIO (puedes pagar 500$ para elegir)
+5. Los IVs del huevo se determinan así:
+
+REGLAS DE HERENCIA DE IVs:
+- Cada padre puede equipar 1 Power Item que protege 1 IV específico
+- Si AMBOS padres tienen 31 en la misma stat → se hereda GRATIS (overlap)
+- Si solo 1 padre tiene 31 y no tiene item → ese IV es al azar (RNG)
+- Máximo 2 items por cruce (1 por padre)
+- Lazo Destino HEREDA 5 IVs de 12 + 1 random → PROHIBIDO en rutas óptimas
+
+EJEMPLO REAL:
+- Trapinch hembra: HP=31, Def=31, SpAtk=31, SpDef=31, Speed=31 (falta Attack)
+- Weedle macho: Attack=31, Def=31, SpAtk=31, SpDef=31, Speed=31 (falta HP)
+- Overlap: Def, SpAtk, SpDef, Speed (4 stats = gratis)
+- Items necesarios: Brazal HP en Trapinch + Brazal Atk en Weedle = 1000$
+- Resultado: Trapinch 6x31
+
+COSTOS:
+- Power Item / Everstone / Lazo Destino = 500$ c/u
+- Selección de género = 500$ (antes de ingresar a guardería)
+- Guardería = gratis
+- Pokeball = 200$ (costo de captura, NO incluido en ruta)
+- Slot extra de guardería = 10,000$
+```
+
+### Información que NO está en PokéAPI
+
+PokeAPI (https://pokeapi.co) tiene datos útiles PERO faltan cosas específicas de Cobblemon:
+
+```
+LO QUE SÍ TIENE POKÉAPI:
+✓ Nombre del Pokémon
+✓ Egg groups (grupos huevo)
+✓ Gender rate (ratio de género: 0=female only, 1=male only, -1=genderless)
+✓ Stats base
+✓ Capture rate
+✓ Generación
+
+LO QUE NO TIENE POKÉAPI (específico de Cobblemon):
+✗ Tasas de spawn por área
+✗ Disponibilidad real en el servidor
+✗ Precios del GTS (Mercado de intercambio)
+✗ Costos específicos de items en el servidor
+✗ Rangos de guardería
+```
+
+### Flujo de Usuario Detallado
+
+```
+PANTALLA 1: Selección de Pokémon objetivo
+├── Dropdown con todos los Pokémon Gen 1-3
+├── Al seleccionar, muestra stats base
+├── Checkboxes: "¿Qué IVs quieres?" (HP, Atk, Def, SpAtk, SpDef, Speed)
+├── Default: todos marcados (6x31)
+├── El usuario puede desmarcar stats irrelevantes (ej. Atk en Milotic)
+└── Botón "Calcular ruta"
+
+PANTALLA 2: Registro de inventario
+├── Pregunta: "¿Tienes Pokémon con IVs ya?" 
+├── Opción A: "Sí, quiero registrarlos"
+│   ├── Formulario: Especie, Género, IVs (badges clickeables), Item equipado
+│   ├── Botón "Agregar otro Pokémon"
+│   └── Lista de Pokémon registrados
+├── Opción B: "No, empezar desde cero"
+│   └── La app sugerirá qué capturar
+├── Pregunta: "¿Qué rango tienes?" (usuario/maestro)
+│   └── Determina slots disponibles y tiempo de guardería
+└── Botón "Calcular"
+
+PANTALLA 3: Resultado
+├── Resumen: Costo total, tiempo estimado, Pokémon a capturar
+├── Árbol visual (React Flow):
+│   ├── Nodos base: Pokémon a capturar (abajo)
+│   ├── Nodos intermedios: Crías 2x31, 3x31, 4x31
+│   ├── Nodo raíz: Pokémon objetivo 6x31 (arriba)
+│   ├── Cada nodo muestra: especie, género, IVs heredados, items
+│   └── Zoom/pan para navegar árbol grande
+├── Lista de capturas sugeridas (fuera del presupuesto)
+└── Botón "Volver a calcular"
+```
+
+### Estado del Proyecto Actual
+
+```
+LO QUE YA ESTÁ HECHO (Fase 1 completa):
+✓ Proyecto scaffolded: Vite + React + TypeScript + Vitest
+✓ Git conectado a GitHub
+✓ Tipos del dominio: stat.ts, pokemon.ts, items.ts, breeding.ts, route.ts, costs.ts, search.ts
+✓ overlap.ts con 14 tests pasando
+✓ validation.ts con 20 tests pasando
+✓ Helper de testing: createMockPokemon, createPokemonWithPerfectIVs, createDitto
+✓ Estructura de carpetas: domain/, adapters/, ports/, tests/
+
+LO QUE FALTA POR HACER:
+□ Refactorizar a Bitmasks (actualmente usa Record<Stat, number>)
+□ Script de ingesta PokeAPI → species.json
+□ Solver A* + Branch & Bound en Web Worker
+□ Zustand store con persist middleware
+□ UI: formularios + React Flow tree
+□ Integración completa
+```
+
+### Ejemplo de Árbol Visual (Output Esperado)
+
+```
+                    [Milotic♀ 6x31]
+                    Equipar: -
+                    ┌───────────────┘
+            ┌───────┴───────┐
+    [Feebas♂ 3x31]     [Magikarp♀ 3x31]
+    HP,Atk,Def          SpAtk,SpDef,Speed
+    Equipar: HP+Def     Equipar: SpAtk+Speed
+    ┌───────────┘           ┌───────────┘
+┌───┴───┐               ┌───┴───┐
+[Ditto♀ 1x31] [Ditto♂ 1x31] [Ditto♀ 1x31] [Ditto♂ 1x31]
+   HP            Atk          SpAtk          Speed
+   Equipar: -    Equipar: -   Equipar: -     Equipar: -
+   ↓ capturar    ↓ capturar   ↓ capturar     ↓ capturar
+```
+
+### Glosario de Términos
+
+| Término | Significado |
+|---------|-------------|
+| **IV** | Individual Value. Stat oculta de 0-31 que define el potencial máximo |
+| **31** | IV perfecto (máximo) |
+| **6x31** | Pokémon con los 6 IVs en 31 (perfecto) |
+| **5x31** | Pokémon con 5 IVs en 31 (1 stat ignorado) |
+| **Overlap** | Cuando ambos padres tienen 31 en la misma stat → herencia gratis |
+| **Power Item** | Objeto que fuerza la herencia de 1 IV específico (500$) |
+| **Everstone** | Objeto que hereda la naturaleza (no IVs) |
+| **Lazo Destino** | Objeto que hereda 5 IVs de 12 + 1 random (PROHIBIDO) |
+| **Egg Group** | Grupo de compatibilidad para breeding |
+| **Genderless** | Sin género. Solo cría con Ditto |
+| **Ditto** | Pokémon genderless que puede criar con cualquiera |
+| **Bitmask** | Representación de IVs como entero binario (ej. 0b111111 = 6x31) |
+| **A*** | Algoritmo de búsqueda que garantiza la ruta óptima |
+| **Branch & Bound** | Técnica de poda para acelerar A* |
+| **Web Worker** | Hilo de ejecución separado que no bloquea la UI |
+| **React Flow** | Librería para renderizar grafos/árboles interactivos |
+| **Zustand** | State manager ligero para React |
+| **Conventional Commits** | Estándar de mensajes de commit: feat, fix, docs, chore |
+
+### Referencia Visual de Colores de IVs
+
+```
+HP      = 🟢 Verde    (badge: "HP")
+Attack  = 🔴 Rojo     (badge: "Atk")
+Defense = 🟠 Naranja  (badge: "Def")
+SpAtk   = 🟣 Morado   (badge: "SpAtk")
+SpDef   = 🔵 Azul     (badge: "SpDef")
+Speed   = 🩵 Cyan     (badge: "Spe")
+```
