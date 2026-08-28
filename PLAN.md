@@ -138,6 +138,7 @@ interface BreedingCapability {
   species: SpeciesId;
   gender: Gender;
   ivs: IVBitmask;
+  isDitto: boolean;  // Flag explícito — se setea durante ingesta
   // NO incluir: nickname, level, stats base (irrelevante para solver)
 }
 ```
@@ -293,8 +294,17 @@ INV001: (ivs & ~0x3F) === 0
 // SÍ: guaranteedIVs ⊆ child.ivs
 INV002: guaranteedInheritedIVs(overlap(parentA, parentB), items) ⊆ child.ivs
 
-// INV-003: La especie del hijo cumple la regla
-INV003: child.species === mother.species
+// INV-003: La especie del hijo se determina por resolveSpecies()
+// NO: child.species === mother.species (falla con Ditto + Genderless)
+INV003: child.species === resolveSpecies(parentA, parentB)
+
+// resolveSpecies: Ditto nunca determina la especie
+function resolveSpecies(parentA: BreedingCapability, parentB: BreedingCapability): SpeciesId {
+  if (parentA.isDitto) return parentB.species;
+  if (parentB.isDitto) return parentA.species;
+  // Ambos no-Ditto: siempre la madre
+  return parentA.gender === Gender.Female ? parentA.species : parentB.species;
+}
 
 // INV-004: Máximo 1 item por padre (estructuralmente tipado)
 INV004: items.parentA === null | HeldItem, items.parentB === null | HeldItem
@@ -604,7 +614,7 @@ diosesmon-crianza/
 │   │   │   ├── overlap.ts         # Detección de solapamiento (bitmask ops)
 │   │   │   ├── validation.ts      # Compatibilidad de cruces
 │   │   │   ├── eligibility.ts     # BreedingEligibility (regla declarativa)
-│   │   │   ├── breed.ts           # Función de transición Breed()
+│   │   │   ├── breed.ts           # Función de transición Breed() + resolveSpecies()
 │   │   │   ├── route-optimizer.ts # A* + Branch & Bound
 │   │   │   ├── reference-solver.ts# Solver de referencia (fuerza bruta)
 │   │   │   ├── cost-calculator.ts # Presupuesto
@@ -614,7 +624,7 @@ diosesmon-crianza/
 │   │   │   ├── gender.ts          # Compatibilidad género
 │   │   │   └── compatibility.ts   # Reglas de compatibilidad (egg group intersection)
 │   │   └── data/
-│   │       ├── species.ts         # Interface SpeciesData
+│   │       ├── species.ts         # Interface SpeciesData (con isDitto flag)
 │   │       └── species.json       # Gen 1-9 estático (generado por script)
 │   ├── application/
 │   │   ├── calculate-breeding-route.ts
@@ -712,9 +722,9 @@ diosesmon-crianza/
 |---|-------|---------|
 | 2.1 | Script de ingesta PokeAPI con rate-limiting | `scripts/fetch-species.ts` |
 | 2.2 | Fetch ID 1-1025 (Gen 1-9) con retry + backoff exponencial | `scripts/fetch-species.ts` |
-| 2.3 | Extraer: name, egg_groups, gender_rate | `scripts/fetch-species.ts` |
+| 2.3 | Extraer: name, egg_groups, gender_rate, isDitto flag | `scripts/fetch-species.ts` |
 | 2.4 | Filtrar: excluir sin egg_group válido | `scripts/fetch-species.ts` |
-| 2.5 | Convertir egg_groups a Bitmasks | `scripts/fetch-species.ts` |
+| 2.5 | Convertir egg_groups a Bitmasks + setear isDitto flag | `scripts/fetch-species.ts` |
 | 2.6 | Generar `species.json` | `data/species.json` |
 | 2.7 | Sugerencia de especies fáciles | `data/capture-suggestions.ts` |
 | | **Commit:** | `feat(data): implement build-time data pipeline with exclusion rules` |
