@@ -1,0 +1,106 @@
+name: PR Body
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  update-body:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate and refresh PR body
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const AUTO_START = '<!-- auto-pr-summary:start -->';
+            const AUTO_END = '<!-- auto-pr-summary:end -->';
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+
+            const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number });
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number,
+              per_page: 100,
+            });
+
+            const escapeCell = (value) => String(value).replace(/\|/g, '\\|');
+            const categories = new Map([
+              ['docs', 'Documentación'],
+              ['ci', 'CI / automatización'],
+              ['tests', 'Pruebas'],
+              ['src', 'Código fuente'],
+              ['config', 'Configuración'],
+              ['root', 'Raíz del repo'],
+              ['other', 'Otros'],
+            ]);
+
+            const classify = (filename) => {
+              if (filename.startsWith('.github/workflows/')) return 'ci';
+              if (filename.startsWith('.github/')) return 'config';
+              if (filename.startsWith('docs/')) return 'docs';
+              if (filename.startsWith('tests/')) return 'tests';
+              if (filename.startsWith('src/')) return 'src';
+              if (filename === 'README.md' || filename.endsWith('.md')) return 'docs';
+              if (filename.includes('/')) return 'root';
+              return 'other';
+            };
+
+            const stripAutoBlock = (body) => {
+              if (!body) return '';
+              const escapedStart = AUTO_START.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const escapedEnd = AUTO_END.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+              const block = new RegExp(`${escapedStart}[\\s\\S]*?${escapedEnd}\\n?`, 'm');
+              return body.replace(block, '').trim();
+            };
+
+            const counts = files.reduce((acc, file) => {
+              const key = classify(file.filename);
+              acc[key] = (acc[key] || 0) + 1;
+              return acc;
+            }, {});
+
+            const totalFiles = files.length;
+            const orderedCategories = Object.entries(counts)
+              .sort((a, b) => b[1] - a[1])
+              .map(([key, count]) => `${count} ${categories.get(key) || key}`);
+
+            const fileRows = files.slice(0, 20).map((file) => {
+              const changeType = file.status === 'added' ? 'Agregado' : file.status === 'removed' ? 'Eliminado' : file.status === 'renamed' ? 'Renombrado' : 'Modificado';
+              return `| \`${escapeCell(file.filename)}\` | ${categories.get(classify(file.filename)) || 'Otros'} | ${changeType} |`;
+            });
+
+            const moreFilesNote = totalFiles > 20
+              ? `\n\n_Se omitieron ${totalFiles - 20} archivos adicionales para mantener el cuerpo legible._`
+              : '';
+
+            const summaryLines = [
+              totalFiles === 0 ? '- No se detectaron archivos cambiados.' : `- ${totalFiles} archivo(s) cambiados.`,
+              orderedCategories.length > 0 ? `- Áreas detectadas: ${orderedCategories.join(', ')}.` : '- No se pudieron clasificar los cambios.',
+              totalFiles > 0 ? `- Archivo principal: \`${escapeCell(files[0].filename)}\`.` : null,
+            ].filter(Boolean);
+
+            const autoBlock = `${AUTO_START}\n## Resumen automático\n\n${summaryLines.join('\n')}\n\n## Archivos detectados\n\n| Archivo | Área | Tipo de cambio |\n|------|------|------|\n${fileRows.join('\n') || '| - | - | - |'}${moreFilesNote}\n\n_Generado automáticamente por GitHub Actions._\n${AUTO_END}`;
+
+            const manualBody = stripAutoBlock(pr.body || '');
+            const nextBody = manualBody ? `${autoBlock}\n\n${manualBody}\n` : `${autoBlock}\n`;
+
+            if (nextBody !== (pr.body || '')) {
+              await github.rest.pulls.update({
+                owner,
+                repo,
+                pull_number,
+                body: nextBody,
+              });
+              core.info(`Updated PR #${pull_number} body.`);
+            } else {
+              core.info(`PR #${pull_number} body already up to date.`);
+            }

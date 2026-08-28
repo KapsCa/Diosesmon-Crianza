@@ -1,6 +1,7 @@
 ## Descripción
 
-<!-- Describe los cambios en esta PR. ¿Qué hace? ¿Por qué? -->
+<!-- El bot agregará arriba un resumen automático de los archivos y cambios detectados. -->
+<!-- Describe aquí cualquier contexto humano que deba conservarse. ¿Qué hace? ¿Por qué? -->
 
 ## Tipo de Cambio
 
