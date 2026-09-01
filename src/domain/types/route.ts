@@ -1,6 +1,7 @@
-import { Pokemon } from './pokemon';
-import { HeldItem } from './items';
-import { Stat } from './stat';
+import type { Pokemon } from './pokemon';
+import type { HeldItem } from './items';
+import type { Stat } from './stat';
+import type { TimeEstimate } from './costs';
 
 /**
  * Un paso individual en el árbol de breeding.
@@ -68,8 +69,8 @@ export interface BreedingRoute {
   tree: BreedingTree;
   /** Costo total de items y selección de género */
   totalCost: number;
-  /** Tiempo estimado en minutos */
-  estimatedTime: number;
+  /** Estimación estructurada de tiempo */
+  estimatedTime: TimeEstimate;
   /** Pokémon que el usuario necesita capturar (fuera del presupuesto) */
   captureSuggestions: CaptureSuggestion[];
   /** Número total de operaciones de breeding */

@@ -1,7 +1,8 @@
 import { Stat, ALL_STATS } from '../types/stat';
-import { Pokemon } from '../types/pokemon';
-import { HeldItem, isPowerItem, getProtectedStat } from '../types/items';
-import { OverlapResult } from '../types/breeding';
+import type { Pokemon } from '../types/pokemon';
+import type { HeldItem } from '../types/items';
+import { isPowerItem, getProtectedStat } from '../types/items';
+import type { OverlapResult } from '../types/breeding';
 
 /**
  * Analiza el solapamiento de IVs entre dos padres.

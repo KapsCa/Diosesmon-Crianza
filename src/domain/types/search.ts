@@ -1,7 +1,7 @@
-import { Pokemon } from './pokemon';
-import { HeldItem } from './items';
-import { Stat } from './stat';
-import { BreedingStep } from './route';
+import type { Pokemon, Species, Gender } from './pokemon';
+import type { HeldItem } from './items';
+import type { Stat } from './stat';
+import type { BreedingStep } from './route';
 
 /**
  * Acción posible desde un estado de búsqueda.
@@ -23,11 +23,25 @@ export type SearchAction =
     };
 
 /**
+ * Objetivo de crianza para el solver.
+ */
+export interface BreedingGoal {
+  /** Especie objetivo */
+  targetSpecies: Species;
+  /** IVs objetivo que queremos asegurar */
+  targetIVs: Stat[];
+  /** Género deseado de la cría, si aplica */
+  desiredGender?: Gender;
+}
+
+/**
  * Estado de búsqueda para A*.
  */
 export interface SearchState {
   /** Pokémon disponibles en el inventario */
   inventory: Pokemon[];
+  /** Objetivo actual del solver */
+  goal: BreedingGoal;
   /** Costo acumulado hasta este estado */
   cost: number;
   /** Pasos de breeding realizados */

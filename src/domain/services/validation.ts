@@ -1,6 +1,17 @@
-import { Pokemon, Gender, Species } from '../types/pokemon';
-import { HeldItem, ItemType } from '../types/items';
-import { CompatibilityCheck } from '../types/breeding';
+import type { Pokemon, Species } from '../types/pokemon';
+import { Gender } from '../types/pokemon';
+import type { HeldItem } from '../types/items';
+import { ItemType } from '../types/items';
+import type { CompatibilityCheck } from '../types/breeding';
+
+/**
+ * Resultado de validar si un Pokémon puede entrar al flujo de crianza.
+ */
+export interface BreedingEntryValidation {
+  isValid: boolean;
+  reason?: string;
+  suggestion?: string;
+}
 
 /**
  * Verifica si dos Pokémon son compatibles para breeding.
@@ -98,7 +109,33 @@ export function checkBreedingCompatibility(
  * @param pokemon - Pokémon a verificar
  * @returns true si puede ser padre
  */
+export function validateBreedingEntry(pokemon: Pokemon): BreedingEntryValidation {
+  const breeding = pokemon.species.breeding;
+
+  if (breeding?.isBaby) {
+    return {
+      isValid: false,
+      reason: `${pokemon.species.name} es un bebé y no puede usarse todavía en crianza`,
+      suggestion: breeding.evolveInto
+        ? `Recomendación: evolucioná a ${breeding.evolveInto} antes de registrarlo.`
+        : 'Recomendación: evolucioná esta especie antes de registrarla.',
+    };
+  }
+
+  if (breeding && breeding.canBreed === false) {
+    return {
+      isValid: false,
+      reason: `${pokemon.species.name} no puede criar`,
+    };
+  }
+
+  return { isValid: true };
+}
+
 export function canBreed(pokemon: Pokemon): boolean {
+  const entryValidation = validateBreedingEntry(pokemon);
+  if (!entryValidation.isValid) return false;
+
   // Ditto siempre puede criar
   if (pokemon.species.name === 'Ditto') return true;
 

@@ -1,15 +1,17 @@
-import { IVSpread } from './stat';
-import { HeldItem } from './items';
+import type { IVSpread } from './stat';
+import type { HeldItem } from './items';
 
 /**
  * Género de un Pokémon.
  * Genderless = solo cría con Ditto.
  */
-export enum Gender {
-  Male = 'male',
-  Female = 'female',
-  Genderless = 'genderless',
-}
+export const Gender = {
+  Male: 'male' as const,
+  Female: 'female' as const,
+  Genderless: 'genderless' as const,
+} as const;
+
+export type Gender = (typeof Gender)[keyof typeof Gender];
 
 /**
  * Grupo huevo de un Pokémon.
@@ -42,6 +44,15 @@ export interface Species {
   };
   /** Tasa de captura (0-255, mayor = más fácil) */
   captureRate: number;
+  /** Metadatos de crianza para validar entradas de la app */
+  breeding?: {
+    /** Si la especie puede participar en crianza */
+    canBreed: boolean;
+    /** Si la especie es un bebé que requiere evolución previa */
+    isBaby?: boolean;
+    /** Sugerencia de evolución para el usuario */
+    evolveInto?: string;
+  };
 }
 
 /**

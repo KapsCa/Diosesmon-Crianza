@@ -2,14 +2,16 @@
  * Stats individuales de un Pokémon.
  * Cada stat puede tener un IV de 0 a 31.
  */
-export enum Stat {
-  HP = 'hp',
-  Attack = 'attack',
-  Defense = 'defense',
-  SpAtk = 'spatk',
-  SpDef = 'spdef',
-  Speed = 'speed',
-}
+export const Stat = {
+  HP: 'hp' as const,
+  Attack: 'attack' as const,
+  Defense: 'defense' as const,
+  SpAtk: 'spatk' as const,
+  SpDef: 'spdef' as const,
+  Speed: 'speed' as const,
+} as const;
+
+export type Stat = (typeof Stat)[keyof typeof Stat];
 
 /** Array de todas las stats para iteración */
 export const ALL_STATS: Stat[] = [
