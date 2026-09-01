@@ -1,14 +1,14 @@
 import { ItemType } from './items';
 
 /**
- * Modelo de costos para el breeding.
- * Define los precios de cada componente del proceso.
+ * Modelo monetario del breeding.
+ * Solo contiene costos que forman parte del gasto directo de la ruta.
  */
-export interface CostModel {
+export interface BreedingCostModel {
   /** Costo por tipo de item */
   itemCosts: Record<ItemType, number>;
   /** Costo de guardería por paso (gratis = 0) */
-  nurseryFee: number;
+  breedingStepFee: number;
   /** Costo de selección de género (500$) */
   genderSelectionCost: number;
   /** Costo de captura base por pokeball */
@@ -53,20 +53,25 @@ export interface Budget {
 export interface TimeEstimate {
   /** Número total de pasos de breeding */
   totalSteps: number;
+  /** Camino crítico en pasos */
+  criticalPathSteps: number;
   /** Tiempo por paso en minutos */
   timePerStep: number;
   /** Número de slots disponibles */
   availableSlots: number;
-  /** Tiempo total estimado en minutos */
+  /** Cantidad de lotes paralelos estimados */
+  parallelBatches: number;
+  /** Tiempo crítico total estimado en minutos */
   totalMinutes: number;
   /** Tiempo formateado (ej: "2 horas 15 minutos") */
   formattedTime: string;
 }
 
 /**
- * Configuración de slots de guardería.
+ * Configuración de capacidad de guardería.
+ * Este modelo afecta tiempo/capacidad, no el costo monetario principal del solver.
  */
-export interface NurseryConfig {
+export interface NurseryCapacityConfig {
   /** Slots gratis (2) */
   freeSlots: number;
   /** Slots por rango maestro (2) */
@@ -79,8 +84,11 @@ export interface NurseryConfig {
   slotUpgradeCost: number;
 }
 
+export type CostModel = BreedingCostModel;
+export type NurseryConfig = NurseryCapacityConfig;
+
 /** Configuración por defecto */
-export const DEFAULT_NURSERY_CONFIG: NurseryConfig = {
+export const DEFAULT_NURSERY_CONFIG: NurseryCapacityConfig = {
   freeSlots: 2,
   masterSlots: 2,
   premiumSlots: 2,
@@ -103,7 +111,7 @@ export function calculateTotalSlots(config: NurseryConfig): number {
 /**
  * Costo de breeding por defecto para Diosesmon.
  */
-export const DEFAULT_COST_MODEL: CostModel = {
+export const DEFAULT_COST_MODEL: BreedingCostModel = {
   itemCosts: {
     [ItemType.PowerWeight]: 500,
     [ItemType.PowerBracer]: 500,
@@ -113,7 +121,7 @@ export const DEFAULT_COST_MODEL: CostModel = {
     [ItemType.PowerAnklet]: 500,
     [ItemType.Everstone]: 500,
   },
-  nurseryFee: 0, // Guardería gratis
+  breedingStepFee: 0, // Guardería gratis
   genderSelectionCost: 500,
   pokeballCost: 200,
   minPokeballs: 1,

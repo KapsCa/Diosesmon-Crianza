@@ -5,21 +5,23 @@ import { Stat } from './stat';
  * Solo Power Items y Everstone son permitidos en rutas determinísticas.
  * Lazo Destino está PROHIBIDO porque introduce RNG.
  */
-export enum ItemType {
+export const ItemType = {
   // Power Items - Heredan un IV específico del padre equipado
-  PowerWeight = 'power_weight',    // Hereda HP
-  PowerBracer = 'power_bracer',   // Hereda Attack
-  PowerBelt = 'power_belt',       // Hereda Defense
-  PowerLens = 'power_lens',       // Hereda SpAtk
-  PowerBand = 'power_band',       // Hereda SpDef
-  PowerAnklet = 'power_anklet',   // Hereda Speed
+  PowerWeight: 'power_weight' as const,    // Hereda HP
+  PowerBracer: 'power_bracer' as const,   // Hereda Attack
+  PowerBelt: 'power_belt' as const,       // Hereda Defense
+  PowerLens: 'power_lens' as const,       // Hereda SpAtk
+  PowerBand: 'power_band' as const,       // Hereda SpDef
+  PowerAnklet: 'power_anklet' as const,   // Hereda Speed
 
   // Everstone - Hereda la naturaleza del padre equipado
-  Everstone = 'everstone',
+  Everstone: 'everstone' as const,
 
   // PROHIBIDO en rutas determinísticas:
-  // DestinyKnot = 'destiny_knot', // Hereda 5 IVs de 12 + 1 random
-}
+  // DestinyKnot: 'destiny_knot', // Hereda 5 IVs de 12 + 1 random
+} as const;
+
+export type ItemType = (typeof ItemType)[keyof typeof ItemType];
 
 /** Mapeo de Power Items a la stat que protegen */
 export const POWER_ITEM_STAT: Record<string, Stat> = {

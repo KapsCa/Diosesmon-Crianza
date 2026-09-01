@@ -1,6 +1,6 @@
-import { Stat } from './stat';
-import { Pokemon } from './pokemon';
-import { HeldItem } from './items';
+import type { Stat } from './stat';
+import type { Pokemon } from './pokemon';
+import type { HeldItem } from './items';
 
 /**
  * Resultado del análisis de solapamiento entre dos padres.

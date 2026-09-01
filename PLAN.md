@@ -16,12 +16,16 @@ Construir una app que ayude a planear la crianza en Diosesmon de forma clara, vi
 - Estimar costo y progreso.
 - Mostrar un árbol visual entendible.
 - Guardar el flujo de trabajo del usuario durante la sesión.
+- Validar especies que no pueden criar y mostrar mensajes claros.
+- Advertir cuando un bebé debe evolucionar antes de registrarlo.
+- Separar costo monetario de crianza del costo de capacidad/tiempo.
 
 ### No incluye
 - Captura automática.
 - Reglas futuras no confirmadas.
 - Optimización visual avanzada fuera del flujo principal.
 - Funciones que no aporten al primer valor usable.
+- Modelar Everstone como parte central del MVP.
 
 ## 3. Estado actual
 
@@ -30,6 +34,7 @@ Construir una app que ayude a planear la crianza en Diosesmon de forma clara, vi
 - Base del repo preparada para trabajo ordenado.
 - Tests existentes pasando.
 - Reglas principales del dominio ya definidas en el contexto histórico.
+- La automatización de PR ya genera resúmenes del cambio.
 
 ### Pendiente
 - Separar el plan operativo del contexto largo.
@@ -68,24 +73,28 @@ Construir una app que ayude a planear la crianza en Diosesmon de forma clara, vi
 
 **Entregables:**
 - flujo de cálculo definido.
-- criterios de costo y progreso claros.
-- decisión sobre visualización y recorrido.
+- heurística admisible desde el inicio.
+- separación clara entre costo monetario y costo de capacidad/tiempo.
+- cálculo de tiempo estimado como camino crítico en capa de aplicación/servicios.
 
 **Listo cuando:**
 - el resultado esperado puede describirse sin ambigüedad.
 - el usuario entiende por qué una ruta es mejor que otra.
+- el solver no mezcla costes que pertenecen a capas distintas.
 
 ### Fase 4 — Experiencia visual
 **Objetivo:** convertir el resultado en una vista útil y fácil de leer.
 
 **Entregables:**
 - árbol visual.
-- resumen de costo y pasos.
+- resumen de costo, tiempo y pasos.
 - navegación simple entre resultados.
+- mensajes de validación para especies no criables o bebés.
 
 **Listo cuando:**
 - el flujo se entiende sin ayuda externa.
 - la lectura del árbol no requiere conocer detalles internos.
+- la UI bloquea entradas inválidas con mensajes útiles.
 
 ### Fase 5 — Verificación y ajustes
 **Objetivo:** confirmar que el plan y la implementación sigan alineados.
@@ -110,3 +119,11 @@ Construir una app que ayude a planear la crianza en Diosesmon de forma clara, vi
 ## 6. Próximo paso
 
 Completar `CONTEXT.md` con las reglas y decisiones que ya no deben vivir dentro del plan.
+
+## 7. Decisiones cerradas
+
+- El costo del slot de guardería va separado del costo monetario principal del solver.
+- La Naturaleza no se modela vía Everstone en el MVP; se orienta a mentas o a una solución futura distinta.
+- La heurística no se deja para después: debe existir desde el inicio.
+- Los Pokémon bebé o no criables deben bloquearse con un mensaje claro; en bebés se sugiere evolucionar primero.
+- El cálculo de tiempo pertenece a la capa de aplicación/servicios, no a la UI.

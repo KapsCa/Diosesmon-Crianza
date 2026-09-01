@@ -4,6 +4,7 @@ import {
   canBreed,
   checkItemCompatibility,
   getOffspringSpecies,
+  validateBreedingEntry,
 } from '../../../src/domain/services/validation';
 import { Stat } from '../../../src/domain/types/stat';
 import { Gender } from '../../../src/domain/types/pokemon';
@@ -12,6 +13,8 @@ import {
   createDitto,
   MOCK_CATERPIE,
   MOCK_TRAPINCH,
+  MOCK_BABY_SPECIES,
+  MOCK_NON_BREEDABLE_SPECIES,
 } from '../../helpers';
 
 describe('checkBreedingCompatibility', () => {
@@ -179,6 +182,41 @@ describe('checkBreedingCompatibility', () => {
   });
 });
 
+describe('validateBreedingEntry', () => {
+  it('debería permitir una especie normal', () => {
+    const pokemon = createMockPokemon({ gender: Gender.Male });
+
+    const result = validateBreedingEntry(pokemon);
+
+    expect(result.isValid).toBe(true);
+  });
+
+  it('debería bloquear un bebé y sugerir evolución', () => {
+    const pokemon = createMockPokemon({
+      gender: Gender.Genderless,
+      species: MOCK_BABY_SPECIES,
+    });
+
+    const result = validateBreedingEntry(pokemon);
+
+    expect(result.isValid).toBe(false);
+    expect(result.reason).toContain('bebé');
+    expect(result.suggestion).toContain('Pikachu');
+  });
+
+  it('debería bloquear una especie no criable', () => {
+    const pokemon = createMockPokemon({
+      gender: Gender.Genderless,
+      species: MOCK_NON_BREEDABLE_SPECIES,
+    });
+
+    const result = validateBreedingEntry(pokemon);
+
+    expect(result.isValid).toBe(false);
+    expect(result.reason).toContain('no puede criar');
+  });
+});
+
 describe('canBreed', () => {
   it('debería retornar true para machos', () => {
     const pokemon = createMockPokemon({ gender: Gender.Male });
@@ -197,6 +235,24 @@ describe('canBreed', () => {
 
   it('debería retornar false para genderless que no es Ditto', () => {
     const pokemon = createMockPokemon({ gender: Gender.Genderless });
+    expect(canBreed(pokemon)).toBe(false);
+  });
+
+  it('debería retornar false para un bebé', () => {
+    const pokemon = createMockPokemon({
+      gender: Gender.Genderless,
+      species: MOCK_BABY_SPECIES,
+    });
+
+    expect(canBreed(pokemon)).toBe(false);
+  });
+
+  it('debería retornar false para una especie no criable', () => {
+    const pokemon = createMockPokemon({
+      gender: Gender.Genderless,
+      species: MOCK_NON_BREEDABLE_SPECIES,
+    });
+
     expect(canBreed(pokemon)).toBe(false);
   });
 });

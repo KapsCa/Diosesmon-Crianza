@@ -74,6 +74,50 @@ export const MOCK_TRAPINCH: Species = {
   captureRate: 255,
 };
 
+/** Species mock para un bebé que requiere evolución previa */
+export const MOCK_BABY_SPECIES: Species = {
+  id: 172,
+  name: 'Pichu',
+  genderRatio: 0.5,
+  eggGroups: [{ name: 'Undiscovered' }],
+  gen: 2,
+  baseStats: {
+    hp: 20,
+    attack: 40,
+    defense: 15,
+    spatk: 35,
+    spdef: 35,
+    speed: 60,
+  },
+  captureRate: 190,
+  breeding: {
+    canBreed: false,
+    isBaby: true,
+    evolveInto: 'Pikachu',
+  },
+};
+
+/** Species mock para una especie no criable */
+export const MOCK_NON_BREEDABLE_SPECIES: Species = {
+  id: 150,
+  name: 'Mewtwo',
+  genderRatio: 0,
+  eggGroups: [{ name: 'Undiscovered' }],
+  gen: 1,
+  baseStats: {
+    hp: 106,
+    attack: 110,
+    defense: 90,
+    spatk: 154,
+    spdef: 90,
+    speed: 130,
+  },
+  captureRate: 3,
+  breeding: {
+    canBreed: false,
+  },
+};
+
 /** Crea un Pokémon mock para tests */
 export function createMockPokemon(
   overrides: Partial<Pokemon> = {}
