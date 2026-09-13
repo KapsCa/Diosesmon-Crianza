@@ -2,9 +2,31 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Prevent 'Cannot set property fetch of #<Window> which has only a getter'
+      try {
+        let _fetch = window.fetch ? window.fetch.bind(window) : undefined;
+        const desc = Object.getOwnPropertyDescriptor(window, 'fetch') || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(window), 'fetch');
+        if (!desc || desc.set === undefined) {
+          Object.defineProperty(window, 'fetch', {
+            get() {
+              return _fetch;
+            },
+            set(fn) {
+              _fetch = fn;
+            },
+            configurable: true,
+            enumerable: true,
+          });
+        }
+      } catch (e) {
+        // Ignore if restricted
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diosesmon Crianza — IVsMap</title>
+    <meta name="description" content="Suite táctica y calculadora algorítmica determinista de crianza Pokémon para la comunidad y servidor de Cobblemon Diosesmon." />
+    <title>Diosesmon Crianza Pro — Tactical Breeding Optimizer</title>
   </head>
   <body>
     <div id="root"></div>
