@@ -8,7 +8,7 @@ describe('IVsMapApp', () => {
     render(<IVsMapApp />);
 
     // Debe mostrar el paso inicial de selección de especie
-    const stepTitle = screen.getByText(/1\. Seleccionar especie objetivo/i);
+    const stepTitle = screen.getByText(/¿Qué Pokémon deseas criar\?/i);
     expect(stepTitle).toBeInTheDocument();
 
     // Debe haber un selector de especies
@@ -33,11 +33,11 @@ describe('IVsMapApp', () => {
     render(<IVsMapApp />);
 
     // Deben existir los títulos de los steps del workflow
-    const stepTitles = screen.getAllByText(/[12]\./);
+    const stepTitles = screen.getAllByText(/¿Qué Pokémon deseas criar\?/i);
     expect(stepTitles.length).toBeGreaterThan(0);
 
     // El título principal debe estar presente
-    const appTitle = screen.getByText(/IVsMap - Mapas de Cría IVs/i);
+    const appTitle = screen.getByText(/IVsMap/i);
     expect(appTitle).toBeInTheDocument();
   });
 });

@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { estimateRouteTime } from '../../../src/domain/services/route-time';
+import { estimateRoute } from '../../../src/domain/services/routeEstimator';
 import { BreedingTree, TreeNode } from '../../../src/domain/types/route';
-import { DEFAULT_NURSERY_CONFIG } from '../../../src/domain/types/costs';
+import { DEFAULT_NURSERY_CONFIG, DEFAULT_COST_MODEL } from '../../../src/domain/types/costs';
+import { ItemType } from '../../../src/domain/types/items';
 import { Stat } from '../../../src/domain/types/stat';
 
 describe('estimateRouteTime', () => {
@@ -222,5 +224,124 @@ describe('estimateRouteTime', () => {
 
     const result4 = estimateRouteTime(tree, DEFAULT_NURSERY_CONFIG, 0); // 0 minutos
     expect(result4.formattedTime).toBe('0 minutos');
+  });
+});
+
+describe('estimateRoute', () => {
+  it('should use DEFAULT_COST_MODEL to estimate costs when no custom model is provided', () => {
+    const tree: BreedingTree = {
+      root: {
+        step: null,
+        pokemon: {
+          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          gender: 'male',
+          ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
+          heldItem: null,
+        },
+        ivsAtNode: [],
+        items: {
+          father: { type: ItemType.PowerBracer },
+          mother: { type: ItemType.Everstone },
+        },
+        children: [],
+        progressLevel: 1,
+      },
+      allNodes: [],
+      maxDepth: 1,
+    };
+
+    const estimate = estimateRoute(tree);
+    // father (500) + mother (500) = 1000 according to DEFAULT_COST_MODEL
+    expect(estimate.totalCost).toBe(1000);
+  });
+
+  it('should use custom costModel values when provided', () => {
+    const tree: BreedingTree = {
+      root: {
+        step: {
+          id: 'step-1',
+          father: { species: { id: 1, name: 'P1' } } as any,
+          mother: { species: { id: 1, name: 'P2' } } as any,
+          fatherItem: { type: ItemType.PowerBracer },
+          motherItem: { type: ItemType.Everstone },
+          offspring: { species: { id: 1, name: 'Child' } } as any,
+          inheritedIVs: [],
+          cost: 0,
+          depth: 1,
+          genderChosen: true,
+        },
+        pokemon: {
+          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          gender: 'male',
+          ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
+          heldItem: null,
+        },
+        ivsAtNode: [],
+        items: {
+          father: { type: ItemType.PowerBracer },
+          mother: { type: ItemType.Everstone },
+        },
+        children: [],
+        progressLevel: 1,
+      },
+      allNodes: [],
+      maxDepth: 1,
+    };
+
+    const customCostModel = {
+      ...DEFAULT_COST_MODEL,
+      itemCosts: {
+        ...DEFAULT_COST_MODEL.itemCosts,
+        [ItemType.PowerBracer]: 750,
+        [ItemType.Everstone]: 1200,
+      },
+      genderSelectionCost: 800,
+      breedingStepFee: 100,
+    };
+
+    const estimate = estimateRoute(tree, undefined, undefined, customCostModel);
+    // Items: 750 + 1200 = 1950. Step: genderSelectionCost (800) + breedingStepFee (100) = 900. Total = 2850
+    expect(estimate.totalCost).toBe(2850);
+  });
+
+  it('should calculate accurate Diosesmon server costs using DIOSESMON_OFFICIAL_COST_MODEL', async () => {
+    const { DIOSESMON_OFFICIAL_COST_MODEL } = await import('../../../src/domain/types/costs');
+    const tree: BreedingTree = {
+      root: {
+        step: {
+          id: 'diosesmon-step-1',
+          father: { species: { id: 1, name: 'P1' } } as any,
+          mother: { species: { id: 1, name: 'P2' } } as any,
+          fatherItem: { type: ItemType.PowerBracer },
+          motherItem: { type: ItemType.Everstone },
+          offspring: { species: { id: 1, name: 'Child' } } as any,
+          inheritedIVs: [],
+          cost: 0,
+          depth: 1,
+          genderChosen: false,
+        },
+        pokemon: {
+          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          gender: 'male',
+          ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
+          heldItem: null,
+        },
+        ivsAtNode: [],
+        items: {
+          father: { type: ItemType.PowerBracer },
+          mother: { type: ItemType.Everstone },
+        },
+        children: [],
+        progressLevel: 1,
+      },
+      allNodes: [],
+      maxDepth: 1,
+    };
+
+    const estimate = estimateRoute(tree, undefined, undefined, DIOSESMON_OFFICIAL_COST_MODEL);
+    // Items: PowerBracer (500) + Everstone (500) = 1,000 Pk$
+    // Daycare fee: 0 Pk$
+    // Total = 1,000 Pk$
+    expect(estimate.totalCost).toBe(1000);
   });
 });

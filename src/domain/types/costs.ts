@@ -120,8 +120,34 @@ export const DEFAULT_COST_MODEL: BreedingCostModel = {
     [ItemType.PowerBand]: 500,
     [ItemType.PowerAnklet]: 500,
     [ItemType.Everstone]: 500,
+    [ItemType.MirrorHerb]: 500,
   },
   breedingStepFee: 0, // Guardería gratis
+  genderSelectionCost: 500,
+  pokeballCost: 200,
+  minPokeballs: 1,
+  maxPokeballs: 10,
+};
+
+/**
+ * Modelo de Costos Oficial del Servidor Diosesmon (Cobblemon).
+ * Reglas actualizadas de la Tienda de Crianza:
+ * - Todos los ítems (Power Items, Piedra Eterna, Hierba Copia): 500 Pk$ c/u (1x Burn por cruza).
+ * - Tarifa de Guardería: 0 Pk$ (Gratis / Sin tarifa).
+ * - Tarifa de Selección de Sexo de la Cría: 500 Pk$.
+ */
+export const DIOSESMON_OFFICIAL_COST_MODEL: BreedingCostModel = {
+  itemCosts: {
+    [ItemType.PowerWeight]: 500,
+    [ItemType.PowerBracer]: 500,
+    [ItemType.PowerBelt]: 500,
+    [ItemType.PowerLens]: 500,
+    [ItemType.PowerBand]: 500,
+    [ItemType.PowerAnklet]: 500,
+    [ItemType.Everstone]: 500,
+    [ItemType.MirrorHerb]: 500,
+  },
+  breedingStepFee: 0,
   genderSelectionCost: 500,
   pokeballCost: 200,
   minPokeballs: 1,
