@@ -1,0 +1,55 @@
+name: Reporte de bug
+description: Reportá un problema en la aplicación para que podamos reproducirlo y corregirlo.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: ¿Qué pasó?
+      description: Describe el problema de forma clara y concisa.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ¿Qué esperabas que pasara?
+      description: Describe el comportamiento correcto que esperabas.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      description: Detallá los pasos para llegar al error.
+      placeholder: |
+        1. Ir a '...'
+        2. Hacer clic en '...'
+        3. Ver el error
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: ¿Qué versión o commit estás usando?
+      placeholder: ej. v1.2.3 o el SHA del commit
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Entorno
+      description: ¿Dónde ocurre el problema?
+      options:
+        - Producción
+        - Staging
+        - Local (desarrollo)
+        - Otro
+    validations:
+      required: true
