@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.1.0...v1.2.0) (2026-09-13)
+
+
+### Features
+
+* sync the AI Studio generation into the team repository ([e81b03a](https://github.com/KapsCa/Diosesmon-Crianza/commit/e81b03a2a6984cb34ad4efc8c3f1ea7b16f7ecc9))
+* sync the AI Studio generation into the team repository ([5158f9a](https://github.com/KapsCa/Diosesmon-Crianza/commit/5158f9a08258716a7ac5b190de0ef1bf9c42e5d5))
+
 ## [1.1.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.0.0...v1.1.0) (2026-09-01)
 
 
