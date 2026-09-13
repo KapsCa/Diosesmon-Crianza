@@ -63,6 +63,18 @@ gh pr create
 
 > El cuerpo de la PR se completa y se refresca automáticamente con un bot que resume los archivos cambiados.
 
+## Validación de PRs (issue-first)
+
+Todo PR debe estar vinculado a un issue aprobado y clasificado con un label de tipo. Los checks de PR Validation lo verifican en cada PR:
+
+- **Referencia a issue** — el cuerpo de la PR debe incluir `Closes #N` (también válido `Fixes #N` o `Resolves #N`), escrito en el cuerpo visible, no dentro de comentarios HTML (`<!-- ... -->`).
+- **Issue aprobado** — el issue referenciado debe tener el label `status:approved` antes de que la PR pueda pasar.
+- **Label de tipo** — la PR debe llevar exactamente un label `type:*`. Los válidos son: `type:bug`, `type:feature`, `type:docs`, `type:refactor`, `type:chore`, `type:breaking-change`.
+- **Presupuesto de tamaño** — PRs de más de 400 líneas cambiadas (adiciones + eliminaciones) requieren el label `size:exception`, que degrada el fallo a un warning. Sin ese label, el check falla.
+- **PRs automatizadas exentas** — las PRs de release-please y Dependabot quedan fuera de todos estos checks: no tienen autor humano que pueda agregar labels ni vincular issues, y bloquearlas rompería la automatización de releases.
+
+> **Importante:** estos checks corren actualmente en modo reporte y todavía NO son requeridos por branch protection. Informan el estado pero no bloquean el merge. Cuando el flujo esté asentado, se agregarán como required checks.
+
 ## Stack
 
 - **Runtime**: React 19 + TypeScript 6
