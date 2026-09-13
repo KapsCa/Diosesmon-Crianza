@@ -18,5 +18,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
+        id: release
         with:
           release-type: node
+
+      # Merge the release pull request once its required checks pass, so cutting
+      # a release no longer needs a manual merge. The repository has auto-merge
+      # enabled. This depends on the release PR being exempt from the PR
+      # validation checks: pr-check.yml skips any branch starting with
+      # `release-please--`, which is this one. If that exemption ever breaks,
+      # auto-merge silently stops firing and releases stall without a red check.
+      - name: Enable auto-merge on the release PR
+        if: ${{ steps.release.outputs.pr }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --auto --merge \
+            --repo "${{ github.repository }}" \
+            "${{ fromJSON(steps.release.outputs.pr).number }}"
