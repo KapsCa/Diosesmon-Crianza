@@ -125,6 +125,11 @@ jobs:
   check-issue-approved:
     name: Check Issue Has status:approved
     runs-on: ubuntu-latest
+    # Deliberately not skipped when the reference check fails: this check is a
+    # required one, and a required check whose run is never reported leaves the
+    # pull request waiting forever on a status that never arrives. Running it
+    # anyway makes it fail with its own explicit message instead.
+    if: ${{ !cancelled() }}
     needs: check-issue-reference
     steps:
       - name: Verify linked issue(s) have status:approved label
