@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.2.0...v1.2.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **ci:** exempt automated PRs at step level so the check runs always exist ([3421a6b](https://github.com/KapsCa/Diosesmon-Crianza/commit/3421a6bf43da9d39361bae968daff4e67a1e3bbf))
+* **ci:** keep the approved-issue check reporting when the reference check fails ([0208a34](https://github.com/KapsCa/Diosesmon-Crianza/commit/0208a34ac4853a6b87acb442b218e81c653f602a))
+
 ## [1.2.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.1.0...v1.2.0) (2026-09-13)
 
 
