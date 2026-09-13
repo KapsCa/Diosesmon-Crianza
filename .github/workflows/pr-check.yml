@@ -13,6 +13,14 @@ concurrency:
   group: pr-validation-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+# The exemption for automated pull requests lives on the validation STEPS, not on
+# the jobs, and that is deliberate. A job-level `if:` means the job never starts,
+# so GitHub never creates its check run at all. If these checks were later made
+# required, every release-please and Dependabot PR would then sit forever on
+# "Expected — Waiting for status to be reported", and with auto-merge enabled the
+# releases would stall with no failing check to explain it. Keeping the exemption
+# on the step makes the job run and report success while skipping the validation.
+# Do not move it back up to the job level.
 jobs:
   # Automated PRs (release-please, Dependabot, workflow bot) are exempt from
   # every gate below: they have no human author who can add labels or link an
@@ -20,13 +28,13 @@ jobs:
   check-pr-size:
     name: Check PR Cognitive Load
     runs-on: ubuntu-latest
-    if: >-
-      !startsWith(github.head_ref, 'release-please--') &&
-      !startsWith(github.head_ref, 'dependabot/') &&
-      github.actor != 'dependabot[bot]' &&
-      github.actor != 'github-actions[bot]'
     steps:
       - name: Verify PR stays within review budget
+        if: >-
+          !startsWith(github.head_ref, 'release-please--') &&
+          !startsWith(github.head_ref, 'dependabot/') &&
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'github-actions[bot]'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
@@ -62,31 +70,31 @@ jobs:
   check-workflow-scripts:
     name: Check Workflow Scripts
     runs-on: ubuntu-latest
-    if: >-
-      !startsWith(github.head_ref, 'release-please--') &&
-      !startsWith(github.head_ref, 'dependabot/') &&
-      github.actor != 'dependabot[bot]' &&
-      github.actor != 'github-actions[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Run workflow script tests
+        if: >-
+          !startsWith(github.head_ref, 'release-please--') &&
+          !startsWith(github.head_ref, 'dependabot/') &&
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'github-actions[bot]'
         run: node --test .github/scripts/parse-linked-issues.test.cjs
 
   check-issue-reference:
     name: Check Issue Reference
     runs-on: ubuntu-latest
-    if: >-
-      !startsWith(github.head_ref, 'release-please--') &&
-      !startsWith(github.head_ref, 'dependabot/') &&
-      github.actor != 'dependabot[bot]' &&
-      github.actor != 'github-actions[bot]'
     outputs:
       issue-numbers: ${{ steps.parse.outputs.issue-numbers }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Verify PR body references an issue
+        if: >-
+          !startsWith(github.head_ref, 'release-please--') &&
+          !startsWith(github.head_ref, 'dependabot/') &&
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'github-actions[bot]'
         id: parse
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
@@ -117,14 +125,14 @@ jobs:
   check-issue-approved:
     name: Check Issue Has status:approved
     runs-on: ubuntu-latest
-    if: >-
-      !startsWith(github.head_ref, 'release-please--') &&
-      !startsWith(github.head_ref, 'dependabot/') &&
-      github.actor != 'dependabot[bot]' &&
-      github.actor != 'github-actions[bot]'
     needs: check-issue-reference
     steps:
       - name: Verify linked issue(s) have status:approved label
+        if: >-
+          !startsWith(github.head_ref, 'release-please--') &&
+          !startsWith(github.head_ref, 'dependabot/') &&
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'github-actions[bot]'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           ISSUE_NUMBERS: ${{ needs.check-issue-reference.outputs.issue-numbers }}
@@ -178,13 +186,13 @@ jobs:
   check-type-label:
     name: Check PR Has type:* Label
     runs-on: ubuntu-latest
-    if: >-
-      !startsWith(github.head_ref, 'release-please--') &&
-      !startsWith(github.head_ref, 'dependabot/') &&
-      github.actor != 'dependabot[bot]' &&
-      github.actor != 'github-actions[bot]'
     steps:
       - name: Verify PR has exactly one type:* label
+        if: >-
+          !startsWith(github.head_ref, 'release-please--') &&
+          !startsWith(github.head_ref, 'dependabot/') &&
+          github.actor != 'dependabot[bot]' &&
+          github.actor != 'github-actions[bot]'
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
