@@ -167,8 +167,6 @@
 
 #root {
   width: 100%;
-  max-width: 1680px;
-  margin: 0 auto;
   text-align: left;
   min-height: 100svh;
   display: flex;
@@ -176,49 +174,59 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-}
+/*
+ * Element defaults belong in `@layer base`, and that is not cosmetic: unlayered rules
+ * beat every layered one regardless of specificity, so while these lived outside a
+ * layer they silently defeated every Tailwind utility applied to the same property. A
+ * `text-xl` on an `h1` did nothing, and neither did any margin or font utility, because
+ * `h1 { font-size: 56px; margin: 32px 0 }` sat outside the layers.
+ */
+@layer base {
+  body {
+    margin: 0;
+  }
 
-h1,
-h2 {
-  font-family: var(--font-heading);
-  font-weight: 500;
-  color: var(--color-ink);
-}
+  h1,
+  h2 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    color: var(--color-ink);
+  }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  h1 {
+    font-size: 56px;
+    letter-spacing: -1.68px;
+    margin: 32px 0;
+    @media (max-width: 1024px) {
+      font-size: 36px;
+      margin: 20px 0;
+    }
+  }
+  h2 {
+    font-size: 24px;
+    line-height: 118%;
+    letter-spacing: -0.24px;
+    margin: 0 0 8px;
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+  }
+  p {
+    margin: 0;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    display: inline-flex;
+    border-radius: 4px;
+    color: var(--color-ink);
+    font-size: 15px;
+    line-height: 135%;
+    padding: 4px 8px;
+    background: var(--color-surface-sunken);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
 
-code {
-  font-family: var(--font-mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--color-ink);
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--color-surface-sunken);
-}
 
 /*
  * The old `.species-selector` and `.species-*` block that lived here is gone:

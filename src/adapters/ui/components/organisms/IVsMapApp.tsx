@@ -11,6 +11,7 @@ import { Gender } from '../../../../domain/types/pokemon';
 import { POKEMON_SPECIES_LIST, findSpeciesById, findSpeciesByName } from '../../../../domain/data/speciesData';
 import { DIOSESMON_OFFICIAL_COST_MODEL } from '../../../../domain/types/costs';
 import { DiosesmonLogo } from '../atoms/DiosesmonLogo';
+import { WelcomeScreen } from '../organisms/WelcomeScreen';
 import { IVProfileBuilder, type IVTargetConfig, COMMON_NATURES } from '../molecules/IVProfileBuilder';
 import { StrategySelector, type BreedingStrategy } from '../molecules/StrategySelector';
 import { PCProgenitorBank } from '../molecules/PCProgenitorBank';
@@ -40,6 +41,7 @@ import {
   Target,
   PiggyBank,
   Zap,
+  User,
 } from 'lucide-react';
 
 interface IVsMapAppState {
@@ -81,6 +83,13 @@ const POPULAR_SPECIES = [
 export const IVsMapApp: React.FC = () => {
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'planner' | 'checklist' | 'pc' | 'rules'>('planner');
+  // The application opens on the presentation screen. The planner flow is untouched:
+  // it simply is not the first thing you see. Reached from the welcome CTA.
+  const [showWelcome, setShowWelcome] = useState(true);
+  const startPlanning = () => {
+    setShowWelcome(false);
+    setActiveTab('planner');
+  };
 
   // Modo de inicio: 'scratch' (empezar de 0) vs 'existing' (ya tengo uno)
   const [startingMode, setStartingMode] = useState<'scratch' | 'existing'>('scratch');
@@ -1338,30 +1347,58 @@ export const IVsMapApp: React.FC = () => {
   };
 
   return (
-    <div className="ivsmap-app flex flex-col gap-6 max-w-7xl mx-auto px-4 py-6">
+      <div className="ivsmap-app">
       {/* Header institucional Diosesmon */}
-      <header className="ivsmap-header flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <header className="ivsmap-header relative isolate overflow-hidden">
+        {/*
+          A hairline that fades to nothing at both ends, over the bar's own border: the
+          header reads as lit rather than merely boxed. Full width on purpose, so it
+          follows the bar and not the content column.
+        */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brand/50 to-transparent"
+        />
+        <div className="relative mx-auto flex w-full max-w-[1040px] flex-wrap items-center gap-3 px-4 py-3 sm:flex-nowrap sm:gap-4 sm:px-6">
+          {/* A violet bloom anchored where the mark sits. Inside the content container on
+              purpose: on a wide screen the light belongs near the logo, not at the edge
+              of the viewport. */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-28 -top-28 -z-10 h-80 w-[28rem] bg-[radial-gradient(closest-side,var(--color-brand)_0%,transparent_100%)] opacity-[0.22]"
+          />
         <div className="flex items-center gap-3">
-          <DiosesmonLogo />
+          <div className="relative">
+            {/* A violet halo behind the mark: the cheapest source of light here, and it
+                echoes the bloom on the presentation screen. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-2 rounded-full bg-brand/25 blur-xl"
+            />
+                <DiosesmonLogo
+                  size={56}
+                  className="[&>svg]:h-12 [&>svg]:w-12 sm:[&>svg]:h-14 sm:[&>svg]:w-14"
+                />
+          </div>
           <div>
-            <h1 className="text-xl font-black tracking-tight text-white font-['Sora']">
+            <h1 className="m-0 text-xl font-black tracking-tight text-ink font-['Sora']">
               IVsMap
             </h1>
-            <p className="text-xs text-slate-400">
+<p className="hidden text-xs text-ink-muted sm:block">
               Planificador de Crianza • Cobblemon Diosesmon
             </p>
           </div>
         </div>
 
         {/* Navigation tabs */}
-        <nav className="flex items-center gap-1.5 p-1 rounded-xl bg-surface border border-slate-800">
+        <nav className="order-last flex w-full min-w-0 sm:order-none sm:w-auto items-center gap-1.5 overflow-x-auto p-1 rounded-xl border border-line bg-surface-sunken shadow-[inset_0_1px_0_0_var(--color-line)]">
           <button
             type="button"
             onClick={() => setActiveTab('planner')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'planner'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
             }`}
           >
             <GitBranch className="w-3.5 h-3.5" />
@@ -1370,10 +1407,10 @@ export const IVsMapApp: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('pc')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'pc'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
             }`}
           >
             <Database className="w-3.5 h-3.5" />
@@ -1382,10 +1419,10 @@ export const IVsMapApp: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('rules')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'rules'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -1394,21 +1431,62 @@ export const IVsMapApp: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('checklist')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'checklist'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
             }`}
           >
             <ClipboardList className="w-3.5 h-3.5" />
             <span>Checklist</span>
           </button>
         </nav>
+      {/*
+        Session slot, deliberately inert. There is no identity layer yet: the PC bank
+        lives in this browser's localStorage as a single implicit profile. A control that
+        looks like it signs you in but does nothing would be a lie, so this one is
+        disabled and its label says why. The storage contract is designed in #77 and lands
+        after the breeding engine.
+
+        The server-rule chip sits under the button rather than beside it: in the row it
+        competed with the tabs, and tucked underneath it reads as a caption.
+      */}
+      <div className="ml-auto flex shrink-0 items-center gap-2">
+        <div className="flex flex-col items-center gap-1">
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            title="Perfiles: próximamente"
+            className="flex items-center gap-1.5 rounded-xl border border-line bg-surface px-3 py-2 text-xs font-medium text-ink-muted cursor-not-allowed"
+          >
+            <User className="h-4 w-4" />
+            <span className="hidden sm:inline">Perfiles</span>
+          </button>
+          <span className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-ink-muted lg:inline-flex">
+            <span
+              aria-hidden="true"
+              className="h-1 w-1 rounded-full bg-brand-soft shadow-[0_0_4px] shadow-brand-soft/70"
+            />
+            Determinista
+          </span>
+        </div>
+      </div>
+        </div>
       </header>
+      {/* The content column. The header is full-bleed; the measure and the page
+          padding live here, so the bar can span the viewport while the content keeps
+          the 1040px measure it already had. */}
+      <div className="mx-auto flex w-full max-w-[1040px] flex-col gap-6 px-4 pt-6 pb-12 sm:px-6">
 
       {/* Contenido principal según pestaña activa */}
       <main className="ivsmap-main">
-        {activeTab === 'planner' && (
+
+          {showWelcome && <WelcomeScreen onStart={startPlanning} />}
+
+          {/* Every tab is gated on !showWelcome so the presentation replaces the flow
+              instead of stacking above it. */}
+        {!showWelcome && activeTab === 'planner' && (
           <>
             {state.formStep === 'select-species' && renderSpeciesSelector()}
 
@@ -1422,18 +1500,18 @@ export const IVsMapApp: React.FC = () => {
           </>
         )}
 
-        {activeTab === 'checklist' && (
+        {!showWelcome && activeTab === 'checklist' && (
           <DaycareChecklist targetSpeciesName={state.goalSpecies?.name || 'Pokémon Objetivo'} />
         )}
 
-        {activeTab === 'pc' && (
+        {!showWelcome && activeTab === 'pc' && (
           <PCProgenitorBank
             selectedSpeciesName={state.goalSpecies?.name}
             onSelectProgenitor={handleProgenitorFromBank}
           />
         )}
 
-        {activeTab === 'rules' && <CompatibilityRulesMatrix />}
+        {!showWelcome && activeTab === 'rules' && <CompatibilityRulesMatrix />}
       </main>
 
       {/* Modal rápido del Banco PC */}
@@ -1445,13 +1523,25 @@ export const IVsMapApp: React.FC = () => {
       />
 
       {/* Subtle brand footer */}
-      <footer className="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-faint font-mono">
+      <footer className="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-muted font-mono">
         {/* The version is injected at build time from `package.json`, so it follows
             every release on its own. The store tariffs that used to sit here are
             gone: they were retyped from a source of truth no UI reads, and they
             listed three of the eight items. Money belongs next to the plan. */}
         <span>Diosesmon Crianza Pro • v{__APP_VERSION__}</span>
+            <span>
+              Desarrollado por{' '}
+              <a
+                href="https://github.com/KapsCa"
+                target="_blank"
+                rel="noreferrer"
+                className="text-brand-soft underline-offset-2 transition-colors hover:text-ink hover:underline"
+              >
+                @KapsCa
+              </a>
+            </span>
       </footer>
+      </div>
     </div>
   );
 };
