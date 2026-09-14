@@ -104,18 +104,18 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0c101a] to-[#090d15] border border-purple-500/30 shadow-xl flex flex-col gap-4">
+    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0c101a] to-[#090d15] border border-brand/30 shadow-xl flex flex-col gap-4">
       {/* Encabezado con aclaración de reglas */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3.5">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-purple-900/40 border border-purple-500/50 flex items-center justify-center text-purple-300 shadow-sm shrink-0">
-            <Sparkles className="w-5 h-5 text-purple-400" />
+          <div className="w-9 h-9 rounded-xl bg-brand/15 border border-brand/50 flex items-center justify-center text-brand-soft shadow-sm shrink-0">
+            <Sparkles className="w-5 h-5 text-brand-soft" />
           </div>
           <div>
             <h3 className="text-sm font-bold text-white font-['Sora'] flex items-center gap-2">
               <span>¿Qué Dittos tienes en tu PC / Mochila?</span>
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-ink-muted mt-0.5">
               Configura tus Dittos. El árbol armará la ruta exacta asignando <strong>1 banda por progenitor</strong> y aprovechando <strong>Herencia Fija</strong> (stats compartidos en 31).
             </p>
           </div>
@@ -124,13 +124,13 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
         {/* Cobertura de stats del objetivo */}
         <div className="flex items-center gap-1.5 self-start sm:self-auto">
           {missingStats.length === 0 ? (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-success/15 text-success border border-success/30 flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-success" />
               <span>Todos los stats cubiertos</span>
             </span>
           ) : (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-950/60 text-amber-300 border border-amber-800/60 flex items-center gap-1.5">
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-warning/15 text-warning border border-warning/30 flex items-center gap-1.5">
+              <ShieldAlert className="w-3.5 h-3.5 text-warning" />
               <span>Falta Ditto para: {missingStats.map((s) => STAT_METADATA[s].short).join(', ')}</span>
             </span>
           )}
@@ -139,14 +139,14 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
 
       {/* Presets rápidos */}
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+        <span className="text-[11px] font-semibold text-ink-muted uppercase tracking-wider">
           Presets rápidos:
         </span>
 
         <button
           type="button"
           onClick={() => handleApplyPreset('pack1x31')}
-          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-900 hover:bg-purple-950/60 text-slate-300 hover:text-white border border-slate-700/80 hover:border-purple-500/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-surface-sunken hover:bg-brand/15 text-ink hover:text-white border border-line-strong/80 hover:border-brand/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
         >
           <span>⚡ Pack 6x Dittos 1x31</span>
         </button>
@@ -154,7 +154,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
         <button
           type="button"
           onClick={() => handleApplyPreset('ditto4x31')}
-          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-900 hover:bg-purple-950/60 text-slate-300 hover:text-white border border-slate-700/80 hover:border-purple-500/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-surface-sunken hover:bg-brand/15 text-ink hover:text-white border border-line-strong/80 hover:border-brand/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
         >
           <span>💎 Ditto 4x31 + Apoyo</span>
         </button>
@@ -162,7 +162,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
         <button
           type="button"
           onClick={() => handleApplyPreset('ditto5x31')}
-          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-slate-900 hover:bg-purple-950/60 text-slate-300 hover:text-white border border-slate-700/80 hover:border-purple-500/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-surface-sunken hover:bg-brand/15 text-ink hover:text-white border border-line-strong/80 hover:border-brand/40 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
         >
           <span>👑 Ditto 5x31</span>
         </button>
@@ -170,7 +170,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
         <button
           type="button"
           onClick={handleImportFromPC}
-          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-purple-950/50 hover:bg-purple-900/60 text-purple-300 border border-purple-800/60 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+          className="px-2.5 py-1 text-xs font-medium rounded-lg bg-brand/10 hover:bg-brand/20 text-brand-soft border border-brand/30 transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
         >
           <Database className="w-3 h-3" />
           <span>Importar de Banco PC</span>
@@ -185,7 +185,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
           return (
             <div
               key={ditto.id || index}
-              className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/90 hover:border-purple-500/40 transition-all flex flex-col gap-2.5 shadow-md group relative"
+              className="p-3.5 rounded-xl bg-canvas/60 border border-line/90 hover:border-brand/40 transition-all flex flex-col gap-2.5 shadow-md group relative"
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -204,9 +204,9 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
                         updated[index] = { ...updated[index], name: e.target.value };
                         onChange(updated);
                       }}
-                      className="text-xs font-bold text-white bg-transparent border-b border-transparent hover:border-slate-700 focus:border-purple-500 focus:outline-none max-w-[140px]"
+                      className="text-xs font-bold text-white bg-transparent border-b border-transparent hover:border-line-strong focus:border-brand focus:outline-none max-w-[140px]"
                     />
-                    <div className="text-[10px] text-purple-300/80 font-mono">
+                    <div className="text-[10px] text-brand-soft/80 font-mono">
                       {perfectCount}x31 Perfectos
                     </div>
                   </div>
@@ -216,7 +216,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
                   <button
                     type="button"
                     onClick={() => handleRemoveDitto(index)}
-                    className="p-1 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-all opacity-60 group-hover:opacity-100"
+                    className="p-1 rounded-lg text-ink-faint hover:text-danger hover:bg-danger/10 transition-all opacity-60 group-hover:opacity-100"
                     title="Eliminar este Ditto"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -225,7 +225,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
               </div>
 
               {/* Botones interactivos para conmutar cada Stat 31 */}
-              <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-800/60">
+              <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-line/60">
                 {ALL_STATS.map((stat) => {
                   const is31 = ditto.ivs[stat] === 31;
                   const isTarget = targetStats.includes(stat);
@@ -238,8 +238,8 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
                       onClick={() => handleToggleStat(index, stat)}
                       className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 ${
                         is31
-                          ? 'bg-purple-600 text-white shadow-sm ring-1 ring-purple-400'
-                          : 'bg-slate-900 text-slate-500 hover:text-slate-300 border border-slate-800'
+                          ? 'bg-brand text-white shadow-sm ring-1 ring-brand-soft'
+                          : 'bg-surface-sunken text-ink-faint hover:text-ink border border-line'
                       } ${!isTarget && is31 ? 'opacity-70' : ''}`}
                       title={`${meta.name}: ${is31 ? '31 IVs (Activo)' : '0 IVs (Click para marcar 31)'}`}
                     >
@@ -263,14 +263,14 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
         <button
           type="button"
           onClick={handleAddDitto}
-          className="px-3 py-1.5 rounded-lg text-xs font-medium text-purple-300 hover:text-white bg-purple-950/40 hover:bg-purple-900/50 border border-purple-800/50 hover:border-purple-600 transition-all flex items-center gap-1.5 cursor-pointer"
+          className="px-3 py-1.5 rounded-lg text-xs font-medium text-brand-soft hover:text-white bg-brand/10 hover:bg-brand/20 border border-brand/30 hover:border-brand transition-all flex items-center gap-1.5 cursor-pointer"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>Agregar otro Ditto a la lista</span>
         </button>
 
-        <span className="text-[11px] text-slate-400">
-          Total de Dittos disponibles: <strong className="text-purple-300">{dittos.length}</strong>
+        <span className="text-[11px] text-ink-muted">
+          Total de Dittos disponibles: <strong className="text-brand-soft">{dittos.length}</strong>
         </span>
       </div>
     </div>
