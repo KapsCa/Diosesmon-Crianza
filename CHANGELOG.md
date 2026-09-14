@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.4...v1.4.0) (2026-09-14)
+
+
+### Features
+
+* **ui:** a full-bleed navbar, a session slot, and the flow on the presentation ([473c8b7](https://github.com/KapsCa/Diosesmon-Crianza/commit/473c8b7436eb4c8320eac378ff93c82eb844ea02)), closes [#76](https://github.com/KapsCa/Diosesmon-Crianza/issues/76)
+* **ui:** open on a presentation screen, with a full-bleed navbar and a session slot ([b8fe71d](https://github.com/KapsCa/Diosesmon-Crianza/commit/b8fe71df3604aa85bdc45c1bb52ffd6f5be945e3))
+* **ui:** open the app on a presentation screen with a call to action ([13881c1](https://github.com/KapsCa/Diosesmon-Crianza/commit/13881c1f18b6b8b9576ca4b7857bd3a8e5a9cefa)), closes [#76](https://github.com/KapsCa/Diosesmon-Crianza/issues/76)
+
+
+### Bug Fixes
+
+* **css:** stop the element rules from defeating every Tailwind utility ([6166c24](https://github.com/KapsCa/Diosesmon-Crianza/commit/6166c24142fc56077f60ce587122cd345b817431))
+
 ## [1.3.4](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.3...v1.3.4) (2026-09-14)
 
 
