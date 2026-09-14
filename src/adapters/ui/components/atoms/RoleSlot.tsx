@@ -115,7 +115,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
 
   return (
     <div
-      className={`role-slot p-4 rounded-2xl bg-[#0a0e17] border transition-all relative flex flex-col gap-3.5 shadow-xl ${
+      className={`role-slot p-4 rounded-2xl bg-canvas border transition-all relative flex flex-col gap-3.5 shadow-xl ${
         isMother
           ? 'border-pink-500/40 hover:border-pink-500/60 shadow-pink-950/10'
           : 'border-blue-500/40 hover:border-blue-500/60 shadow-blue-950/10'
@@ -238,7 +238,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
             placeholder="Buscar por nombre o número (#)..."
             value={speciesSearch}
             onChange={(e) => setSpeciesSearch(e.target.value)}
-            className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-[#0a0e17] border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
+            className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-canvas border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
           />
           <div className="max-h-40 overflow-y-auto divide-y divide-slate-800/60 pr-1">
             {filteredSpecies.map((sp) => (
@@ -271,7 +271,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
       )}
 
       {/* Tarjeta del Pokémon actual con Sprite y Grupos */}
-      <div className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0f131c] border border-slate-800/80">
+      <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface border border-slate-800/80">
         <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
           <img
             src={getSpriteUrl(species.id)}
@@ -400,7 +400,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
               onHeldItemChange(null);
             }
           }}
-          className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-[#0f131c] border border-slate-800 text-white focus:outline-none focus:border-purple-500"
+          className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-surface border border-slate-800 text-white focus:outline-none focus:border-purple-500"
         >
           {HELD_ITEMS_OPTIONS.map((opt) => (
             <option

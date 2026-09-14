@@ -807,7 +807,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
           textAnchor="middle"
           fontSize={node.r * 1.15}
           fontWeight="900"
-          fill={node.gender === 'female' ? '#f472b6' : '#38bdf8'}
+          fill={node.gender === 'female' ? 'var(--color-role-female)' : 'var(--color-role-male)'}
           stroke="rgba(0, 0, 0, 0.85)"
           strokeWidth="1.2"
           className="select-none pointer-events-none font-bold"
@@ -819,7 +819,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-6 p-4 sm:p-6 rounded-2xl bg-[#0b0f19] border border-purple-500/25 shadow-2xl">
+    <div className="w-full flex flex-col gap-6 p-4 sm:p-6 rounded-2xl bg-canvas border border-purple-500/25 shadow-2xl">
       {/* Header Principal con Controles */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
@@ -1181,14 +1181,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                               </>
                             )}
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="#0f172a" strokeWidth="2.2" />
+                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
                           <text
                             x="0"
                             y="9"
                             textAnchor="middle"
                             fontSize="26"
                             fontWeight="900"
-                            fill="#f472b6"
+                            fill="var(--color-role-female)"
                             stroke="#000"
                             strokeWidth="1"
                           >
@@ -1239,14 +1239,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                               </>
                             )}
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="#0f172a" strokeWidth="2.2" />
+                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
                           <text
                             x="0"
                             y="9"
                             textAnchor="middle"
                             fontSize="26"
                             fontWeight="900"
-                            fill="#38bdf8"
+                            fill="var(--color-role-male)"
                             stroke="#000"
                             strokeWidth="1"
                           >
@@ -1366,14 +1366,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                             <rect x="0" y="-24" width="12" height="48" fill={activeStats[2]?.color} />
                             <rect x="12" y="-24" width="12" height="48" fill={activeStats[3]?.color} />
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="#0f172a" strokeWidth="2.2" />
+                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
                           <text
                             x="0"
                             y="9"
                             textAnchor="middle"
                             fontSize="26"
                             fontWeight="900"
-                            fill="#f472b6"
+                            fill="var(--color-role-female)"
                             stroke="#000"
                             strokeWidth="1"
                           >
@@ -1410,14 +1410,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                             <rect x="0" y="-24" width="12" height="48" fill={activeStats[3]?.color} />
                             <rect x="12" y="-24" width="12" height="48" fill={activeStats[4]?.color} />
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="#0f172a" strokeWidth="2.2" />
+                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
                           <text
                             x="0"
                             y="9"
                             textAnchor="middle"
                             fontSize="26"
                             fontWeight="900"
-                            fill="#38bdf8"
+                            fill="var(--color-role-male)"
                             stroke="#000"
                             strokeWidth="1"
                           >
@@ -1560,7 +1560,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                     : selectedNode.stats.length === 1
                     ? activeStats[selectedNode.stats[0]]?.color
                     : '#1e293b',
-                  color: selectedNode.gender === 'female' ? '#f472b6' : '#38bdf8',
+                  color: selectedNode.gender === 'female' ? 'var(--color-role-female)' : 'var(--color-role-male)',
                 }}
               >
                 {selectedNode.gender === 'female' ? '♀' : '♂'}
@@ -1689,7 +1689,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {/* Tarjeta 1: Capturas */}
           <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 font-bold shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-role-female font-bold shrink-0">
               <span className="text-lg">🎯</span>
             </div>
             <div>
@@ -1698,9 +1698,9 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                 {totalCapturesCount} Pokémon
               </div>
               <div className="text-[11px] text-slate-400 flex items-center gap-2 mt-0.5">
-                <span className="text-pink-400 font-bold">{totalFemales} ♀ Hembras</span>
+                <span className="text-role-female font-bold">{totalFemales} ♀ Hembras</span>
                 <span>•</span>
-                <span className="text-sky-400 font-bold">{totalMales} ♂ Machos</span>
+                <span className="text-role-male font-bold">{totalMales} ♂ Machos</span>
               </div>
             </div>
           </div>
@@ -1766,7 +1766,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
 
         {/* 1. VISTA SIMPLE: TABLA LIMPIA Y DIRECTA POR ATRIBUTO */}
         {auditViewMode === 'simple' ? (
-          <div className="w-full overflow-x-auto rounded-xl border border-slate-800 bg-[#0a0e17] shadow-xl">
+          <div className="w-full overflow-x-auto rounded-xl border border-slate-800 bg-canvas shadow-xl">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-slate-800 bg-slate-900/90 text-slate-300">
@@ -1858,8 +1858,8 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                     {totalItemsCount} Objetos en Tienda
                   </td>
                   <td className="py-3 px-4 text-slate-200 font-mono">
-                    <span className="text-pink-400 font-bold">{totalFemales} ♀</span> +{' '}
-                    <span className="text-sky-400 font-bold">{totalMales} ♂</span> ={' '}
+                    <span className="text-role-female font-bold">{totalFemales} ♀</span> +{' '}
+                    <span className="text-role-male font-bold">{totalMales} ♂</span> ={' '}
                     <span className="text-white font-black">{totalItemsCount} Usos en Cruces</span>
                   </td>
                   <td className="py-3 px-4 text-center font-mono font-black text-purple-300">
@@ -1876,7 +1876,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
           </div>
         ) : (
           /* 2. VISTA MATRIZ TRADICIONAL */
-          <div className="w-full overflow-x-auto rounded-xl border border-slate-800 bg-[#0a0e17] shadow-xl">
+          <div className="w-full overflow-x-auto rounded-xl border border-slate-800 bg-canvas shadow-xl">
             <table className="w-full text-center border-collapse text-xs">
               <thead>
                 <tr className="border-b border-slate-800">
@@ -1905,7 +1905,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
               <tbody className="divide-y divide-slate-800 font-medium">
                 {/* Fila 1: Hembra */}
                 <tr className="hover:bg-slate-900/40">
-                  <td className="py-2.5 px-4 text-left font-bold text-pink-400 flex items-center gap-2">
+                  <td className="py-2.5 px-4 text-left font-bold text-role-female flex items-center gap-2">
                     <span className="text-base leading-none font-black">♀</span>
                     <span>Hembra</span>
                   </td>
@@ -1921,7 +1921,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
 
                 {/* Fila 2: Macho */}
                 <tr className="hover:bg-slate-900/40">
-                  <td className="py-2.5 px-4 text-left font-bold text-sky-400 flex items-center gap-2">
+                  <td className="py-2.5 px-4 text-left font-bold text-role-male flex items-center gap-2">
                     <span className="text-base leading-none font-black">♂</span>
                     <span>Macho</span>
                   </td>

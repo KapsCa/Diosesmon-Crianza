@@ -650,7 +650,7 @@ export const IVsMapApp: React.FC = () => {
       COMMON_NATURES.find((n) => n.name === ivConfig.nature)?.es || ivConfig.nature || 'Firme';
 
     return (
-      <div className="ivsmap-step flex flex-col gap-5 p-5 rounded-2xl bg-[#0f131c] border border-slate-800 shadow-xl">
+      <div className="ivsmap-step flex flex-col gap-5 p-5 rounded-2xl bg-surface border border-slate-800 shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
           <div>
             <h4 className="step-title text-base font-bold text-white font-['Sora'] flex items-center gap-2">
@@ -667,7 +667,7 @@ export const IVsMapApp: React.FC = () => {
 
         {/* Especie Seleccionada (Feedback visual inmediato sin botones prematuros) */}
         {state.goalSpecies && (
-          <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-purple-950/30 via-slate-900/60 to-[#0a0e17] border border-purple-500/30 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-purple-950/30 via-slate-900/60 to-canvas border border-purple-500/30 shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-lg bg-purple-900/30 border border-purple-500/30 p-1 flex items-center justify-center shrink-0">
                 <img
@@ -749,7 +749,7 @@ export const IVsMapApp: React.FC = () => {
         </div>
 
         {/* Punto de Partida: amigable y sin saturación de texto */}
-        <div className="p-3.5 rounded-xl bg-[#0a0e17] border border-slate-800/80 flex flex-col gap-3">
+        <div className="p-3.5 rounded-xl bg-canvas border border-slate-800/80 flex flex-col gap-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-400" />
@@ -846,8 +846,8 @@ export const IVsMapApp: React.FC = () => {
         </div>
 
         {/* Configuración de Objetivo: inteligente, consistente con el rol y desplegable */}
-        <div className="rounded-xl bg-[#0a0e17] border border-purple-900/30 overflow-hidden shadow-lg">
-          <div className="p-4 sm:p-5 flex flex-col gap-3.5 bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-[#0a0e17] border-b border-purple-500/20">
+        <div className="rounded-xl bg-canvas border border-purple-900/30 overflow-hidden shadow-lg">
+          <div className="p-4 sm:p-5 flex flex-col gap-3.5 bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-canvas border-b border-purple-500/20">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-xl bg-purple-900/40 border border-purple-500/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0 mt-0.5">
@@ -946,7 +946,7 @@ export const IVsMapApp: React.FC = () => {
         </div>
 
         {/* Selector de Método de Crianza y Configuración de Dittos */}
-        <div className="p-3.5 sm:p-4 rounded-xl bg-[#0a0e17] border border-purple-900/40 flex flex-col gap-3.5 shadow-md">
+        <div className="p-3.5 sm:p-4 rounded-xl bg-canvas border border-purple-900/40 flex flex-col gap-3.5 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-400" />
@@ -998,7 +998,7 @@ export const IVsMapApp: React.FC = () => {
 
         {/* Botón de Acción Principal: al final, tras elegir stats y naturaleza */}
         {state.goalSpecies && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0d121f] via-purple-950/40 to-[#0f131c] border border-purple-500/40 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0d121f] via-purple-950/40 to-surface border border-purple-500/40 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-start sm:items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0">
                 <Sparkles className="w-5 h-5 text-purple-400" />
@@ -1079,7 +1079,7 @@ export const IVsMapApp: React.FC = () => {
     }
 
     return (
-      <div className="ivsmap-step flex flex-col gap-5 p-5 rounded-2xl bg-[#0f131c] border border-slate-800 shadow-xl">
+      <div className="ivsmap-step flex flex-col gap-5 p-5 rounded-2xl bg-surface border border-slate-800 shadow-xl">
         <div className="step-header-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div>
             <h4 className="step-title text-base font-bold text-white font-['Sora'] flex items-center gap-2">
@@ -1221,7 +1221,7 @@ export const IVsMapApp: React.FC = () => {
 
     return (
       <div className="ivsmap-results flex flex-col gap-6">
-        <div className="results-header-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-[#0f131c] border border-slate-800">
+        <div className="results-header-row flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-surface border border-slate-800">
           <div>
             <h3 className="results-title text-base font-bold text-white font-['Sora'] flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -1354,7 +1354,7 @@ export const IVsMapApp: React.FC = () => {
         </div>
 
         {/* Navigation tabs */}
-        <nav className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0f131c] border border-slate-800">
+        <nav className="flex items-center gap-1.5 p-1 rounded-xl bg-surface border border-slate-800">
           <button
             type="button"
             onClick={() => setActiveTab('planner')}

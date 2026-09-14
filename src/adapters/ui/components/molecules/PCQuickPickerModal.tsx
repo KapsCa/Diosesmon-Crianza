@@ -50,9 +50,9 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-2xl rounded-2xl bg-[#0f131c] border border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div className="w-full max-w-2xl rounded-2xl bg-surface border border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-[#131826]">
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-surface-sunken">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-purple-600/20 text-purple-300 border border-purple-500/30 flex items-center justify-center">
               <Database className="w-4 h-4" />
@@ -92,13 +92,13 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
         </div>
 
         {/* Search */}
-        <div className="p-3 border-b border-slate-800/80 bg-[#0a0e17]">
+        <div className="p-3 border-b border-slate-800/80 bg-canvas">
           <input
             type="text"
             placeholder="Filtrar por especie o notas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full text-xs px-3 py-2 rounded-xl bg-[#131826] border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
+            className="w-full text-xs px-3 py-2 rounded-xl bg-surface-sunken border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
             autoFocus
           />
         </div>
@@ -117,10 +117,10 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
               return (
                 <div
                   key={specimen.id}
-                  className="p-3.5 rounded-xl bg-[#131826] border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                  className="p-3.5 rounded-xl bg-surface-sunken border border-slate-800 hover:border-purple-500/50 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#0a0e17] border border-slate-800 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-canvas border border-slate-800 flex items-center justify-center shrink-0">
                       <img
                         src={getSpriteUrl(specimen.speciesId)}
                         alt={specimen.speciesName}
