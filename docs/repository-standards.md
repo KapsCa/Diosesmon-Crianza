@@ -73,7 +73,28 @@ Todo PR debe estar vinculado a un issue aprobado y clasificado con un label de t
 - **Presupuesto de tamaño** — PRs de más de 400 líneas cambiadas (adiciones + eliminaciones) requieren el label `size:exception`, que degrada el fallo a un warning. Sin ese label, el check falla.
 - **PRs automatizadas exentas** — las PRs de release-please y Dependabot quedan fuera de todos estos checks: no tienen autor humano que pueda agregar labels ni vincular issues, y bloquearlas rompería la automatización de releases.
 
-> **Importante:** estos checks corren actualmente en modo reporte y todavía NO son requeridos por branch protection. Informan el estado pero no bloquean el merge. Cuando el flujo esté asentado, se agregarán como required checks.
+### Estos checks son requeridos, y bloquean
+
+Los seis son **required status checks** de branch protection: un check rojo **bloquea el merge**. La fuente de verdad es la API, no este documento — consultala antes de asumir que algo no bloquea:
+
+```bash
+gh api repos/KapsCa/Diosesmon-Crianza/branches/main/protection/required_status_checks
+```
+
+| check requerido | workflow → job | qué verifica |
+| --- | --- | --- |
+| `test` | `ci.yml` → `test` | la suite completa |
+| `Check PR Cognitive Load` | `pr-check.yml` → `check-pr-size` | el presupuesto de 400 líneas |
+| `Check Workflow Scripts` | `pr-check.yml` → `check-workflow-scripts` | los scripts de `.github/` |
+| `Check Issue Reference` | `pr-check.yml` → `check-issue-reference` | `Closes #N` en el cuerpo |
+| `Check Issue Has status:approved` | `pr-check.yml` → `check-issue-approved` | el label del issue referenciado |
+| `Check PR Has type:* Label` | `pr-check.yml` → `check-type-label` | exactamente un `type:*` en la PR |
+
+**`strict: true`** — además de los seis checks, la rama tiene que estar **al día con `main`** antes de mergear. Si `main` se movió, `mergeStateStatus` pasa a `BEHIND` y hay que actualizar la rama con un merge (o un rebase) de `main`, **aunque los seis checks estén en verde**.
+
+> **Ojo con `gh pr checks`**: muestra el **mejor** resultado por nombre, mientras que la protección evalúa el **último** check-run de ese nombre. Cuando el mismo check corrió dos veces, las dos vistas dicen cosas distintas y el PR queda `BLOCKED` con todo aparentemente en verde. El diagnóstico es `gh api repos/KapsCa/Diosesmon-Crianza/commits/<sha>/check-runs`, no `gh pr checks`.
+>
+> **`deploy-pages.yml` no debe agregarse como required check**: no dispara en `pull_request`, así que nunca reportaría un check-run y todo PR quedaría esperando un estado que no va a llegar. Está explicado en el encabezado de ese workflow.
 
 ## Stack
 
