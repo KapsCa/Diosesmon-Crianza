@@ -104,7 +104,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0c101a] to-[#090d15] border border-brand/30 shadow-xl flex flex-col gap-4">
+    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-surface to-canvas border border-brand/30 shadow-xl flex flex-col gap-4">
       {/* Encabezado con aclaración de reglas */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3.5">
         <div className="flex items-center gap-2.5">

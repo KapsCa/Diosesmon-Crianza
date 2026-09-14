@@ -163,9 +163,9 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
               onClick={() => handleStatToggle(key)}
               className={`p-2.5 rounded-lg border flex flex-col items-center justify-between cursor-pointer transition-all select-none ${
                 is31
-                  ? 'bg-success/10 border-success/50 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  ? 'bg-success/10 border-success/50 shadow-[0_0_12px] shadow-success/15'
                   : is0
-                  ? 'bg-warning/10 border-warning/50 shadow-[0_0_12px_rgba(245,158,11,0.15)]'
+                  ? 'bg-warning/10 border-warning/50 shadow-[0_0_12px] shadow-warning/15'
                   : 'bg-surface-sunken/60 border-line opacity-70 hover:opacity-100'
               }`}
             >
