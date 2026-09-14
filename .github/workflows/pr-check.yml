@@ -99,7 +99,13 @@ jobs:
           !startsWith(github.head_ref, 'dependabot/') &&
           github.actor != 'dependabot[bot]' &&
           github.actor != 'github-actions[bot]'
-        run: node --test .github/scripts/parse-linked-issues.test.cjs
+        # Files are listed explicitly on purpose: `node --test <dir>` does not discover
+        # test files (it tries to load the directory as a module), and a bare
+        # `node --test` walks into the TypeScript tests under tests/ and fails them.
+        run: >-
+          node --test
+          .github/scripts/parse-linked-issues.test.cjs
+          .github/scripts/verify-deployed-build.test.mjs
 
   check-issue-reference:
     name: Check Issue Reference
