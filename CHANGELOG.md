@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.2.1...v1.3.0) (2026-09-14)
+
+
+### Features
+
+* **ui:** replace the logo with the new egg and crown mark ([b0efc7d](https://github.com/KapsCa/Diosesmon-Crianza/commit/b0efc7dfb41fb71e5e13c9faec74a92516abdf9f))
+* **ui:** replace the logo with the new egg and crown mark ([7e5eb1a](https://github.com/KapsCa/Diosesmon-Crianza/commit/7e5eb1a90a32ccc9be6f1254a2d3405692a129ba))
+
 ## [1.2.1](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.2.0...v1.2.1) (2026-09-13)
 
 
