@@ -35,7 +35,7 @@ jobs:
           !startsWith(github.head_ref, 'dependabot/') &&
           github.actor != 'dependabot[bot]' &&
           github.actor != 'github-actions[bot]'
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const limit = 400;
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Run workflow script tests
         if: >-
           !startsWith(github.head_ref, 'release-please--') &&
@@ -88,7 +88,7 @@ jobs:
       issue-numbers: ${{ steps.parse.outputs.issue-numbers }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Verify PR body references an issue
         if: >-
           !startsWith(github.head_ref, 'release-please--') &&
@@ -96,7 +96,7 @@ jobs:
           github.actor != 'dependabot[bot]' &&
           github.actor != 'github-actions[bot]'
         id: parse
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const { parseLinkedIssues } = require(
@@ -138,7 +138,7 @@ jobs:
           !startsWith(github.head_ref, 'dependabot/') &&
           github.actor != 'dependabot[bot]' &&
           github.actor != 'github-actions[bot]'
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           ISSUE_NUMBERS: ${{ needs.check-issue-reference.outputs.issue-numbers }}
         with:
@@ -198,7 +198,7 @@ jobs:
           !startsWith(github.head_ref, 'dependabot/') &&
           github.actor != 'dependabot[bot]' &&
           github.actor != 'github-actions[bot]'
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
