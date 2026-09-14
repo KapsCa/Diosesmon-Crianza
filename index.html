@@ -24,6 +24,16 @@
       }
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!--
+      The three self-hosted webfonts, preloaded so the browser starts fetching
+      them while it parses the bundle instead of waiting to discover them in the
+      CSS. `crossorigin` is required for font preloads even same-origin, and the
+      leading `/` paths are rewritten with the deploy base by Vite.
+      All three together are 82 kB against a 609 kB JS bundle.
+    -->
+    <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Suite táctica y calculadora algorítmica determinista de crianza Pokémon para la comunidad y servidor de Cobblemon Diosesmon." />
     <title>Diosesmon Crianza Pro — Tactical Breeding Optimizer</title>

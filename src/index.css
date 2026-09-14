@@ -1,6 +1,49 @@
 @import "tailwindcss";
 
 /*
+ * Self-hosted webfonts, `latin` subset only.
+ *
+ * The three families declared in the type stacks below never loaded: there was no
+ * @font-face and no <link>, so every stack silently fell back to the system font.
+ * A missing webfont looks identical to a working one, which is why this went
+ * unnoticed. The files live in `public/fonts` rather than being imported as
+ * assets so the names stay stable and index.html can preload them.
+ *
+ * Only the `latin` subset ships: it covers Latin-1 Supplement, which is what
+ * Spanish needs (accented vowels, ñ). Other subsets would add weight the UI never
+ * renders. All three are variable fonts, so one file per family covers the whole
+ * weight range the interface uses — 82 kB for the three, against a 609 kB JS
+ * bundle. Self-hosted rather than a Google Fonts CDN link on purpose: no third
+ * party, and no external request that can fail invisibly.
+ *
+ * `font-display: swap` keeps text readable in the fallback while the file loads,
+ * instead of leaving it invisible.
+ */
+@font-face {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/sora-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+}
+
+/*
  * Design tokens.
  *
  * Names describe the ROLE, not the colour, so the palette can be re-based
@@ -88,13 +131,18 @@
   --color-info: #5c7cc1;
 
   /*
-   * Type. index.html does not load any webfont yet, so all three stacks fall
-   * back to the system font today; they are declared here so adding the font
-   * links is a one-file change later.
+   * Type. All three families are self-hosted from `public/fonts` and declared in
+   * the @font-face block at the top of this file.
+   *
+   * The webfont comes FIRST in each stack. It has to: the browser picks the first
+   * family it can resolve, so a generic keyword ahead of the webfont can never be
+   * beaten. `--font-mono` used to start with `ui-monospace`, which every modern
+   * system resolves, so "JetBrains Mono" would not have applied even once the file
+   * was loading. The generics stay after it as the fallback for a failed load.
    */
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-heading: "Sora", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
 }
 
 :root {
