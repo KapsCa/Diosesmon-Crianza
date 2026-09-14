@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.4](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.3...v1.3.4) (2026-09-14)
+
+
+### Bug Fixes
+
+* **ui:** read the release version from package.json instead of a stale footer literal ([9bd4690](https://github.com/KapsCa/Diosesmon-Crianza/commit/9bd46906f6f25a223aa89bd803965d0a1b7a3902))
+* **ui:** read the release version from package.json instead of a stale footer literal ([7b3cd59](https://github.com/KapsCa/Diosesmon-Crianza/commit/7b3cd59d35b70072325b6fa091339aa67a6e82c8)), closes [#60](https://github.com/KapsCa/Diosesmon-Crianza/issues/60)
+
 ## [1.3.3](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.2...v1.3.3) (2026-09-14)
 
 
