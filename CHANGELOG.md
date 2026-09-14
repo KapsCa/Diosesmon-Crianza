@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.3](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.2...v1.3.3) (2026-09-14)
+
+
+### Bug Fixes
+
+* **ci:** stop cancelling PR validation runs so a required check cannot be left cancelled ([3d6409f](https://github.com/KapsCa/Diosesmon-Crianza/commit/3d6409f79f24354b008f3d0412912c4f46a2c279))
+* **ci:** stop cancelling PR validation runs so a required check cannot be left cancelled ([8c1de4c](https://github.com/KapsCa/Diosesmon-Crianza/commit/8c1de4c1576064894822b7c98805d9320a6003a7)), closes [#51](https://github.com/KapsCa/Diosesmon-Crianza/issues/51)
+
 ## [1.3.2](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.1...v1.3.2) (2026-09-14)
 
 
