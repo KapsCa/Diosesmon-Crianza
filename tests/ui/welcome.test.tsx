@@ -88,4 +88,16 @@ describe('presentation screen styling', () => {
 
     expect(source).not.toMatch(/\b(purple|slate|indigo|emerald|sky|pink)-\d{2,3}\b/);
   });
+
+  // ink-faint measures 3.76 to 1 on surface-sunken and 4.06 on the canvas, both under
+  // the 4.5 floor for small text — the palette work documented that and avoided it. The
+  // presentation is entirely small text, so it must not reach for it.
+  it('never uses ink-faint, which measures below AA at these sizes', () => {
+    const source = readFileSync(
+      repoPath('src/adapters/ui/components/organisms/WelcomeScreen.tsx'),
+      'utf8',
+    );
+
+    expect(source).not.toContain('text-ink-faint');
+  });
 });
