@@ -11,6 +11,7 @@ import { Gender } from '../../../../domain/types/pokemon';
 import { POKEMON_SPECIES_LIST, findSpeciesById, findSpeciesByName } from '../../../../domain/data/speciesData';
 import { DIOSESMON_OFFICIAL_COST_MODEL } from '../../../../domain/types/costs';
 import { DiosesmonLogo } from '../atoms/DiosesmonLogo';
+import { WelcomeScreen } from '../organisms/WelcomeScreen';
 import { IVProfileBuilder, type IVTargetConfig, COMMON_NATURES } from '../molecules/IVProfileBuilder';
 import { StrategySelector, type BreedingStrategy } from '../molecules/StrategySelector';
 import { PCProgenitorBank } from '../molecules/PCProgenitorBank';
@@ -40,6 +41,7 @@ import {
   Target,
   PiggyBank,
   Zap,
+  User,
 } from 'lucide-react';
 
 interface IVsMapAppState {
@@ -81,6 +83,13 @@ const POPULAR_SPECIES = [
 export const IVsMapApp: React.FC = () => {
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'planner' | 'checklist' | 'pc' | 'rules'>('planner');
+  // The application opens on the presentation screen. The planner flow is untouched:
+  // it simply is not the first thing you see. Reached from the welcome CTA.
+  const [showWelcome, setShowWelcome] = useState(true);
+  const startPlanning = () => {
+    setShowWelcome(false);
+    setActiveTab('planner');
+  };
 
   // Modo de inicio: 'scratch' (empezar de 0) vs 'existing' (ya tengo uno)
   const [startingMode, setStartingMode] = useState<'scratch' | 'existing'>('scratch');
@@ -1340,28 +1349,28 @@ export const IVsMapApp: React.FC = () => {
   return (
     <div className="ivsmap-app flex flex-col gap-6 max-w-7xl mx-auto px-4 py-6">
       {/* Header institucional Diosesmon */}
-      <header className="ivsmap-header flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <header className="ivsmap-header flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-line pb-5">
         <div className="flex items-center gap-3">
           <DiosesmonLogo />
           <div>
-            <h1 className="text-xl font-black tracking-tight text-white font-['Sora']">
+            <h1 className="text-xl font-black tracking-tight text-ink font-['Sora']">
               IVsMap
             </h1>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-ink-muted">
               Planificador de Crianza • Cobblemon Diosesmon
             </p>
           </div>
         </div>
 
         {/* Navigation tabs */}
-        <nav className="flex items-center gap-1.5 p-1 rounded-xl bg-surface border border-slate-800">
+        <nav className="flex items-center gap-1.5 p-1 rounded-xl bg-surface border border-line">
           <button
             type="button"
             onClick={() => setActiveTab('planner')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'planner'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-brand text-ink shadow-[0_0_12px] shadow-brand/25 font-semibold'
+                : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
             }`}
           >
             <GitBranch className="w-3.5 h-3.5" />
@@ -1372,8 +1381,8 @@ export const IVsMapApp: React.FC = () => {
             onClick={() => setActiveTab('pc')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'pc'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-brand text-ink shadow-[0_0_12px] shadow-brand/25 font-semibold'
+                : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
             }`}
           >
             <Database className="w-3.5 h-3.5" />
@@ -1384,8 +1393,8 @@ export const IVsMapApp: React.FC = () => {
             onClick={() => setActiveTab('rules')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'rules'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-brand text-ink shadow-[0_0_12px] shadow-brand/25 font-semibold'
+                : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -1396,19 +1405,42 @@ export const IVsMapApp: React.FC = () => {
             onClick={() => setActiveTab('checklist')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
               activeTab === 'checklist'
-                ? 'bg-purple-600 text-white shadow-lg shadow-purple-900/30 font-semibold'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                ? 'bg-brand text-ink shadow-[0_0_12px] shadow-brand/25 font-semibold'
+                : 'text-ink-muted hover:text-ink hover:bg-surface-raised'
             }`}
           >
             <ClipboardList className="w-3.5 h-3.5" />
             <span>Checklist</span>
           </button>
         </nav>
+
+            {/*
+              Session slot, deliberately inert. There is no identity layer yet: the PC
+              bank lives in this browser's localStorage as a single implicit profile. A
+              control that looks like it signs you in but does nothing would be a lie, so
+              this one is disabled and its label says why. The storage contract is
+              designed in #77 and lands after the breeding engine.
+            */}
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              title="Perfiles: próximamente"
+              className="flex items-center gap-1.5 rounded-xl border border-line bg-surface px-3 py-2 text-xs font-medium text-ink-faint cursor-not-allowed"
+            >
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Perfiles</span>
+            </button>
       </header>
 
       {/* Contenido principal según pestaña activa */}
       <main className="ivsmap-main">
-        {activeTab === 'planner' && (
+
+          {showWelcome && <WelcomeScreen onStart={startPlanning} />}
+
+          {/* Every tab is gated on !showWelcome so the presentation replaces the flow
+              instead of stacking above it. */}
+        {!showWelcome && activeTab === 'planner' && (
           <>
             {state.formStep === 'select-species' && renderSpeciesSelector()}
 
@@ -1422,18 +1454,18 @@ export const IVsMapApp: React.FC = () => {
           </>
         )}
 
-        {activeTab === 'checklist' && (
+        {!showWelcome && activeTab === 'checklist' && (
           <DaycareChecklist targetSpeciesName={state.goalSpecies?.name || 'Pokémon Objetivo'} />
         )}
 
-        {activeTab === 'pc' && (
+        {!showWelcome && activeTab === 'pc' && (
           <PCProgenitorBank
             selectedSpeciesName={state.goalSpecies?.name}
             onSelectProgenitor={handleProgenitorFromBank}
           />
         )}
 
-        {activeTab === 'rules' && <CompatibilityRulesMatrix />}
+        {!showWelcome && activeTab === 'rules' && <CompatibilityRulesMatrix />}
       </main>
 
       {/* Modal rápido del Banco PC */}
@@ -1451,6 +1483,17 @@ export const IVsMapApp: React.FC = () => {
             gone: they were retyped from a source of truth no UI reads, and they
             listed three of the eight items. Money belongs next to the plan. */}
         <span>Diosesmon Crianza Pro • v{__APP_VERSION__}</span>
+            <span>
+              Desarrollado por{' '}
+              <a
+                href="https://github.com/KapsCa"
+                target="_blank"
+                rel="noreferrer"
+                className="text-brand-soft underline-offset-2 transition-colors hover:text-ink hover:underline"
+              >
+                @KapsCa
+              </a>
+            </span>
       </footer>
     </div>
   );
