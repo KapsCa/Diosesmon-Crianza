@@ -157,10 +157,10 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
 
   return (
     <div ref={containerRef} className="species-selector w-full flex flex-col gap-2 relative">
-      <label htmlFor="species-search-input" className="text-xs font-semibold text-slate-300 flex items-center justify-between">
+      <label htmlFor="species-search-input" className="text-xs font-semibold text-ink flex items-center justify-between">
         <span>Especie Pokémon Objetivo</span>
         {currentSelectedSpecies && (
-          <span className="text-[11px] font-mono text-purple-400">
+          <span className="text-[11px] font-mono text-brand-soft">
             #{String(currentSelectedSpecies.id).padStart(3, '0')} • {currentSelectedSpecies.name}
           </span>
         )}
@@ -196,8 +196,8 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
       <div
         className={`w-full rounded-xl border transition-all duration-200 bg-canvas flex items-center gap-2.5 px-3 py-2 ${
           isOpen
-            ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-lg shadow-purple-950/20'
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-brand ring-2 ring-brand/20 shadow-lg shadow-brand/20'
+            : 'border-line hover:border-line-strong'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text'}`}
         onClick={() => {
           if (!disabled) {
@@ -207,7 +207,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
         }}
       >
         {/* Sprite del Pokémon seleccionado o Icono de Búsqueda */}
-        <div className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden">
+        <div className="w-9 h-9 rounded-lg bg-surface-sunken border border-line flex items-center justify-center shrink-0 overflow-hidden">
           {currentSelectedSpecies ? (
             <img
               src={getSpriteUrl(currentSelectedSpecies.id)}
@@ -220,7 +220,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
               }}
             />
           ) : (
-            <Search className="w-4 h-4 text-slate-500" />
+            <Search className="w-4 h-4 text-ink-faint" />
           )}
         </div>
 
@@ -230,7 +230,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
             ref={inputRef}
             id="species-search-input"
             type="text"
-            className="w-full bg-transparent text-sm font-medium text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-sm font-medium text-white placeholder:text-ink-faint focus:outline-none"
             placeholder={
               currentSelectedSpecies
                 ? `${currentSelectedSpecies.name} (Escribe para cambiar...)`
@@ -244,9 +244,9 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
             autoComplete="off"
           />
           {currentSelectedSpecies && !searchTerm && (
-            <div className="text-[10px] text-slate-400 truncate flex items-center gap-1.5 mt-0.5">
+            <div className="text-[10px] text-ink-muted truncate flex items-center gap-1.5 mt-0.5">
               <span>Grupos:</span>
-              <span className="text-purple-300">
+              <span className="text-brand-soft">
                 {currentSelectedSpecies.eggGroups
                   .map((g) => EGG_GROUP_NAMES_ES[g.name as EggGroup] || g.name)
                   .join(', ')}
@@ -259,7 +259,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
         {searchTerm && (
           <button
             type="button"
-            className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-md text-ink-muted hover:text-white hover:bg-surface-raised transition-colors"
             onClick={(e) => {
               e.stopPropagation();
               setSearchTerm('');
@@ -275,7 +275,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
         <button
           type="button"
           tabIndex={-1}
-          className="p-1 text-slate-400 hover:text-white transition-transform duration-200"
+          className="p-1 text-ink-muted hover:text-white transition-transform duration-200"
           onClick={(e) => {
             e.stopPropagation();
             if (!disabled) {
@@ -284,37 +284,37 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
           }}
           aria-label={isOpen ? 'Cerrar lista' : 'Abrir lista'}
         >
-          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-purple-400' : ''}`} />
+          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-brand-soft' : ''}`} />
         </button>
       </div>
 
       {/* Menú Desplegable Unificado con Sprites de cada Pokémon */}
       {isOpen && !disabled && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-1.5 bg-surface border border-purple-500/30 rounded-xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col backdrop-blur-md max-h-72">
+        <div className="absolute z-50 top-full left-0 right-0 mt-1.5 bg-surface border border-brand/30 rounded-xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col backdrop-blur-md max-h-72">
           {/* Header informativo dentro del select */}
-          <div className="px-3 py-2 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="px-3 py-2 bg-surface-sunken/90 border-b border-line flex items-center justify-between text-[11px] text-ink-muted">
             <span className="flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-purple-400" />
+              <Sparkles className="w-3 h-3 text-brand-soft" />
               {filteredSpecies.length} especies encontradas
               {filteredSpecies.length > MAX_VISIBLE_SPECIES && (
-                <span className="text-slate-500">
+                <span className="text-ink-faint">
                   · mostrando {MAX_VISIBLE_SPECIES}, afiná la búsqueda
                 </span>
               )}
             </span>
-            {searchTerm && <span className="font-mono text-purple-300">Filtro: "{searchTerm}"</span>}
+            {searchTerm && <span className="font-mono text-brand-soft">Filtro: "{searchTerm}"</span>}
           </div>
 
           {/* Filtro rápido por Generación (1 a 9) */}
-          <div className="px-2 py-1.5 bg-canvas border-b border-slate-800/80 flex items-center gap-1 overflow-x-auto text-[10px] scrollbar-none">
-            <span className="text-slate-500 shrink-0 px-1 font-semibold">Gen:</span>
+          <div className="px-2 py-1.5 bg-canvas border-b border-line/80 flex items-center gap-1 overflow-x-auto text-[10px] scrollbar-none">
+            <span className="text-ink-faint shrink-0 px-1 font-semibold">Gen:</span>
             <button
               type="button"
               onClick={() => setSelectedGen('all')}
               className={`px-2 py-0.5 rounded-md font-medium shrink-0 transition-colors ${
                 selectedGen === 'all'
-                  ? 'bg-purple-600 text-white font-bold'
-                  : 'bg-slate-800/60 text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-brand text-white font-bold'
+                  : 'bg-surface-raised/60 text-ink-muted hover:text-white hover:bg-surface-raised'
               }`}
             >
               Todas (1025)
@@ -326,8 +326,8 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
                 onClick={() => setSelectedGen(genNum)}
                 className={`px-2 py-0.5 rounded-md font-medium shrink-0 transition-colors ${
                   selectedGen === genNum
-                    ? 'bg-purple-600 text-white font-bold'
-                    : 'bg-slate-800/60 text-slate-400 hover:text-white hover:bg-slate-800'
+                    ? 'bg-brand text-white font-bold'
+                    : 'bg-surface-raised/60 text-ink-muted hover:text-white hover:bg-surface-raised'
                 }`}
               >
                 Gen {genNum}
@@ -336,9 +336,9 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
           </div>
 
           {/* Lista scrolleable con sprites */}
-          <div className="overflow-y-auto flex-1 divide-y divide-slate-800/50 p-1">
+          <div className="overflow-y-auto flex-1 divide-y divide-line/50 p-1">
             {filteredSpecies.length === 0 ? (
-              <div className="p-4 text-center text-xs text-slate-400">
+              <div className="p-4 text-center text-xs text-ink-muted">
                 No se encontró ninguna especie con ese criterio.
               </div>
             ) : (
@@ -351,14 +351,14 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
                     aria-label={species.name}
                     className={`w-full text-left px-3 py-2 rounded-lg flex items-center justify-between gap-3 transition-colors ${
                       isSelected
-                        ? 'bg-purple-600/20 text-white border border-purple-500/40'
-                        : 'hover:bg-slate-800/80 text-slate-200 hover:text-white'
+                        ? 'bg-brand/20 text-white border border-brand/40'
+                        : 'hover:bg-surface-raised/80 text-ink hover:text-white'
                     }`}
                     onClick={() => handleSelectSpecies(species)}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       {/* Sprite de Pokémon */}
-                      <div className="w-8 h-8 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded bg-surface-sunken/80 border border-line flex items-center justify-center shrink-0">
                         <img
                           src={getSpriteUrl(species.id)}
                           alt={species.name}
@@ -374,14 +374,14 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold truncate">{species.name}</span>
-                          <span className="text-[10px] font-mono text-slate-500">
+                          <span className="text-[10px] font-mono text-ink-faint">
                             #{String(species.id).padStart(3, '0')}
                           </span>
-                          <span className="text-[9px] px-1 py-0.2 rounded bg-slate-800 text-slate-400 font-mono">
+                          <span className="text-[9px] px-1 py-0.2 rounded bg-surface-raised text-ink-muted font-mono">
                             Gen {species.gen}
                           </span>
                         </div>
-                        <div className="text-[10px] text-slate-400 truncate">
+                        <div className="text-[10px] text-ink-muted truncate">
                           {species.eggGroups
                             .map((g) => EGG_GROUP_NAMES_ES[g.name as EggGroup] || g.name)
                             .join(', ')}
@@ -390,7 +390,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
                     </div>
 
                     {isSelected && (
-                      <div className="flex items-center gap-1 text-purple-400 text-xs font-semibold shrink-0">
+                      <div className="flex items-center gap-1 text-brand-soft text-xs font-semibold shrink-0">
                         <Check className="w-4 h-4" />
                       </div>
                     )}

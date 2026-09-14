@@ -82,13 +82,13 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
   const getSpriteUrl = (id: number) =>
     `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
-  const statList: { key: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed'; label: string; icon: React.ReactNode; color: string }[] = [
-    { key: 'hp', label: 'PS', icon: <Heart className="w-3 h-3" />, color: 'text-rose-400' },
-    { key: 'attack', label: 'Atk', icon: <Sword className="w-3 h-3" />, color: 'text-amber-400' },
-    { key: 'defense', label: 'Def', icon: <Shield className="w-3 h-3" />, color: 'text-blue-400' },
-    { key: 'spatk', label: 'SpA', icon: <Wand2 className="w-3 h-3" />, color: 'text-purple-400' },
-    { key: 'spdef', label: 'SpD', icon: <Shield className="w-3 h-3" />, color: 'text-teal-400' },
-    { key: 'speed', label: 'Spe', icon: <Gauge className="w-3 h-3" />, color: 'text-cyan-400' },
+  const statList: { key: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed'; label: string; icon: React.ReactNode }[] = [
+    { key: 'hp', label: 'PS', icon: <Heart className="w-3 h-3" /> },
+    { key: 'attack', label: 'Atk', icon: <Sword className="w-3 h-3" /> },
+    { key: 'defense', label: 'Def', icon: <Shield className="w-3 h-3" /> },
+    { key: 'spatk', label: 'SpA', icon: <Wand2 className="w-3 h-3" /> },
+    { key: 'spdef', label: 'SpD', icon: <Shield className="w-3 h-3" /> },
+    { key: 'speed', label: 'Spe', icon: <Gauge className="w-3 h-3" /> },
   ];
 
   const filteredSpecies = React.useMemo(() => {
@@ -117,8 +117,8 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
     <div
       className={`role-slot p-4 rounded-2xl bg-canvas border transition-all relative flex flex-col gap-3.5 shadow-xl ${
         isMother
-          ? 'border-pink-500/40 hover:border-pink-500/60 shadow-pink-950/10'
-          : 'border-blue-500/40 hover:border-blue-500/60 shadow-blue-950/10'
+          ? 'border-role-female/40 hover:border-role-female/60 shadow-role-female/10'
+          : 'border-role-male/40 hover:border-role-male/60 shadow-role-male/10'
       }`}
       data-gender={gender}
       data-readonly={isFixedGender.toString()}
@@ -130,7 +130,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
 
       {/* 2. Toggle solo para Pokémon genderless requerido por test */}
       {isGenderless && (
-        <div className="gender-toggle flex items-center gap-3 text-xs text-slate-300" role="radiogroup" aria-label="Seleccionar rol para Pokémon sin género">
+        <div className="gender-toggle flex items-center gap-3 text-xs text-ink" role="radiogroup" aria-label="Seleccionar rol para Pokémon sin género">
           <label className="flex items-center gap-1.5 cursor-pointer">
             <input
               type="radio"
@@ -164,19 +164,19 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
 
       {/* 3. Badge de género fijo requerido por test (parentElement directo de "Male" o "Female") */}
       {isFixedGender && (
-        <span className="fixed-gender-badge text-xs font-semibold text-slate-400">
+        <span className="fixed-gender-badge text-xs font-semibold text-ink-muted">
           {gender.charAt(0).toUpperCase() + gender.slice(1)}
         </span>
       )}
 
       {/* Header visual enriquecido con Rol y Regla de Especie */}
-      <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+      <div className="flex items-center justify-between gap-2 border-b border-line pb-2.5">
         <div className="flex items-center gap-2">
           <div
             className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold ${
               isMother
-                ? 'bg-pink-500/20 text-pink-300 border border-pink-500/40'
-                : 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                ? 'bg-role-female/20 text-role-female border border-role-female/40'
+                : 'bg-role-male/20 text-role-male border border-role-male/40'
             }`}
           >
             {isMother ? '♀' : '♂'}
@@ -185,7 +185,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
             <h5 className="text-xs font-bold text-white tracking-wide uppercase">
               {isMother ? 'Madre / Progenitor A' : 'Padre / Progenitor B'}
             </h5>
-            <span className="text-[10px] text-slate-400">
+            <span className="text-[10px] text-ink-muted">
               {isMother
                 ? 'Define la especie del huevo'
                 : 'Donante de IVs & movimientos'}
@@ -200,7 +200,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
               type="button"
               onClick={onOpenPCModal}
               title="Cargar Pokémon guardado en el Banco PC"
-              className="px-2 py-1 rounded-md bg-purple-950/50 hover:bg-purple-900/70 border border-purple-700/60 text-purple-300 hover:text-white text-[11px] font-medium transition-all flex items-center gap-1"
+              className="px-2 py-1 rounded-md bg-brand/10 hover:bg-brand/20 border border-brand/40 text-brand-soft hover:text-white text-[11px] font-medium transition-all flex items-center gap-1"
             >
               <Database className="w-3 h-3" />
               <span>Banco PC</span>
@@ -211,7 +211,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
             type="button"
             onClick={() => setShowSpeciesPicker(!showSpeciesPicker)}
             title="Seleccionar otra especie para este slot"
-            className="px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 hover:text-white text-[11px] font-medium transition-all flex items-center gap-1"
+            className="px-2 py-1 rounded-md bg-surface-raised hover:bg-line border border-line-strong text-ink hover:text-white text-[11px] font-medium transition-all flex items-center gap-1"
           >
             <Search className="w-3 h-3" />
             <span>Cambiar</span>
@@ -222,13 +222,13 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
 
       {/* Modal/Desplegable inline de selección de especie */}
       {showSpeciesPicker && (
-        <div className="p-2.5 rounded-xl bg-slate-900 border border-purple-500/40 flex flex-col gap-2 shadow-2xl z-20">
-          <div className="flex items-center justify-between text-[11px] text-slate-300 font-semibold border-b border-slate-800 pb-1.5">
+        <div className="p-2.5 rounded-xl bg-surface-sunken border border-brand/40 flex flex-col gap-2 shadow-2xl z-20">
+          <div className="flex items-center justify-between text-[11px] text-ink font-semibold border-b border-line pb-1.5">
             <span>Seleccionar especie compatible:</span>
             <button
               type="button"
               onClick={() => setShowSpeciesPicker(false)}
-              className="text-slate-400 hover:text-white"
+              className="text-ink-muted hover:text-white"
             >
               ✕
             </button>
@@ -238,9 +238,9 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
             placeholder="Buscar por nombre o número (#)..."
             value={speciesSearch}
             onChange={(e) => setSpeciesSearch(e.target.value)}
-            className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-canvas border border-slate-700 text-white placeholder:text-slate-500 focus:outline-none focus:border-purple-500"
+            className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-canvas border border-line-strong text-white placeholder:text-ink-faint focus:outline-none focus:border-brand"
           />
-          <div className="max-h-40 overflow-y-auto divide-y divide-slate-800/60 pr-1">
+          <div className="max-h-40 overflow-y-auto divide-y divide-line/60 pr-1">
             {filteredSpecies.map((sp) => (
               <button
                 key={sp.id}
@@ -249,7 +249,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                   if (onSpeciesChange) onSpeciesChange(sp);
                   setShowSpeciesPicker(false);
                 }}
-                className="w-full px-2 py-1.5 flex items-center justify-between gap-2 text-left hover:bg-slate-800/80 rounded transition-colors text-xs text-slate-200"
+                className="w-full px-2 py-1.5 flex items-center justify-between gap-2 text-left hover:bg-surface-raised/80 rounded transition-colors text-xs text-ink"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <img
@@ -263,7 +263,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                   />
                   <span className="font-medium truncate">{sp.name}</span>
                 </div>
-                <span className="text-[10px] text-slate-500 font-mono">#{sp.id}</span>
+                <span className="text-[10px] text-ink-faint font-mono">#{sp.id}</span>
               </button>
             ))}
           </div>
@@ -271,8 +271,8 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
       )}
 
       {/* Tarjeta del Pokémon actual con Sprite y Grupos */}
-      <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface border border-slate-800/80">
-        <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
+      <div className="flex items-center gap-3 p-2.5 rounded-xl bg-surface border border-line/80">
+        <div className="w-12 h-12 rounded-xl bg-surface-sunken border border-line flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
           <img
             src={getSpriteUrl(species.id)}
             alt={species.name}
@@ -287,14 +287,14 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
         <div className="flex flex-col min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold text-white truncate">{species.name}</span>
-            <span className="text-[10px] font-mono text-purple-400">
+            <span className="text-[10px] font-mono text-brand-soft">
               #{String(species.id).padStart(3, '0')}
             </span>
           </div>
 
-          <div className="text-[11px] text-slate-400 truncate flex items-center gap-1.5 mt-0.5">
+          <div className="text-[11px] text-ink-muted truncate flex items-center gap-1.5 mt-0.5">
             <span>Grupos:</span>
-            <span className="text-purple-300 font-medium truncate">
+            <span className="text-brand-soft font-medium truncate">
               {species.eggGroups
                 ?.map((g) => EGG_GROUP_NAMES_ES[g.name as EggGroup] || g.name)
                 .join(', ') || 'Desconocido'}
@@ -306,27 +306,27 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
       {/* Selector interactivo de IVs del Progenitor */}
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center justify-between text-[11px]">
-          <span className="font-semibold text-slate-300 flex items-center gap-1">
-            <Sparkles className="w-3 h-3 text-purple-400" />
+          <span className="font-semibold text-ink flex items-center gap-1">
+            <Sparkles className="w-3 h-3 text-brand-soft" />
             {isIVReadOnly
               ? 'IVs del Ejemplar (Banco PC):'
               : 'IVs del Progenitor (Haz clic para alternar 31 / 0 / 15):'}
           </span>
           <div className="flex items-center gap-1.5">
             {isIVReadOnly && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 border border-purple-700/60 font-medium flex items-center gap-1">
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-brand/10 text-brand-soft border border-brand/40 font-medium flex items-center gap-1">
                 <Lock className="w-2.5 h-2.5" />
                 <span>Bloqueado (PC)</span>
               </span>
             )}
-            <span className="text-[10px] font-mono text-slate-500">
+            <span className="text-[10px] font-mono text-ink-faint">
               {Object.values(ivs).filter((v) => v === 31).length}x31
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-6 gap-1.5">
-          {statList.map(({ key, label, icon, color }) => {
+          {statList.map(({ key, label, icon }) => {
             const val = ivs[key] ?? 31;
             const is31 = val === 31;
             const is0 = val === 0;
@@ -340,13 +340,13 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                 className={`py-1.5 px-1 rounded-lg border flex flex-col items-center justify-center transition-all ${
                   isIVReadOnly
                     ? 'cursor-default opacity-85 select-none'
-                    : 'cursor-pointer hover:border-purple-400'
+                    : 'cursor-pointer hover:border-brand-soft'
                 } ${
                   is31
-                    ? 'bg-emerald-950/40 border-emerald-500/60 text-emerald-300 font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                    ? 'bg-success/10 border-success/60 text-success font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
                     : is0
-                    ? 'bg-amber-950/40 border-amber-500/60 text-amber-300 font-bold'
-                    : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    ? 'bg-warning/10 border-warning/60 text-warning font-bold'
+                    : 'bg-surface-sunken/60 border-line text-ink-muted hover:border-line-strong'
                 }`}
                 title={
                   isIVReadOnly
@@ -355,7 +355,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                 }
               >
                 <div className="flex items-center gap-0.5 text-[9px] font-mono">
-                  <span className={color}>{icon}</span>
+                  <span className="text-ink-faint">{icon}</span>
                   <span>{label}</span>
                 </div>
                 <span className="text-xs font-mono mt-0.5">
@@ -367,16 +367,16 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
         </div>
 
         {isIVReadOnly && (
-          <p className="text-[10px] text-slate-400 italic">
+          <p className="text-[10px] text-ink-muted italic">
             Los IVs de este ejemplar fueron registrados en el Banco PC y no pueden modificarse aquí.
           </p>
         )}
       </div>
 
       {/* Selector de Objeto Equipado (Held Item) */}
-      <div className="flex flex-col gap-1 pt-1 border-t border-slate-800/60">
-        <label className="text-[11px] font-medium text-slate-400 flex items-center gap-1.5">
-          <Package className="w-3 h-3 text-purple-400" />
+      <div className="flex flex-col gap-1 pt-1 border-t border-line/60">
+        <label className="text-[11px] font-medium text-ink-muted flex items-center gap-1.5">
+          <Package className="w-3 h-3 text-brand-soft" />
           <span>Objeto Equipado:</span>
         </label>
         <select
@@ -400,7 +400,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
               onHeldItemChange(null);
             }
           }}
-          className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-surface border border-slate-800 text-white focus:outline-none focus:border-purple-500"
+          className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-surface border border-line text-white focus:outline-none focus:border-brand"
         >
           {HELD_ITEMS_OPTIONS.map((opt) => (
             <option
