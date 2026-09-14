@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.0...v1.3.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* **ci:** publish a real build to GitHub Pages instead of the raw source tree ([787b793](https://github.com/KapsCa/Diosesmon-Crianza/commit/787b793ba70b47d63ed1757b3439ff23cc90ded0))
+* **ci:** publish a real build to GitHub Pages instead of the raw source tree ([6f3e2f1](https://github.com/KapsCa/Diosesmon-Crianza/commit/6f3e2f180fd18f3e00ca1443620366378f77cb50)), closes [#42](https://github.com/KapsCa/Diosesmon-Crianza/issues/42)
+
 ## [1.3.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.2.1...v1.3.0) (2026-09-14)
 
 
