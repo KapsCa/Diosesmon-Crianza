@@ -1445,9 +1445,12 @@ export const IVsMapApp: React.FC = () => {
       />
 
       {/* Subtle brand footer */}
-      <footer className="pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 font-mono">
-        <span>Diosesmon Crianza Pro • Versión 1.0.0</span>
-        <span>Tarifas Tienda: 500 Pk$ Power Items • 500 Pk$ Piedra Eterna • Guardería Gratis</span>
+      <footer className="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-faint font-mono">
+        {/* The version is injected at build time from `package.json`, so it follows
+            every release on its own. The store tariffs that used to sit here are
+            gone: they were retyped from a source of truth no UI reads, and they
+            listed three of the eight items. Money belongs next to the plan. */}
+        <span>Diosesmon Crianza Pro • v{__APP_VERSION__}</span>
       </footer>
     </div>
   );
