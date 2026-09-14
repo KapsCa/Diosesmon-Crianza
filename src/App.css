@@ -168,7 +168,7 @@
 /* Buttons */
 .btn-generate {
   background: var(--color-brand);
-  color: #fff;
+  color: var(--color-ink);
   border: none;
   padding: 12px 24px;
   font-size: 15px;

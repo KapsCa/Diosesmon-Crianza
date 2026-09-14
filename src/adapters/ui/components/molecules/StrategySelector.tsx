@@ -31,7 +31,7 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
           onClick={() => onChange('economic')}
           className={`p-3.5 rounded-lg border text-left transition-all flex flex-col gap-1.5 ${
             strategy === 'economic'
-              ? 'bg-brand/10 border-brand shadow-[0_0_15px_rgba(168,85,247,0.15)] ring-1 ring-brand/40'
+              ? 'bg-brand/10 border-brand shadow-[0_0_15px] shadow-brand/15 ring-1 ring-brand/40'
               : 'bg-surface-sunken/40 border-line hover:border-line-strong opacity-70 hover:opacity-100'
           }`}
         >
@@ -61,7 +61,7 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
           onClick={() => onChange('ditto_speed')}
           className={`p-3.5 rounded-lg border text-left transition-all flex flex-col gap-1.5 ${
             strategy === 'ditto_speed'
-              ? 'bg-brand/10 border-brand shadow-[0_0_15px_rgba(168,85,247,0.15)] ring-1 ring-brand/40'
+              ? 'bg-brand/10 border-brand shadow-[0_0_15px] shadow-brand/15 ring-1 ring-brand/40'
               : 'bg-surface-sunken/40 border-line hover:border-line-strong opacity-70 hover:opacity-100'
           }`}
         >

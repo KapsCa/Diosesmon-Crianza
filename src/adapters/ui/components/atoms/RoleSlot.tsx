@@ -343,7 +343,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                     : 'cursor-pointer hover:border-brand-soft'
                 } ${
                   is31
-                    ? 'bg-success/10 border-success/60 text-success font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                    ? 'bg-success/10 border-success/60 text-success font-bold shadow-[0_0_8px] shadow-success/20'
                     : is0
                     ? 'bg-warning/10 border-warning/60 text-warning font-bold'
                     : 'bg-surface-sunken/60 border-line text-ink-muted hover:border-line-strong'
