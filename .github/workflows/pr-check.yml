@@ -9,9 +9,29 @@ permissions:
   pull-requests: read
   issues: read
 
+# `cancel-in-progress: false` is load-bearing, and this is why.
+#
+# The trigger list includes `edited`, because a human adding the issue reference
+# to the PR body has to re-run the issue check. But `pr-body.yml` also edits the
+# body, and that edit fires `edited` too, so opening a PR starts two runs about a
+# second apart. With `cancel-in-progress: true` one of them is killed, and a
+# killed run has already created its check runs and leaves them `cancelled`.
+#
+# GitHub evaluates the LAST check run per name, so when the cancelled run is the
+# newer one the required check never satisfies itself and the PR sits on
+# `mergeStateStatus: BLOCKED` with all seven checks reported as passing. The
+# step-level exemption for `github-actions[bot]` does not help: it only skips the
+# validation inside a run that manages to start, and a cancelled run never gets
+# that far. Measured on #50: run 34824148342 finished success at 08:43:12 and run
+# 34824148941 was cancelled at 08:43:13, leaving five duplicated names, five of
+# them cancelled.
+#
+# Do not set this back to `true`. The cost is that rapid successive pushes queue
+# instead of cancelling each other, which is slower but always reports a real
+# result. See #51.
 concurrency:
   group: pr-validation-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 # The exemption for automated pull requests lives on the validation STEPS, not on
 # the jobs, and that is deliberate. A job-level `if:` means the job never starts,
