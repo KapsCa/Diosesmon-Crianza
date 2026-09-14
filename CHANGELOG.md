@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.2](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.1...v1.3.2) (2026-09-14)
+
+
+### Bug Fixes
+
+* **ci:** make the type check actually run so the build cannot break silently ([e0a846e](https://github.com/KapsCa/Diosesmon-Crianza/commit/e0a846e2745a4a44ba8f0ccdf1a031ac0367375b))
+* **ci:** make the type check actually run so the build cannot break silently ([1560517](https://github.com/KapsCa/Diosesmon-Crianza/commit/156051702113a88e4627757c5e16fe448a93ade8)), closes [#45](https://github.com/KapsCa/Diosesmon-Crianza/issues/45)
+
 ## [1.3.1](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.0...v1.3.1) (2026-09-14)
 
 
