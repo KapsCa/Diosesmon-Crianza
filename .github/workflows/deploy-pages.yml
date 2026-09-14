@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+# `push` only, with a manual escape hatch. There is deliberately NO `pull_request`
+# trigger, and that absence is load-bearing: this workflow would never report a
+# check run on a pull request, so listing it as a required status check in branch
+# protection would leave every pull request stuck on "Expected — Waiting for status
+# to be reported" forever, with no failing check to explain it. Do not add
+# `pull_request` here, and do not mark this workflow's check as required.
+#
+# The repository previously had Pages set to the legacy "deploy from a branch"
+# source, which published the raw tree of `main`. That served the Vite development
+# `index.html`, whose `<script type="module" src="/src/main.tsx">` the browser
+# cannot execute, so production returned HTTP 200 with a blank page and no 404 to
+# warn anyone. This workflow is the fix: it builds and publishes `dist/` instead.
+#
+# This workflow does NOT switch the Pages source on its own — see the note on
+# `configure-pages` below. Setting `build_type: workflow` on the repository is a
+# required one-time step, or the artifact uploaded here is never served.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# The only place elevated permissions appear. `pages: write` and `id-token: write`
+# are both required by the Pages deployment actions; `contents: read` keeps the
+# rest of the token read-only.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: npm
+
+      # This step only *reads* the existing Pages site. It cannot change a site's
+      # source, and that is a trap worth knowing before you trust it: `enablement:
+      # true` calls the create-site API, which requires a token other than
+      # GITHUB_TOKEN, and it is only reached when no site exists at all. There is no
+      # `build_type` logic anywhere in this action. So the source flip is a one-time
+      # repository setting, not something this workflow can do:
+      #   gh api -X PUT repos/KapsCa/Diosesmon-Crianza/pages -f build_type=workflow
+      # A fork, a fresh clone, or anyone who re-enables "deploy from a branch" needs
+      # that command run again. Left in `legacy` mode, GitHub publishes the raw tree
+      # of `main` and this workflow's artifact is uploaded but never served.
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - run: npm ci
+
+      # `vite.config.ts` sets `base: '/Diosesmon-Crianza/'` because this is a
+      # project page. Without it the emitted asset URLs are root-absolute and 404
+      # under the /Diosesmon-Crianza/ path.
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
