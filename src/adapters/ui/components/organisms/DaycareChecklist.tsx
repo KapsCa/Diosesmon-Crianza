@@ -126,15 +126,15 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
   );
 
   return (
-    <div className="w-full flex flex-col gap-4 p-5 rounded-2xl bg-canvas border border-purple-500/25 shadow-xl">
+    <div className="w-full flex flex-col gap-4 p-5 rounded-2xl bg-canvas border border-brand/25 shadow-xl">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3">
         <div>
           <h3 className="text-lg font-bold font-['Sora'] text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-purple-400" />
+            <Sparkles className="w-4 h-4 text-brand-soft" />
             Checklist de Guardería en Vivo
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-ink-muted">
             Modo operativo paso a paso frente al NPC de Diosesmon
           </p>
         </div>
@@ -143,7 +143,7 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
           <button
             type="button"
             onClick={handleReset}
-            className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded bg-surface-sunken text-ink-muted hover:text-white border border-line transition-colors"
           >
             <RotateCcw className="w-3 h-3" />
             <span>Reiniciar Checklist</span>
@@ -153,42 +153,42 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
 
       {/* Progress & Live Telemetry Bar */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col gap-1.5">
-          <div className="flex items-center justify-between text-xs text-slate-400">
+        <div className="p-3 rounded-xl bg-surface-sunken/70 border border-line flex flex-col gap-1.5">
+          <div className="flex items-center justify-between text-xs text-ink-muted">
             <span>Progreso de Cruzas</span>
             <span className="font-mono text-white font-bold">{progressPercent}%</span>
           </div>
-          <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-surface-raised overflow-hidden">
             <div
               style={{ width: `${progressPercent}%` }}
-              className="h-full bg-gradient-to-r from-purple-500 to-emerald-400 transition-all duration-300"
+              className="h-full bg-gradient-to-r from-brand to-success transition-all duration-300"
             />
           </div>
-          <span className="text-[11px] text-slate-500 font-mono">
+          <span className="text-[11px] text-ink-faint font-mono">
             {completedCount} de {steps.length} cruzas completadas
           </span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col gap-1">
-          <span className="text-xs text-slate-400 flex items-center gap-1.5">
-            <Coins className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="p-3 rounded-xl bg-surface-sunken/70 border border-line flex flex-col gap-1">
+          <span className="text-xs text-ink-muted flex items-center gap-1.5">
+            <Coins className="w-3.5 h-3.5 text-success" />
             Pk$ Invertido (Gastado)
           </span>
-          <span className="text-lg font-bold font-mono text-emerald-400">
+          <span className="text-lg font-bold font-mono text-success">
             {totalSpent.toLocaleString()} Pk$
           </span>
-          <span className="text-[11px] text-slate-500">Tarifas e ítems quemados</span>
+          <span className="text-[11px] text-ink-faint">Tarifas e ítems quemados</span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col gap-1">
-          <span className="text-xs text-slate-400 flex items-center gap-1.5">
-            <Coins className="w-3.5 h-3.5 text-amber-400" />
+        <div className="p-3 rounded-xl bg-surface-sunken/70 border border-line flex flex-col gap-1">
+          <span className="text-xs text-ink-muted flex items-center gap-1.5">
+            <Coins className="w-3.5 h-3.5 text-warning" />
             Pk$ Pendiente por Invertir
           </span>
-          <span className="text-lg font-bold font-mono text-amber-300">
+          <span className="text-lg font-bold font-mono text-warning">
             {totalRemaining.toLocaleString()} Pk$
           </span>
-          <span className="text-[11px] text-slate-500">Para completar el 100% de la ruta</span>
+          <span className="text-[11px] text-ink-faint">Para completar el 100% de la ruta</span>
         </div>
       </div>
 
@@ -202,8 +202,8 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
               key={step.id}
               className={`p-4 rounded-xl border transition-all ${
                 isDone
-                  ? 'bg-emerald-950/15 border-emerald-500/40 opacity-80'
-                  : 'bg-surface border-slate-800 hover:border-purple-500/40'
+                  ? 'bg-success/15 border-success/40 opacity-80'
+                  : 'bg-surface border-line hover:border-brand/40'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -211,65 +211,65 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
                   <button
                     type="button"
                     onClick={() => toggleStep(step.id)}
-                    className="mt-0.5 text-slate-500 hover:text-emerald-400 transition-colors"
+                    className="mt-0.5 text-ink-faint hover:text-success transition-colors"
                   >
                     {isDone ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                      <CheckCircle2 className="w-5 h-5 text-success" />
                     ) : (
-                      <Circle className="w-5 h-5 text-slate-600 hover:text-slate-400" />
+                      <Circle className="w-5 h-5 text-ink-faint hover:text-ink-muted" />
                     )}
                   </button>
 
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-brand/20 text-brand-soft border border-brand/30">
                         Paso #{step.cycleNumber}
                       </span>
                       <h4
                         className={`text-sm font-semibold ${
-                          isDone ? 'line-through text-slate-400' : 'text-white'
+                          isDone ? 'line-through text-ink-muted' : 'text-white'
                         }`}
                       >
                         {step.title}
                       </h4>
                     </div>
 
-                    <p className="text-xs text-slate-300 mt-1">
+                    <p className="text-xs text-ink mt-1">
                       <strong>Resultado Esperado:</strong> {step.expectedResult}
                     </p>
                   </div>
                 </div>
 
                 <div className="text-right shrink-0">
-                  <span className="text-xs font-mono font-bold text-amber-300">
+                  <span className="text-xs font-mono font-bold text-warning">
                     {step.cost.toLocaleString()} Pk$
                   </span>
-                  <span className="block text-[10px] text-slate-500">Costo del paso</span>
+                  <span className="block text-[10px] text-ink-faint">Costo del paso</span>
                 </div>
               </div>
 
               {/* Instructions box */}
-              <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
+              <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs bg-surface-sunken/60 p-2.5 rounded-lg border border-line/80">
                 <div className="flex items-center gap-2">
                   <span className="text-role-male font-bold">♂ Padre:</span>
-                  <span className="text-slate-200">{step.father.name}</span>
-                  <span className="text-slate-400 text-[11px]">— Equipar: {step.father.item}</span>
+                  <span className="text-ink">{step.father.name}</span>
+                  <span className="text-ink-muted text-[11px]">— Equipar: {step.father.item}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <span className="text-role-female font-bold">♀ Madre:</span>
-                  <span className="text-slate-200">{step.mother.name}</span>
-                  <span className="text-slate-400 text-[11px]">— Equipar: {step.mother.item}</span>
+                  <span className="text-ink">{step.mother.name}</span>
+                  <span className="text-ink-muted text-[11px]">— Equipar: {step.mother.item}</span>
                 </div>
               </div>
 
               {/* Locked stats badges */}
               <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
-                <span className="text-[11px] text-slate-500 font-mono">IVs Asegurados:</span>
+                <span className="text-[11px] text-ink-faint font-mono">IVs Asegurados:</span>
                 {step.ivsLocked.map((iv, idx) => (
                   <span
                     key={idx}
-                    className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-mono border border-emerald-500/30 font-semibold"
+                    className="text-[10px] px-2 py-0.5 rounded bg-success/15 text-success font-mono border border-success/30 font-semibold"
                   >
                     ✓ {iv}
                   </span>
