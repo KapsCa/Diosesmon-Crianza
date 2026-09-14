@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { configDefaults, defineConfig } from 'vitest/config'
@@ -35,7 +36,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
-    setupFiles: './tests/setup.ts',
+    // Resolved from this config file, not from `root`. As a relative string it
+    // resolves against the vitest root, which defaults to the working directory,
+    // so starting the runner from anywhere but the project root died with
+    // "Cannot find module '/tests/setup.ts'" before a single test loaded.
+    setupFiles: fileURLToPath(new URL('./tests/setup.ts', import.meta.url)),
     css: true,
     exclude: [...configDefaults.exclude, '.github/**'],
   },

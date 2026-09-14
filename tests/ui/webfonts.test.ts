@@ -1,6 +1,7 @@
 /// <reference types="@testing-library/jest-dom" />
 import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'node:fs';
+import { repoPath, readRepoFile } from '../support/repo';
 
 // The three type stacks used to name webfonts that were never loaded: no
 // @font-face, no <link>, no files. Nothing failed, because a webfont that never
@@ -12,16 +13,16 @@ const FONTS = [
   { family: 'JetBrains Mono', file: 'jetbrains-mono-latin.woff2', token: '--font-mono' },
 ];
 
-const css = readFileSync('src/index.css', 'utf8');
-const html = readFileSync('index.html', 'utf8');
+const css = readRepoFile('src/index.css');
+const html = readRepoFile('index.html');
 
 describe('self-hosted webfonts', () => {
   it.each(FONTS)('ships the actual file for $family', ({ file }) => {
-    expect(existsSync(`public/fonts/${file}`)).toBe(true);
+    expect(existsSync(repoPath('public/fonts', file))).toBe(true);
 
     // WOFF2 files start with the signature 'wOF2'. Without this check an empty
     // placeholder would satisfy the test while shipping a broken font.
-    const bytes = readFileSync(`public/fonts/${file}`);
+    const bytes = readFileSync(repoPath('public/fonts', file));
     expect(bytes.subarray(0, 4).toString('latin1')).toBe('wOF2');
     expect(bytes.byteLength).toBeGreaterThan(4096);
   });
