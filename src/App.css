@@ -1,6 +1,11 @@
 /*
  * Component classes for the application shell.
  *
+ * The shell does not cap its own width. It used to: `.app-container` was 1040px wide and
+ * centred, which capped the header too, so the bar could never reach the edges of the
+ * viewport. The constraint now lives on the content column inside the app, where a
+ * full-bleed bar and a readable measure can coexist.
+ *
  * Every colour here comes from a token declared in index.css. The `:root`
  * variables that used to live alongside them (`--bg`, `--text`, `--border`,
  * `--code-bg`, `--accent`, `--accent-bg`) are gone: ten of them were declared
@@ -20,23 +25,32 @@
 
 .app-container {
   width: 100%;
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
   text-align: left;
 }
 
 .ivsmap-app {
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
+/*
+ * The bar itself, not its contents. Sticky and full-bleed so it spans the viewport
+ * instead of the 7xl content column; the row's layout, max-width and spacing live on
+ * the inner container, which is where the constraint actually belongs. Without the
+ * gap on .ivsmap-app above, this sits flush against the content below it.
+ *
+ * The background is `surface`, not `canvas`: tinting the page colour would have left
+ * the bar invisible as a bar on a viewport narrower than the content column, which is
+ * where most people will look at it.
+ */
 .ivsmap-header {
-  padding-bottom: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   border-bottom: 1px solid var(--color-line);
+  background-color: color-mix(in oklab, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(16px);
 }
-
 .ivsmap-main {
   display: flex;
   flex-direction: column;
