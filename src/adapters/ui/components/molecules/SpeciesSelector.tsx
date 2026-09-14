@@ -194,7 +194,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
 
       {/* Campo unificado de búsqueda y selección con Sprite */}
       <div
-        className={`w-full rounded-xl border transition-all duration-200 bg-[#0a0e17] flex items-center gap-2.5 px-3 py-2 ${
+        className={`w-full rounded-xl border transition-all duration-200 bg-canvas flex items-center gap-2.5 px-3 py-2 ${
           isOpen
             ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-lg shadow-purple-950/20'
             : 'border-slate-800 hover:border-slate-700'
@@ -290,7 +290,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
 
       {/* Menú Desplegable Unificado con Sprites de cada Pokémon */}
       {isOpen && !disabled && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-1.5 bg-[#0f131c] border border-purple-500/30 rounded-xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col backdrop-blur-md max-h-72">
+        <div className="absolute z-50 top-full left-0 right-0 mt-1.5 bg-surface border border-purple-500/30 rounded-xl shadow-2xl shadow-black/80 overflow-hidden flex flex-col backdrop-blur-md max-h-72">
           {/* Header informativo dentro del select */}
           <div className="px-3 py-2 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
             <span className="flex items-center gap-1.5">
@@ -306,7 +306,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
           </div>
 
           {/* Filtro rápido por Generación (1 a 9) */}
-          <div className="px-2 py-1.5 bg-[#0a0e17] border-b border-slate-800/80 flex items-center gap-1 overflow-x-auto text-[10px] scrollbar-none">
+          <div className="px-2 py-1.5 bg-canvas border-b border-slate-800/80 flex items-center gap-1 overflow-x-auto text-[10px] scrollbar-none">
             <span className="text-slate-500 shrink-0 px-1 font-semibold">Gen:</span>
             <button
               type="button"

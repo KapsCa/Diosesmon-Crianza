@@ -126,7 +126,7 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
   );
 
   return (
-    <div className="w-full flex flex-col gap-4 p-5 rounded-2xl bg-[#0b0f19] border border-purple-500/25 shadow-xl">
+    <div className="w-full flex flex-col gap-4 p-5 rounded-2xl bg-canvas border border-purple-500/25 shadow-xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
         <div>
@@ -203,7 +203,7 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
               className={`p-4 rounded-xl border transition-all ${
                 isDone
                   ? 'bg-emerald-950/15 border-emerald-500/40 opacity-80'
-                  : 'bg-[#0f131c] border-slate-800 hover:border-purple-500/40'
+                  : 'bg-surface border-slate-800 hover:border-purple-500/40'
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -251,13 +251,13 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
               {/* Instructions box */}
               <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-2 text-xs bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
                 <div className="flex items-center gap-2">
-                  <span className="text-sky-400 font-bold">♂ Padre:</span>
+                  <span className="text-role-male font-bold">♂ Padre:</span>
                   <span className="text-slate-200">{step.father.name}</span>
                   <span className="text-slate-400 text-[11px]">— Equipar: {step.father.item}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-pink-400 font-bold">♀ Madre:</span>
+                  <span className="text-role-female font-bold">♀ Madre:</span>
                   <span className="text-slate-200">{step.mother.name}</span>
                   <span className="text-slate-400 text-[11px]">— Equipar: {step.mother.item}</span>
                 </div>

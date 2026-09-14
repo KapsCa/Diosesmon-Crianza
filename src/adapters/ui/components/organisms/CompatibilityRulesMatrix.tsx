@@ -143,7 +143,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-5 p-5 rounded-2xl bg-[#0b0f19] border border-purple-500/25 shadow-xl">
+    <div className="w-full flex flex-col gap-5 p-5 rounded-2xl bg-canvas border border-purple-500/25 shadow-xl">
       {/* Header */}
       <div className="border-b border-slate-800 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
@@ -162,7 +162,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
       </div>
 
       {/* Interactive Pokémon Compatibility Checker */}
-      <div className="p-4 rounded-xl bg-[#0f131c] border border-slate-800 flex flex-col gap-4">
+      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
@@ -176,7 +176,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
         {/* Selectors Row */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-3 items-center">
           {/* Pokémon A Selector */}
-          <div className="p-3 rounded-xl bg-[#0a0e17] border border-slate-800 flex flex-col gap-2">
+          <div className="p-3 rounded-xl bg-canvas border border-slate-800 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold text-sky-400 flex items-center gap-1">
                 <span>Padre / Pokémon A</span>
@@ -228,7 +228,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           </div>
 
           {/* Pokémon B Selector */}
-          <div className="p-3 rounded-xl bg-[#0a0e17] border border-slate-800 flex flex-col gap-2">
+          <div className="p-3 rounded-xl bg-canvas border border-slate-800 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-bold text-pink-400 flex items-center gap-1">
                 <span>Madre / Pokémon B</span>
@@ -368,7 +368,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                     className={`p-2 rounded-lg text-left transition-all border flex items-center gap-2 ${
                       isCurrentlySelected
                         ? 'bg-purple-900/40 border-purple-500 text-white shadow-sm shadow-purple-950/40'
-                        : 'bg-[#0a0e17] border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white'
+                        : 'bg-canvas border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white'
                     }`}
                   >
                     <div className="w-8 h-8 rounded bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden">
@@ -407,7 +407,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
       </div>
 
       {/* Official NPC Store: Tienda de Crianza */}
-      <div className="p-4 rounded-xl bg-[#0f131c] border border-slate-800 flex flex-col gap-3">
+      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
           <span className="text-xs font-semibold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
             <Coins className="w-3.5 h-3.5 text-amber-400" />
@@ -438,7 +438,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
             return (
               <div
                 key={itemKey}
-                className="p-3 rounded-lg bg-[#0a0e17] border border-slate-800/80 flex flex-col justify-between gap-1.5"
+                className="p-3 rounded-lg bg-canvas border border-slate-800/80 flex flex-col justify-between gap-1.5"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white flex items-center gap-1.5">
@@ -467,7 +467,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           })}
 
           {/* Gender selection fee entry */}
-          <div className="p-3 rounded-lg bg-[#0a0e17] border border-sky-500/30 flex flex-col justify-between gap-1.5">
+          <div className="p-3 rounded-lg bg-canvas border border-sky-500/30 flex flex-col justify-between gap-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
                 <Coins className="w-3.5 h-3.5 text-sky-400" />
@@ -487,7 +487,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           </div>
 
           {/* Daycare service entry (Gratis / 0 Pk$) */}
-          <div className="p-3 rounded-lg bg-[#0a0e17] border border-emerald-500/30 flex flex-col justify-between gap-1.5">
+          <div className="p-3 rounded-lg bg-canvas border border-emerald-500/30 flex flex-col justify-between gap-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
                 <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -509,7 +509,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
       </div>
 
       {/* Reglas de Herencia: Naturaleza y Habilidad */}
-      <div className="p-4 rounded-xl bg-[#0f131c] border border-slate-800 flex flex-col gap-3">
+      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-3">
         <div className="flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-purple-400" />
           <h3 className="text-sm font-semibold text-white font-mono uppercase tracking-wider">
@@ -519,7 +519,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Naturaleza */}
-          <div className="p-3.5 rounded-lg bg-[#0a0e17] border border-purple-500/30 flex flex-col gap-2">
+          <div className="p-3.5 rounded-lg bg-canvas border border-purple-500/30 flex flex-col gap-2">
             <div className="flex items-center gap-2 text-purple-300 font-bold text-xs">
               <span className="w-2 h-2 rounded-full bg-purple-400" />
               Naturaleza (Piedra Eterna)
@@ -533,7 +533,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           </div>
 
           {/* Habilidad */}
-          <div className="p-3.5 rounded-lg bg-[#0a0e17] border border-emerald-500/30 flex flex-col gap-2">
+          <div className="p-3.5 rounded-lg bg-canvas border border-emerald-500/30 flex flex-col gap-2">
             <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
               Habilidad y Habilidad Oculta (Hierba Copia)

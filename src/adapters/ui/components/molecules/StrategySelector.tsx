@@ -13,7 +13,7 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col gap-2 p-4 rounded-xl bg-[#0f131c] border border-slate-800">
+    <div className="flex flex-col gap-2 p-4 rounded-xl bg-surface border border-slate-800">
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold text-white flex items-center gap-1.5">
           <Zap className="w-4 h-4 text-purple-400" />

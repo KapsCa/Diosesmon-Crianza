@@ -331,9 +331,9 @@ export const ItemSprite: React.FC<ItemSpriteProps> = ({
           ) : (
             <g>
               {/* Aro / Brazal exterior */}
-              <circle cx="12" cy="12" r="9" fill={info.color} stroke="#0f172a" strokeWidth="1.5" />
+              <circle cx="12" cy="12" r="9" fill={info.color} stroke="var(--color-line)" strokeWidth="1.5" />
               {/* Orificio interior */}
-              <circle cx="12" cy="12" r="4.5" fill="#0b0f19" stroke="#0f172a" strokeWidth="1" />
+              <circle cx="12" cy="12" r="4.5" fill="var(--color-canvas)" stroke="var(--color-line)" strokeWidth="1" />
               {/* Brillo de gema / banda */}
               <path
                 d="M 6 10 Q 12 5 18 10"

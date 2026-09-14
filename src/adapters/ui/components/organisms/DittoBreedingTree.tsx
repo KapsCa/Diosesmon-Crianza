@@ -36,7 +36,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
 
   if (!plan.success || plan.steps.length === 0) {
     return (
-      <div className="p-6 rounded-2xl bg-[#0a0e17] border border-amber-500/40 flex flex-col gap-4 text-center items-center justify-center">
+      <div className="p-6 rounded-2xl bg-canvas border border-amber-500/40 flex flex-col gap-4 text-center items-center justify-center">
         <div className="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
           <AlertTriangle className="w-6 h-6" />
         </div>
@@ -63,7 +63,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
   return (
     <div className="flex flex-col gap-5 w-full">
       {/* Barra de Resumen Ejecutivo y Métricas de la Ruta con Dittos */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-[#0a0e17] border border-purple-500/30 shadow-lg flex flex-col gap-3.5">
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-canvas border border-purple-500/30 shadow-lg flex flex-col gap-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-purple-900/40 border border-purple-500/50 flex items-center justify-center text-purple-300 shadow-sm shrink-0">
@@ -199,7 +199,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
             return (
               <div
                 key={step.stepNumber}
-                className="p-4 rounded-xl bg-[#0a0e17] border border-slate-800 hover:border-purple-500/40 transition-all shadow-md flex flex-col gap-3"
+                className="p-4 rounded-xl bg-canvas border border-slate-800 hover:border-purple-500/40 transition-all shadow-md flex flex-col gap-3"
               >
                 {/* Header del Paso */}
                 <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
@@ -231,7 +231,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <div>
                           <div className="text-xs font-bold text-white flex items-center gap-1">
                             <span>{step.parentSpecies.name}</span>
-                            <span className={step.parentSpecies.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}>
+                            <span className={step.parentSpecies.gender === 'female' ? 'text-role-female' : 'text-role-male'}>
                               {step.parentSpecies.gender === 'female' ? '♀' : '♂'}
                             </span>
                           </div>
@@ -289,7 +289,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <div>
                           <div className="text-xs font-bold text-white flex items-center gap-1">
                             <span>{step.parentDitto.name}</span>
-                            <span className="text-purple-400 text-[10px] font-mono">⚲</span>
+                            <span className="text-role-genderless text-[10px] font-mono">⚲</span>
                           </div>
                           <span className="text-[10px] text-slate-400 font-mono">
                             {Object.values(step.parentDitto.ivs).filter((v) => v === 31).length}x31
@@ -345,7 +345,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <div>
                           <div className="text-xs font-bold text-emerald-300 flex items-center gap-1">
                             <span>Cría ({step.offspring.name})</span>
-                            <span className={step.offspring.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}>
+                            <span className={step.offspring.gender === 'female' ? 'text-role-female' : 'text-role-male'}>
                               {step.offspring.gender === 'female' ? '♀' : '♂'}
                             </span>
                           </div>
@@ -388,7 +388,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
 
       {/* VISTA 2: Diagrama de Árbol Visual con Dittos */}
       {activeView === 'tree' && (
-        <div className="p-5 rounded-2xl bg-[#0a0e17] border border-slate-800 flex flex-col gap-6 items-center overflow-x-auto">
+        <div className="p-5 rounded-2xl bg-canvas border border-slate-800 flex flex-col gap-6 items-center overflow-x-auto">
           <div className="text-xs font-semibold text-slate-300 flex items-center gap-2 self-start">
             <Zap className="w-4 h-4 text-purple-400" />
             <span>Flujo Jerárquico de Crianza con Dittos:</span>

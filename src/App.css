@@ -1,3 +1,23 @@
+/*
+ * Component classes for the application shell.
+ *
+ * Every colour here comes from a token declared in index.css. The `:root`
+ * variables that used to live alongside them (`--bg`, `--text`, `--border`,
+ * `--code-bg`, `--accent`, `--accent-bg`) are gone: ten of them were declared
+ * and never read by anything.
+ *
+ * `--accent` used to be a single value doing two incompatible jobs. As a text
+ * colour on the dark canvas it needs the lighter variant, and as a fill behind
+ * white text it needs the darker one; no single violet satisfies both, which is
+ * why the token pair is `brand-soft` for text and `brand` for fills.
+ *
+ * Rules whose classes no longer appear anywhere in the components were removed
+ * rather than translated: `.app-title`, `.app-description`, `.breeding-tree`,
+ * `.tree-header`, `.tree-node`, `.tree-title`, `.node-content`, `.node-pokemon`,
+ * `.node-items`, `.real-time-result`, `.biome-list-title`, `.biome-name`,
+ * `.biome-species-list`, `.biome-capture-item` and `.species-select`.
+ */
+
 .app-container {
   width: 100%;
   max-width: 1040px;
@@ -14,20 +34,7 @@
 
 .ivsmap-header {
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.app-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--text-h);
-  margin: 0 0 8px;
-}
-
-.app-description {
-  font-size: 16px;
-  color: var(--text);
-  margin: 0;
+  border-bottom: 1px solid var(--color-line);
 }
 
 .ivsmap-main {
@@ -37,8 +44,8 @@
 }
 
 .ivsmap-step {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   padding: 20px 24px;
   display: flex;
@@ -55,14 +62,14 @@
 .step-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--color-ink);
   margin: 0;
 }
 
 .btn-link {
   background: none;
   border: none;
-  color: var(--accent);
+  color: var(--color-brand-soft);
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
@@ -74,33 +81,25 @@
   opacity: 0.8;
 }
 
-/* Species Selector */
+/*
+ * Species Selector. This was defined twice, once here and once in index.css,
+ * with different properties on each side; the effective style was the union of
+ * the two and depended on which file the bundler emitted last. It is defined
+ * once here now, with the union preserved.
+ */
 .species-selector {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .species-selector label {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text);
-}
-
-.species-select {
-  padding: 10px 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text-h);
-  cursor: pointer;
-  max-width: 360px;
-}
-
-.species-select:focus {
-  outline: 2px solid var(--accent);
-  border-color: transparent;
+  color: var(--color-ink-muted);
 }
 
 /* Compatibility */
@@ -109,9 +108,9 @@
   border-radius: 8px;
   font-size: 14px;
   margin: 0;
-  background: rgba(34, 197, 94, 0.1);
-  color: #16a34a;
-  border: 1px solid rgba(34, 197, 94, 0.25);
+  background: color-mix(in srgb, var(--color-success) 10%, transparent);
+  color: var(--color-success);
+  border: 1px solid color-mix(in srgb, var(--color-success) 25%, transparent);
 }
 
 /* Parents Display */
@@ -122,8 +121,8 @@
 }
 
 .role-slot {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--color-canvas);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   padding: 16px;
   display: flex;
@@ -134,8 +133,8 @@
 .result-badge {
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-bg);
+  color: var(--color-brand-soft);
+  background: color-mix(in srgb, var(--color-brand) 15%, transparent);
   padding: 4px 10px;
   border-radius: 6px;
   display: inline-block;
@@ -145,8 +144,8 @@
 .fixed-gender-badge {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text);
-  background: var(--code-bg);
+  color: var(--color-ink-muted);
+  background: var(--color-surface-sunken);
   padding: 4px 8px;
   border-radius: 6px;
   display: inline-block;
@@ -168,7 +167,7 @@
 
 /* Buttons */
 .btn-generate {
-  background: var(--accent);
+  background: var(--color-brand);
   color: #fff;
   border: none;
   padding: 12px 24px;
@@ -190,9 +189,9 @@
 }
 
 .btn-secondary {
-  background: var(--code-bg);
-  color: var(--text-h);
-  border: 1px solid var(--border);
+  background: var(--color-surface-sunken);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
@@ -201,7 +200,7 @@
 }
 
 .btn-secondary:hover {
-  border-color: var(--accent);
+  border-color: var(--color-brand);
 }
 
 /* Results */
@@ -220,83 +219,14 @@
 .results-title {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-h);
+  color: var(--color-ink);
   margin: 0;
-}
-
-.real-time-result {
-  display: flex;
-  gap: 24px;
-  padding: 14px 18px;
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  border-radius: 10px;
-}
-
-.real-time-result p {
-  margin: 0;
-  font-size: 15px;
-  color: var(--text-h);
-}
-
-/* Breeding Tree */
-.breeding-tree {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  overflow-x: auto;
-}
-
-.tree-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.tree-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-h);
-  margin: 0;
-}
-
-.tree-node {
-  margin-left: 20px;
-  position: relative;
-  padding-left: 12px;
-  border-left: 2px dashed var(--border);
-  margin-top: 12px;
-}
-
-.node-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--code-bg);
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.node-pokemon {
-  font-weight: 600;
-  color: var(--text-h);
-}
-
-.node-items {
-  font-size: 12px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  padding: 2px 6px;
-  border-radius: 4px;
 }
 
 /* Biome Capture List */
 .biome-capture-list {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--color-canvas);
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -304,47 +234,16 @@
   gap: 16px;
 }
 
-.biome-list-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-h);
-  margin: 0;
-}
-
 .biome-section {
   padding: 12px 16px;
-  background: var(--code-bg);
+  background: var(--color-surface-sunken);
   border-radius: 8px;
-}
-
-.biome-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-h);
-  margin: 0 0 8px;
-}
-
-.biome-species-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.biome-capture-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* Estimation Panel */
 .estimation-panel {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--color-canvas);
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -355,7 +254,7 @@
 .panel-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-h);
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -369,7 +268,7 @@
 .estimation-steps,
 .estimation-cost {
   padding: 14px;
-  background: var(--code-bg);
+  background: var(--color-surface-sunken);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -380,7 +279,7 @@
 .steps-label,
 .cost-label {
   font-size: 13px;
-  color: var(--text);
+  color: var(--color-ink-muted);
   font-weight: 500;
 }
 
@@ -389,9 +288,9 @@
 .cost-value {
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-h);
+  color: var(--color-ink);
 }
 
 .cost-value {
-  color: #16a34a;
+  color: var(--color-success);
 }

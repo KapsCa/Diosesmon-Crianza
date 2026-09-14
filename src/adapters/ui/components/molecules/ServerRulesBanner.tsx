@@ -9,7 +9,7 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="w-full bg-[#0d111a] border border-purple-500/20 rounded-xl overflow-hidden shadow-sm">
+    <div className="w-full bg-surface border border-purple-500/20 rounded-xl overflow-hidden shadow-sm">
       {/* Top Banner Row - streamlined & friendly */}
       <div className="px-4 py-2.5 bg-gradient-to-r from-purple-950/20 via-slate-900/40 to-purple-950/20 flex flex-wrap items-center justify-between gap-3 text-xs">
         <div className="flex items-center gap-2.5">
@@ -48,7 +48,7 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
 
       {/* Expandable details */}
       {expanded && (
-        <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-3 bg-[#0a0e17]/80 text-xs text-slate-300 border-t border-slate-800">
+        <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-3 bg-canvas/80 text-xs text-slate-300 border-t border-slate-800">
           <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex flex-col gap-1.5">
             <div className="flex items-center gap-2 text-rose-400 font-semibold">
               <Flame className="w-4 h-4" />

@@ -82,7 +82,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
   });
 
   return (
-    <div className="flex flex-col gap-3 p-4 rounded-xl bg-[#0f131c] border border-slate-800">
+    <div className="flex flex-col gap-3 p-4 rounded-xl bg-surface border border-slate-800">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Database className="w-4 h-4 text-purple-400" />
@@ -120,7 +120,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
       {isAdding && (
         <form
           onSubmit={handleAddSpecimen}
-          className="p-3.5 rounded-lg bg-[#0a0e17] border border-purple-500/40 flex flex-col gap-3"
+          className="p-3.5 rounded-lg bg-canvas border border-purple-500/40 flex flex-col gap-3"
         >
           <div className="flex items-center justify-between text-xs font-semibold text-purple-300">
             <span>Registrar Nuevo Pokémon en tu PC</span>
@@ -137,7 +137,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                     setFormGender('genderless');
                   }
                 }}
-                className="w-full text-xs px-2.5 py-1.5 rounded bg-[#131722] border border-slate-700 text-white"
+                className="w-full text-xs px-2.5 py-1.5 rounded bg-surface-sunken border border-slate-700 text-white"
               >
                 <option value="Ditto">Ditto (Comodín Universal)</option>
                 {POKEMON_SPECIES_LIST.filter((s) => s.id <= 1025).map((s) => (
@@ -154,7 +154,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                 value={formGender}
                 disabled={formSpecies.toLowerCase() === 'ditto'}
                 onChange={(e) => setFormGender(e.target.value as any)}
-                className="w-full text-xs px-2.5 py-1.5 rounded bg-[#131722] border border-slate-700 text-white disabled:opacity-50"
+                className="w-full text-xs px-2.5 py-1.5 rounded bg-surface-sunken border border-slate-700 text-white disabled:opacity-50"
               >
                 <option value="male">♂ Macho</option>
                 <option value="female">♀ Hembra</option>
@@ -169,7 +169,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                 value={formNotes}
                 onChange={(e) => setFormNotes(e.target.value)}
                 placeholder="Ej: Capturado en bioma montaña..."
-                className="w-full text-xs px-2.5 py-1.5 rounded bg-[#131722] border border-slate-700 text-white placeholder:text-slate-600"
+                className="w-full text-xs px-2.5 py-1.5 rounded bg-surface-sunken border border-slate-700 text-white placeholder:text-slate-600"
               />
             </div>
           </div>
@@ -237,10 +237,10 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                   <span
                     className={`text-xs font-bold ${
                       isGenderless
-                        ? 'text-purple-400'
+                        ? 'text-role-genderless'
                         : isMale
-                        ? 'text-sky-400'
-                        : 'text-pink-400'
+                        ? 'text-role-male'
+                        : 'text-role-female'
                     }`}
                   >
                     {isGenderless ? '⚲' : isMale ? '♂' : '♀'}

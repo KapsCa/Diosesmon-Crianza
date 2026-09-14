@@ -137,7 +137,7 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-xl bg-[#0f131c] border border-slate-800">
+    <div className="flex flex-col gap-4 p-4 rounded-xl bg-surface border border-slate-800">
       {/* Header explicativo sin botones prematuros */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
         <div>
@@ -270,7 +270,7 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                 <select
                   value={config.nature}
                   onChange={(e) => onChange({ ...config, nature: e.target.value })}
-                  className="text-xs px-2.5 py-1.5 rounded-lg bg-[#0a0e17] border border-slate-700 text-white focus:border-purple-500 focus:outline-none"
+                  className="text-xs px-2.5 py-1.5 rounded-lg bg-canvas border border-slate-700 text-white focus:border-purple-500 focus:outline-none"
                 >
                   {COMMON_NATURES.map((nat) => (
                     <option key={nat.name} value={nat.name}>
