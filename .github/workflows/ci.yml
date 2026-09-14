@@ -24,8 +24,13 @@ jobs:
 
       - run: npm ci
 
+      # `tsc -b`, deliberately not `tsc --noEmit`. With the solution-style
+      # tsconfig.json (`files: []` plus references), `tsc --noEmit` compiles zero
+      # files and always exits 0, so this step used to be a check that certified
+      # nothing: `npm run build` was broken while this job stayed green. `-b`
+      # follows the project references and is the check that actually runs.
       - name: Type check
-        run: npx tsc --noEmit
+        run: npx tsc -b
 
       - name: Lint
         run: npx oxlint .
