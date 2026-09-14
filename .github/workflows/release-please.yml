@@ -20,6 +20,15 @@ jobs:
       - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         id: release
         with:
+          # A PAT, deliberately not GITHUB_TOKEN, and this is load-bearing.
+          # Pull requests opened with GITHUB_TOKEN do not trigger any workflow, so
+          # the release PR used to appear with zero checks; with required status
+          # checks and enforce_admins that leaves it permanently unmergeable and
+          # stalls the release with no failing check to explain it. A PAT opens
+          # the PR as a user, so the checks run and the exemption in pr-check.yml
+          # applies. It also lets the repository keep "Allow GitHub Actions to
+          # create and approve pull requests" disabled.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           release-type: node
 
       # Merge the release pull request once its required checks pass, so cutting
@@ -31,7 +40,7 @@ jobs:
       - name: Enable auto-merge on the release PR
         if: ${{ steps.release.outputs.pr }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
         run: |
           gh pr merge --auto --merge \
             --repo "${{ github.repository }}" \
