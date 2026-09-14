@@ -30,8 +30,8 @@
   --color-ink-muted: #94a3b8;
   /*
    * `ink-faint` is the faithful value of the slate-500 that components already
-   * use, but it only reaches a 4.06:1 contrast ratio against the canvas, below
-   * the 4.5:1 that small text needs. Use it for large or decorative text, and
+   * use, but it only reaches a 4.06 to 1 contrast ratio against the canvas, below
+   * the 4.5 to 1 that small text needs. Use it for large or decorative text, and
    * note that the family migration has to decide per usage whether to lighten
    * the token or to reach for `ink-muted` instead.
    */
@@ -41,7 +41,7 @@
    * Brand, taken from the logo mark. `brand` is the fill for buttons and other
    * solid surfaces and is safe behind white text; `brand-soft` is the variant
    * for text and icons on dark backgrounds, because `brand` itself only reaches
-   * a 3.4:1 contrast ratio against the canvas and would fail AA as text.
+   * a 3.4 to 1 contrast ratio against the canvas and would fail AA as text.
    */
   --color-brand: #7c3aed;
   --color-brand-soft: #a78bfa;
@@ -62,6 +62,30 @@
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
+
+  /*
+   * Information: explanatory banners, the fixed-inheritance indicator, and cost
+   * panels. It exists so those accents stop borrowing the brand, which matters
+   * in DittoBreedingTree, where the `FIJA` and `BANDA` badges sit side by side and
+   * have to stay tellable apart.
+   *
+   * The value is a deliberately desaturated indigo, and that is not a taste
+   * choice. A vivid indigo cannot live next to the brand: #6366f1 lands below the
+   * 4.5 to 1 small text floor against the canvas, and #818cf8 clears it but sits
+   * only 11 degrees of perceptual distance from `brand-soft`, which reads as the
+   * same colour. #5c7cc1 measures 4.69 to 1 against the canvas and 31 from its
+   * nearest neighbour, which is the only place both hold at once.
+   *
+   * What that figure does NOT cover, and is worth knowing before reusing this
+   * token: it is measured against the canvas. Painted as text on its own tint
+   * (`bg-info/20`) it falls to 3.77 to 1, and at 80% alpha to 2.91 to 1, because
+   * the tint is a lightened version of the text colour and the two converge. So
+   * use `info` for icons, borders and tints, and reach for `ink` or `ink-muted`
+   * for text on an info surface. The `bg-<hue>/20 text-<hue>` badge pattern is
+   * used across this application and has the same cost everywhere; this comment
+   * is not a claim that it clears AA.
+   */
+  --color-info: #5c7cc1;
 
   /*
    * Type. index.html does not load any webfont yet, so all three stacks fall

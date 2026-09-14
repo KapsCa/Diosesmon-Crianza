@@ -143,32 +143,32 @@ export const CompatibilityRulesMatrix: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-5 p-5 rounded-2xl bg-canvas border border-purple-500/25 shadow-xl">
+    <div className="w-full flex flex-col gap-5 p-5 rounded-2xl bg-canvas border border-brand/25 shadow-xl">
       {/* Header */}
-      <div className="border-b border-slate-800 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="border-b border-line pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h3 className="text-lg font-bold font-['Sora'] text-white flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-purple-400" />
+            <BookOpen className="w-4 h-4 text-brand-soft" />
             Verificador de Compatibilidad & Tienda de Crianza
           </h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-ink-muted mt-1">
             Comprobador entre Pokémon con sugerencias de parejas compatibles y tarifas del servidor
           </p>
         </div>
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono">
-          <Heart className="w-3.5 h-3.5 text-pink-400" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand/10 border border-brand/30 text-brand-soft text-xs font-mono">
+          <Heart className="w-3.5 h-3.5 text-brand-soft" />
           <span>{POKEMON_SPECIES_LIST.length} Pokémon en base de datos</span>
         </div>
       </div>
 
       {/* Interactive Pokémon Compatibility Checker */}
-      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-4">
+      <div className="p-4 rounded-xl bg-surface border border-line flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            <Sparkles className="w-3.5 h-3.5 text-brand-soft" />
             Verificador Rápido de Compatibilidad entre Pokémon
           </span>
-          <span className="text-[11px] text-slate-400 hidden sm:inline">
+          <span className="text-[11px] text-ink-muted hidden sm:inline">
             Selecciona dos Pokémon para comprobar su compatibilidad directa
           </span>
         </div>
@@ -176,15 +176,15 @@ export const CompatibilityRulesMatrix: React.FC = () => {
         {/* Selectors Row */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] gap-3 items-center">
           {/* Pokémon A Selector */}
-          <div className="p-3 rounded-xl bg-canvas border border-slate-800 flex flex-col gap-2">
+          <div className="p-3 rounded-xl bg-canvas border border-line flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold text-sky-400 flex items-center gap-1">
+              <label className="text-[11px] font-bold text-role-male flex items-center gap-1">
                 <span>Padre / Pokémon A</span>
               </label>
-              <span className="text-[10px] font-mono text-slate-500">#{speciesA.id}</span>
+              <span className="text-[10px] font-mono text-ink-faint">#{speciesA.id}</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-9 h-9 rounded-lg bg-surface-sunken border border-line flex items-center justify-center shrink-0 overflow-hidden">
                 <img
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${speciesA.id}.png`}
                   alt={speciesA.name}
@@ -198,7 +198,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               <select
                 value={selectedIdA}
                 onChange={(e) => setSelectedIdA(Number(e.target.value))}
-                className="flex-1 text-xs px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-purple-500"
+                className="flex-1 text-xs px-3 py-2 rounded bg-surface-sunken border border-line-strong text-white focus:outline-none focus:border-brand"
               >
                 {POKEMON_SPECIES_LIST.filter((sp) => sp.id <= 1025).map((sp) => (
                   <option key={sp.id} value={sp.id}>
@@ -207,9 +207,9 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/60">
-              <span className="text-slate-500">Grupos Huevo:</span>
-              <span className="text-purple-300 font-medium">
+            <div className="flex items-center justify-between text-[11px] text-ink-muted pt-1 border-t border-line/60">
+              <span className="text-ink-faint">Grupos Huevo:</span>
+              <span className="text-brand-soft font-medium">
                 {getEggGroupNames(speciesA).join(', ')}
               </span>
             </div>
@@ -221,22 +221,22 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               type="button"
               onClick={handleSwap}
               title="Intercambiar Pokémon A y B"
-              className="p-2.5 rounded-full bg-slate-800 hover:bg-purple-900/50 text-slate-300 hover:text-white border border-slate-700 hover:border-purple-500/50 transition-colors shadow-md"
+              className="p-2.5 rounded-full bg-surface-raised hover:bg-brand/20 text-ink hover:text-white border border-line-strong hover:border-brand/50 transition-colors shadow-md"
             >
               <ArrowRightLeft className="w-4 h-4" />
             </button>
           </div>
 
           {/* Pokémon B Selector */}
-          <div className="p-3 rounded-xl bg-canvas border border-slate-800 flex flex-col gap-2">
+          <div className="p-3 rounded-xl bg-canvas border border-line flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold text-pink-400 flex items-center gap-1">
+              <label className="text-[11px] font-bold text-role-female flex items-center gap-1">
                 <span>Madre / Pokémon B</span>
               </label>
-              <span className="text-[10px] font-mono text-slate-500">#{speciesB.id}</span>
+              <span className="text-[10px] font-mono text-ink-faint">#{speciesB.id}</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden">
+              <div className="w-9 h-9 rounded-lg bg-surface-sunken border border-line flex items-center justify-center shrink-0 overflow-hidden">
                 <img
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${speciesB.id}.png`}
                   alt={speciesB.name}
@@ -250,7 +250,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               <select
                 value={selectedIdB}
                 onChange={(e) => setSelectedIdB(Number(e.target.value))}
-                className="flex-1 text-xs px-3 py-2 rounded bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-purple-500"
+                className="flex-1 text-xs px-3 py-2 rounded bg-surface-sunken border border-line-strong text-white focus:outline-none focus:border-brand"
               >
                 {POKEMON_SPECIES_LIST.filter((sp) => sp.id <= 1025).map((sp) => (
                   <option key={sp.id} value={sp.id}>
@@ -259,9 +259,9 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/60">
-              <span className="text-slate-500">Grupos Huevo:</span>
-              <span className="text-purple-300 font-medium">
+            <div className="flex items-center justify-between text-[11px] text-ink-muted pt-1 border-t border-line/60">
+              <span className="text-ink-faint">Grupos Huevo:</span>
+              <span className="text-brand-soft font-medium">
                 {getEggGroupNames(speciesB).join(', ')}
               </span>
             </div>
@@ -272,16 +272,16 @@ export const CompatibilityRulesMatrix: React.FC = () => {
         <div
           className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
             compatibilityResult.compatible
-              ? 'bg-emerald-950/25 border-emerald-500/40 text-emerald-300'
-              : 'bg-rose-950/25 border-rose-500/40 text-rose-300'
+              ? 'bg-success/10 border-success/40 text-success'
+              : 'bg-danger/10 border-danger/40 text-danger'
           }`}
         >
           <div className="flex items-start sm:items-center gap-3">
             <div
               className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
                 compatibilityResult.compatible
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                  : 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
+                  ? 'bg-success/20 text-success border border-success/30'
+                  : 'bg-danger/20 text-danger border border-danger/30'
               }`}
             >
               {compatibilityResult.compatible ? (
@@ -304,7 +304,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           </div>
 
           {compatibilityResult.compatible && (
-            <div className="text-xs bg-slate-900/60 px-3 py-1.5 rounded-lg border border-emerald-500/20 shrink-0 text-slate-300 font-mono flex items-center gap-2">
+            <div className="text-xs bg-surface-sunken/60 px-3 py-1.5 rounded-lg border border-success/20 shrink-0 text-ink font-mono flex items-center gap-2">
               <img
                 src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
                   speciesB.name === 'Ditto' ? speciesA.id : speciesB.id
@@ -327,33 +327,33 @@ export const CompatibilityRulesMatrix: React.FC = () => {
         </div>
 
         {/* Suggested Compatible Pokémon for Pokémon A */}
-        <div className="mt-1 pt-3 border-t border-slate-800/80 flex flex-col gap-2.5">
+        <div className="mt-1 pt-3 border-t border-line/80 flex flex-col gap-2.5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium">
-              <Heart className="w-3.5 h-3.5 text-pink-400" />
+            <div className="flex items-center gap-1.5 text-xs text-ink font-medium">
+              <Heart className="w-3.5 h-3.5 text-brand-soft" />
               <span>
                 Pokémon sugeridos compatibles con <strong className="text-white">{speciesA.name}</strong>:
               </span>
-              <span className="text-[11px] text-purple-400 font-mono">
+              <span className="text-[11px] text-brand-soft font-mono">
                 ({compatibleSuggestions.length} encontrados)
               </span>
             </div>
 
             {/* Quick search input */}
             <div className="relative w-full sm:w-64">
-              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-ink-faint absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={suggestionFilter}
                 onChange={(e) => setSuggestionFilter(e.target.value)}
                 placeholder="Filtrar compatibles..."
-                className="w-full text-xs pl-8 pr-2.5 py-1 rounded-md bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                className="w-full text-xs pl-8 pr-2.5 py-1 rounded-md bg-surface-sunken border border-line-strong text-white placeholder-ink-faint focus:outline-none focus:border-brand"
               />
             </div>
           </div>
 
           {compatibleSuggestions.length === 0 ? (
-            <div className="p-3 rounded-lg bg-slate-900/40 border border-slate-800 text-xs text-slate-400 text-center">
+            <div className="p-3 rounded-lg bg-surface-sunken/40 border border-line text-xs text-ink-muted text-center">
               Este Pokémon no tiene parejas compatibles (grupo Desconocido o No Huevos).
             </div>
           ) : (
@@ -367,11 +367,11 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                     onClick={() => setSelectedIdB(candidate.id)}
                     className={`p-2 rounded-lg text-left transition-all border flex items-center gap-2 ${
                       isCurrentlySelected
-                        ? 'bg-purple-900/40 border-purple-500 text-white shadow-sm shadow-purple-950/40'
-                        : 'bg-canvas border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white'
+                        ? 'bg-brand/15 border-brand text-white shadow-sm shadow-brand/20'
+                        : 'bg-canvas border-line hover:border-line-strong text-ink hover:text-white'
                     }`}
                   >
-                    <div className="w-8 h-8 rounded bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="w-8 h-8 rounded bg-surface-sunken border border-line flex items-center justify-center shrink-0 overflow-hidden">
                       <img
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${candidate.id}.png`}
                         alt={candidate.name}
@@ -386,12 +386,12 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold truncate">{candidate.name}</span>
                         {isCurrentlySelected && (
-                          <span className="text-[8px] px-1 rounded bg-purple-500/40 text-purple-200">
+                          <span className="text-[8px] px-1 rounded bg-brand/40 text-brand-soft">
                             Activo
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] text-slate-500 truncate">
+                      <span className="text-[10px] text-ink-faint truncate">
                         {getEggGroupNames(candidate).join(', ')}
                       </span>
                     </div>
@@ -400,28 +400,28 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               })}
             </div>
           )}
-          <span className="text-[11px] text-slate-500 italic">
+          <span className="text-[11px] text-ink-faint italic">
             * Haz clic en cualquier sugerencia para seleccionarla como pareja de cruza directamente.
           </span>
         </div>
       </div>
 
       {/* Official NPC Store: Tienda de Crianza */}
-      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-3">
+      <div className="p-4 rounded-xl bg-surface border border-line flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
           <span className="text-xs font-semibold text-white uppercase tracking-wider font-mono flex items-center gap-1.5">
-            <Coins className="w-3.5 h-3.5 text-amber-400" />
+            <Coins className="w-3.5 h-3.5 text-warning" />
             Tienda de crianza (Catálogo Oficial de Precios)
           </span>
-          <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
+          <span className="text-[11px] text-success font-mono flex items-center gap-1">
             <Sparkles className="w-3 h-3" />
             Tarifa fija de 500 Pk$ por ítem
           </span>
         </div>
 
         {/* Comment / Accessibility note requested by user */}
-        <div className="p-2.5 rounded-lg bg-purple-950/20 border border-purple-500/30 flex items-start gap-2 text-xs text-purple-200">
-          <MapPin className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+        <div className="p-2.5 rounded-lg bg-brand/10 border border-brand/30 flex items-start gap-2 text-xs text-brand-soft">
+          <MapPin className="w-4 h-4 text-brand-soft shrink-0 mt-0.5" />
           <p className="leading-snug">
             <strong>Acceso a la Tienda de crianza:</strong> Se accede a través del <strong>PokéPad</strong> o en el <strong>spawn en el piso superior de la guardería</strong>.
           </p>
@@ -438,27 +438,27 @@ export const CompatibilityRulesMatrix: React.FC = () => {
             return (
               <div
                 key={itemKey}
-                className="p-3 rounded-lg bg-canvas border border-slate-800/80 flex flex-col justify-between gap-1.5"
+                className="p-3 rounded-lg bg-canvas border border-line/80 flex flex-col justify-between gap-1.5"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white flex items-center gap-1.5">
                     <Flame
                       className={`w-3.5 h-3.5 ${
                         isEverstone
-                          ? 'text-purple-400'
+                          ? 'text-brand-soft'
                           : isMirrorHerb
-                          ? 'text-emerald-400'
-                          : 'text-rose-400'
+                          ? 'text-success'
+                          : 'text-danger'
                       }`}
                     />
                     {name}
                   </span>
-                  <span className="text-xs font-mono font-bold text-amber-300">
+                  <span className="text-xs font-mono font-bold text-warning">
                     {price.toLocaleString()} Pk$
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 leading-snug">{desc}</p>
-                <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-1 border-t border-slate-800/60">
+                <p className="text-[11px] text-ink-muted leading-snug">{desc}</p>
+                <div className="flex items-center justify-between text-[10px] text-ink-faint font-mono pt-1 border-t border-line/60">
                   <span>1x Burn</span>
                   <span>Tienda de crianza</span>
                 </div>
@@ -467,40 +467,40 @@ export const CompatibilityRulesMatrix: React.FC = () => {
           })}
 
           {/* Gender selection fee entry */}
-          <div className="p-3 rounded-lg bg-canvas border border-sky-500/30 flex flex-col justify-between gap-1.5">
+          <div className="p-3 rounded-lg bg-canvas border border-info/30 flex flex-col justify-between gap-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                <Coins className="w-3.5 h-3.5 text-sky-400" />
+                <Coins className="w-3.5 h-3.5 text-info" />
                 Selección de Sexo de la Cría
               </span>
-              <span className="text-xs font-mono font-bold text-sky-300">
+              <span className="text-xs font-mono font-bold text-info">
                 500 Pk$
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-snug">
+            <p className="text-[11px] text-ink-muted leading-snug">
               Tarifa única para garantizar el género (Macho ♂ o Hembra ♀) de la cría al eclosionar.
             </p>
-            <div className="flex items-center justify-between text-[10px] text-sky-400/80 font-mono pt-1 border-t border-slate-800/60">
+            <div className="flex items-center justify-between text-[10px] text-info font-mono pt-1 border-t border-line/60">
               <span>Opcional por cruza</span>
               <span>Guardería Diosesmon</span>
             </div>
           </div>
 
           {/* Daycare service entry (Gratis / 0 Pk$) */}
-          <div className="p-3 rounded-lg bg-canvas border border-emerald-500/30 flex flex-col justify-between gap-1.5">
+          <div className="p-3 rounded-lg bg-canvas border border-success/30 flex flex-col justify-between gap-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <Check className="w-3.5 h-3.5 text-success" />
                 Tarifa de Guardería
               </span>
-              <span className="text-xs font-mono font-bold text-emerald-400">
+              <span className="text-xs font-mono font-bold text-success">
                 0 Pk$ (¡Gratis!)
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 leading-snug">
+            <p className="text-[11px] text-ink-muted leading-snug">
               Sin tarifa de guardería en el servidor. Las parejas de cría se incuban sin costo adicional por ciclo.
             </p>
-            <div className="flex items-center justify-between text-[10px] text-emerald-400/80 font-mono pt-1 border-t border-slate-800/60">
+            <div className="flex items-center justify-between text-[10px] text-success/80 font-mono pt-1 border-t border-line/60">
               <span>Sin costo base</span>
               <span>Guardería Diosesmon</span>
             </div>
@@ -509,9 +509,9 @@ export const CompatibilityRulesMatrix: React.FC = () => {
       </div>
 
       {/* Reglas de Herencia: Naturaleza y Habilidad */}
-      <div className="p-4 rounded-xl bg-surface border border-slate-800 flex flex-col gap-3">
+      <div className="p-4 rounded-xl bg-surface border border-line flex flex-col gap-3">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-purple-400" />
+          <BookOpen className="w-4 h-4 text-brand-soft" />
           <h3 className="text-sm font-semibold text-white font-mono uppercase tracking-wider">
             Reglas de Herencia: Naturaleza y Habilidad (Sin opción de pago)
           </h3>
@@ -519,29 +519,29 @@ export const CompatibilityRulesMatrix: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* Naturaleza */}
-          <div className="p-3.5 rounded-lg bg-canvas border border-purple-500/30 flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-purple-300 font-bold text-xs">
-              <span className="w-2 h-2 rounded-full bg-purple-400" />
+          <div className="p-3.5 rounded-lg bg-canvas border border-brand/30 flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-brand-soft font-bold text-xs">
+              <span className="w-2 h-2 rounded-full bg-brand-soft" />
               Naturaleza (Piedra Eterna)
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-ink leading-relaxed">
               Para garantizar que la cría herede una naturaleza específica al 100%, se debe equipar la <strong>Piedra Eterna</strong> (500 Pk$ en la tienda de crianza).
             </p>
-            <div className="p-2 rounded bg-purple-950/30 border border-purple-800/40 text-[11px] text-purple-200">
+            <div className="p-2 rounded bg-brand/10 border border-brand/30 text-[11px] text-brand-soft">
               ⚠ <strong>Condición estricta:</strong> Solo funciona si el progenitor que equipa la piedra ya posee dicha naturaleza. <strong>No se puede pagar para fijarla arbitrariamente</strong> si ningún padre la tiene.
             </div>
           </div>
 
           {/* Habilidad */}
-          <div className="p-3.5 rounded-lg bg-canvas border border-emerald-500/30 flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <div className="p-3.5 rounded-lg bg-canvas border border-success/30 flex flex-col gap-2">
+            <div className="flex items-center gap-2 text-success font-bold text-xs">
+              <span className="w-2 h-2 rounded-full bg-success" />
               Habilidad y Habilidad Oculta (Hierba Copia)
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-ink leading-relaxed">
               La transferencia de habilidad se realiza mediante la <strong>Hierba Copia</strong> (500 Pk$), como en el Pokémon original.
             </p>
-            <div className="p-2 rounded bg-emerald-950/30 border border-emerald-800/40 text-[11px] text-emerald-200">
+            <div className="p-2 rounded bg-success/10 border border-success/30 text-[11px] text-success">
               ★ <strong>Condición estricta:</strong> Al igual que con la naturaleza, <strong>solo se transfiere si uno de los padres ya posee la habilidad</strong> (aplica tanto a habilidades comunes como a la <strong>Habilidad Oculta</strong>). No existe método de pago para fijar una habilidad.
             </div>
           </div>
