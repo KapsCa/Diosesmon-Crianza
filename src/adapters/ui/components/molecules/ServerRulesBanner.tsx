@@ -19,7 +19,9 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-semibold text-ink">Reglas Diosesmon:</span>
             <span className="text-ink-muted">
-              Guardería <strong className="text-success font-medium">Gratis (0 Pk$)</strong> • Tienda de Crianza <strong className="text-danger font-medium">500 Pk$</strong> • Determinismo 100%
+              Guardería <strong className="text-success font-medium">Gratis (0 Pk$)</strong> •
+              Tienda de Crianza <strong className="text-danger font-medium">500 Pk$</strong> •
+              Determinismo 100%
             </span>
           </div>
         </div>
@@ -55,7 +57,10 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
               <span>Tienda de Crianza: 500 Pk$ por Ítem</span>
             </div>
             <p className="text-ink-muted leading-relaxed">
-              En Diosesmon, los Power Items y la Piedra Eterna cuestan <strong>500 Pk$ cada uno</strong> y tienen consumo 1x Burn. Se accede a la Tienda de crianza a través del <strong>PokéPad</strong> o en el <strong>spawn en el piso superior de la guardería</strong>.
+              En Diosesmon, los Power Items y la Piedra Eterna cuestan{' '}
+              <strong>500 Pk$ cada uno</strong> y tienen consumo 1x Burn. Se accede a la Tienda de
+              crianza a través del <strong>PokéPad</strong> o en el{' '}
+              <strong>spawn en el piso superior de la guardería</strong>.
             </p>
           </div>
 
@@ -65,7 +70,9 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
               <span>Sin Tarifa de Guardería (0 Pk$)</span>
             </div>
             <p className="text-ink-muted leading-relaxed">
-              El servidor cuenta con <strong>guardería gratuita (0 Pk$)</strong> por ciclo de cruza. Solo se aplica una tarifa opcional de <strong>500 Pk$</strong> si decides seleccionar y garantizar el sexo de la cría resultante.
+              El servidor cuenta con <strong>guardería gratuita (0 Pk$)</strong> por ciclo de cruza.
+              Solo se aplica una tarifa opcional de <strong>500 Pk$</strong> si decides seleccionar
+              y garantizar el sexo de la cría resultante.
             </p>
           </div>
 
@@ -75,7 +82,9 @@ export const ServerRulesBanner: React.FC<ServerRulesBannerProps> = ({ onNavigate
               <span>Determinismo & Selección de Sexo</span>
             </div>
             <p className="text-ink-muted leading-relaxed">
-              Herencia 100% determinista sin RNG. La especie se hereda de la madre (o de la especie base con Ditto). Puedes fijar el sexo de la cría por una tarifa fija de <strong>500 Pk$</strong>.
+              Herencia 100% determinista sin RNG. La especie se hereda de la madre (o de la especie
+              base con Ditto). Puedes fijar el sexo de la cría por una tarifa fija de{' '}
+              <strong>500 Pk$</strong>.
             </p>
           </div>
         </div>

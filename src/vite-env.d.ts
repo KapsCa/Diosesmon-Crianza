@@ -6,4 +6,4 @@
  * importing the manifest into the app would bundle the whole file into the
  * client and ship build metadata to the browser.
  */
-declare const __APP_VERSION__: string
+declare const __APP_VERSION__: string;

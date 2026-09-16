@@ -155,7 +155,7 @@
    */
   color-scheme: dark;
 
-  font: 16px/150% var(--font-sans);
+  font: 16px / 150% var(--font-sans);
   letter-spacing: 0.15px;
   color: var(--color-ink-muted);
   background-color: var(--color-canvas);
@@ -226,7 +226,6 @@
     background: var(--color-surface-sunken);
   }
 }
-
 
 /*
  * The old `.species-selector` and `.species-*` block that lived here is gone:

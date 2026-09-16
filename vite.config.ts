@@ -1,8 +1,8 @@
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import { configDefaults, defineConfig } from 'vitest/config'
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 // The release version lives in `package.json`, which release-please bumps in the
 // release PR. Reading it here and injecting it as a literal is what makes the
@@ -17,9 +17,9 @@ import { configDefaults, defineConfig } from 'vitest/config'
 // `readFileSync` instead of a JSON import because `tsconfig.node.json` has no
 // `resolveJsonModule`, and the type check config was just repaired in #46 — this
 // avoids moving it for a footer.
-const pkg = JSON.parse(
-  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
-) as { version: string }
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
+  version: string;
+};
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -44,4 +44,4 @@ export default defineConfig({
     css: true,
     exclude: [...configDefaults.exclude, '.github/**'],
   },
-})
+});

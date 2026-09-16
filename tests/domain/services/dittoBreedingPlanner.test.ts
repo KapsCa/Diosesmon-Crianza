@@ -63,11 +63,11 @@ describe('planDittoBreedingRoute', () => {
 
     // In step 3 the Ditto band protects Defense and the species band protects HP,
     // so Attack (31 in both parents) must be fixed by herencia fija.
-    expect(last.statInheritance.filter((i) => i.method === 'band_ditto').map((i) => i.stat)).toEqual([
-      Stat.Defense,
-    ]);
     expect(
-      last.statInheritance.filter((i) => i.method === 'band_species').map((i) => i.stat)
+      last.statInheritance.filter((i) => i.method === 'band_ditto').map((i) => i.stat),
+    ).toEqual([Stat.Defense]);
+    expect(
+      last.statInheritance.filter((i) => i.method === 'band_species').map((i) => i.stat),
     ).toEqual([Stat.HP]);
     expect(last.parentSpecies.heldItem?.stat).toBe(Stat.HP);
     expect(last.parentDitto.heldItem?.stat).toBe(Stat.Defense);
@@ -80,7 +80,7 @@ describe('planDittoBreedingRoute', () => {
     expect(
       plan.steps
         .slice(0, 2)
-        .every((s) => s.statInheritance.every((i) => i.method !== 'herencia_fija'))
+        .every((s) => s.statInheritance.every((i) => i.method !== 'herencia_fija')),
     ).toBe(true);
   });
 
@@ -106,9 +106,11 @@ describe('planDittoBreedingRoute', () => {
   });
 
   it('fails with missingStats when no Ditto covers a requested stat', () => {
-    const plan = planDittoBreedingRoute(TARGET, [Stat.HP, Stat.Speed], [
-      ditto('d-hp', 'Ditto HP', { hp: 31 }),
-    ]);
+    const plan = planDittoBreedingRoute(
+      TARGET,
+      [Stat.HP, Stat.Speed],
+      [ditto('d-hp', 'Ditto HP', { hp: 31 })],
+    );
 
     expect(plan.success).toBe(false);
     expect(plan.missingStats).toEqual([Stat.Speed]);
@@ -121,12 +123,10 @@ describe('planDittoBreedingRoute', () => {
   });
 
   it('returns an empty free plan when the base specimen already has every target stat', () => {
-    const plan = planDittoBreedingRoute(
-      TARGET,
-      [Stat.HP],
-      [ditto('d1', 'Ditto HP', { hp: 31 })],
-      { ivs: ivsFrom({ hp: 31 }), gender: 'female' }
-    );
+    const plan = planDittoBreedingRoute(TARGET, [Stat.HP], [ditto('d1', 'Ditto HP', { hp: 31 })], {
+      ivs: ivsFrom({ hp: 31 }),
+      gender: 'female',
+    });
 
     expect(plan.success).toBe(true);
     expect(plan.steps).toEqual([]);

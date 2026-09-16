@@ -8,11 +8,19 @@ import { RoleSlot } from '../atoms/RoleSlot';
 import { BreedingTree } from '../organisms/BreedingTree';
 import { ALL_STATS, Stat } from '../../../../domain/types/stat';
 import { Gender } from '../../../../domain/types/pokemon';
-import { POKEMON_SPECIES_LIST, findSpeciesById, findSpeciesByName } from '../../../../domain/data/speciesData';
+import {
+  POKEMON_SPECIES_LIST,
+  findSpeciesById,
+  findSpeciesByName,
+} from '../../../../domain/data/speciesData';
 import { DIOSESMON_OFFICIAL_COST_MODEL } from '../../../../domain/types/costs';
 import { DiosesmonLogo } from '../atoms/DiosesmonLogo';
 import { WelcomeScreen } from '../organisms/WelcomeScreen';
-import { IVProfileBuilder, type IVTargetConfig, COMMON_NATURES } from '../molecules/IVProfileBuilder';
+import {
+  IVProfileBuilder,
+  type IVTargetConfig,
+  COMMON_NATURES,
+} from '../molecules/IVProfileBuilder';
 import { StrategySelector, type BreedingStrategy } from '../molecules/StrategySelector';
 import { PCProgenitorBank } from '../molecules/PCProgenitorBank';
 import { type StoredPokemon, getStoredSpecimens } from '../../../../domain/data/pcStorage';
@@ -128,7 +136,7 @@ export const IVsMapApp: React.FC = () => {
     try {
       const stored = getStoredSpecimens();
       const pcDittos = stored.filter(
-        (p) => p.speciesId === 132 || p.speciesName.toLowerCase() === 'ditto'
+        (p) => p.speciesId === 132 || p.speciesName.toLowerCase() === 'ditto',
       );
       if (pcDittos.length > 0) {
         return pcDittos.map((p, idx) => ({
@@ -197,8 +205,10 @@ export const IVsMapApp: React.FC = () => {
   const evaluateCompatibility = (father: any, mother: any) => {
     if (!father || !mother) return { compatible: false, reason: 'Falta un progenitor' };
 
-    const isFatherDitto = father.species?.id === 132 || father.species?.name?.toLowerCase() === 'ditto';
-    const isMotherDitto = mother.species?.id === 132 || mother.species?.name?.toLowerCase() === 'ditto';
+    const isFatherDitto =
+      father.species?.id === 132 || father.species?.name?.toLowerCase() === 'ditto';
+    const isMotherDitto =
+      mother.species?.id === 132 || mother.species?.name?.toLowerCase() === 'ditto';
 
     if (isFatherDitto && isMotherDitto) {
       return { compatible: false, reason: 'Dos Dittos no pueden criar entre sí.' };
@@ -207,22 +217,34 @@ export const IVsMapApp: React.FC = () => {
       return { compatible: true, reason: 'Ditto actúa como reproductor universal compatible.' };
     }
 
-    const isFatherUndiscovered = father.species?.eggGroups?.some((g: any) =>
-      g.name?.toLowerCase().includes('undiscovered') || g.name?.toLowerCase().includes('no descubierto')
+    const isFatherUndiscovered = father.species?.eggGroups?.some(
+      (g: any) =>
+        g.name?.toLowerCase().includes('undiscovered') ||
+        g.name?.toLowerCase().includes('no descubierto'),
     );
-    const isMotherUndiscovered = mother.species?.eggGroups?.some((g: any) =>
-      g.name?.toLowerCase().includes('undiscovered') || g.name?.toLowerCase().includes('no descubierto')
+    const isMotherUndiscovered = mother.species?.eggGroups?.some(
+      (g: any) =>
+        g.name?.toLowerCase().includes('undiscovered') ||
+        g.name?.toLowerCase().includes('no descubierto'),
     );
     if (isFatherUndiscovered || isMotherUndiscovered) {
-      return { compatible: false, reason: 'Uno de los Pokémon pertenece al grupo Sin Descubrir (no puede criar).' };
+      return {
+        compatible: false,
+        reason: 'Uno de los Pokémon pertenece al grupo Sin Descubrir (no puede criar).',
+      };
     }
 
-    const fatherGroups = new Set(father.species?.eggGroups?.map((g: any) => g.name?.toLowerCase()) || []);
+    const fatherGroups = new Set(
+      father.species?.eggGroups?.map((g: any) => g.name?.toLowerCase()) || [],
+    );
     const motherGroups = mother.species?.eggGroups?.map((g: any) => g.name?.toLowerCase()) || [];
     const sharesGroup = motherGroups.some((g: string) => fatherGroups.has(g));
 
     if (!sharesGroup) {
-      return { compatible: false, reason: 'Los progenitores no comparten ningún Grupo Huevo en común.' };
+      return {
+        compatible: false,
+        reason: 'Los progenitores no comparten ningún Grupo Huevo en común.',
+      };
     }
 
     if (father.gender === mother.gender && father.gender !== 'genderless') {
@@ -237,8 +259,7 @@ export const IVsMapApp: React.FC = () => {
 
   // Manejadores de paso
   const handleGoalChange = (species: { id: number; name: string }) => {
-    const targetSpecies =
-      findSpeciesById(species.id) ||
+    const targetSpecies = findSpeciesById(species.id) ||
       findSpeciesByName(species.name) || {
         id: species.id,
         name: species.name,
@@ -265,8 +286,7 @@ export const IVsMapApp: React.FC = () => {
     };
 
     const isTargetGenderless =
-      targetSpecies.genderRatio === -1 ||
-      targetSpecies.name?.toLowerCase() === 'ditto';
+      targetSpecies.genderRatio === -1 || targetSpecies.name?.toLowerCase() === 'ditto';
 
     if (isTargetGenderless) {
       father = {
@@ -396,7 +416,7 @@ export const IVsMapApp: React.FC = () => {
               gender: (existingSpecimen.gender as any) || 'female',
               name: existingSpecimen.speciesName,
             }
-          : undefined
+          : undefined,
       );
       dittoRes = plan;
       setDittoPlan(plan);
@@ -414,29 +434,32 @@ export const IVsMapApp: React.FC = () => {
       result.tree,
       undefined,
       undefined,
-      DIOSESMON_OFFICIAL_COST_MODEL
+      DIOSESMON_OFFICIAL_COST_MODEL,
     );
 
     // Desglose de ítems auditados con reglas de la Tienda de Crianza Diosesmon (500 Pk$ c/u)
     const isUsingDittoPlan = Boolean(strategy === 'ditto_speed' && dittoRes && dittoRes.success);
-    const baseSteps = (isUsingDittoPlan && dittoRes)
-      ? dittoRes.totalSteps
-      : routeEstimate.estimatedTime.totalSteps;
+    const baseSteps =
+      isUsingDittoPlan && dittoRes ? dittoRes.totalSteps : routeEstimate.estimatedTime.totalSteps;
 
     // Si parte de un espécimen existente con IVs en ruta tradicional, reducimos los pasos
-    const savedSteps = !isUsingDittoPlan && startingMode === 'existing' && existingSpecimen
-      ? Math.min(Math.floor(baseSteps * 0.4), Object.values(existingSpecimen.ivs).filter(v => v === 31).length)
-      : 0;
+    const savedSteps =
+      !isUsingDittoPlan && startingMode === 'existing' && existingSpecimen
+        ? Math.min(
+            Math.floor(baseSteps * 0.4),
+            Object.values(existingSpecimen.ivs).filter((v) => v === 31).length,
+          )
+        : 0;
     const totalSteps = Math.max(1, baseSteps - savedSteps);
-    const powerItemCount = (isUsingDittoPlan && dittoRes)
-      ? dittoRes.powerItemsCount
-      : totalSteps * 2; // 2 power items per breeding step
+    const powerItemCount = isUsingDittoPlan && dittoRes ? dittoRes.powerItemsCount : totalSteps * 2; // 2 power items per breeding step
     const everstoneCount = ivConfig.useEverstone ? 1 : 0;
     const mirrorHerbCount = ivConfig.hasHiddenAbility ? 1 : 0;
 
     const itemBreakdown = [
       {
-        type: isUsingDittoPlan ? 'Bandas Recias en Especie y Dittos (500 Pk$ c/u)' : 'Power Items Recios (500 Pk$ c/u - 1x Burn)',
+        type: isUsingDittoPlan
+          ? 'Bandas Recias en Especie y Dittos (500 Pk$ c/u)'
+          : 'Power Items Recios (500 Pk$ c/u - 1x Burn)',
         count: powerItemCount,
         cost: powerItemCount * 500,
       },
@@ -472,9 +495,7 @@ export const IVsMapApp: React.FC = () => {
       totalTime: `${totalSteps * 20} - ${totalSteps * 30} mins (Aprox. ${totalSteps} eclosiones)`,
       totalSteps,
       totalCost:
-        powerItemCount * 500 +
-        (everstoneCount > 0 ? 500 : 0) +
-        (mirrorHerbCount > 0 ? 500 : 0),
+        powerItemCount * 500 + (everstoneCount > 0 ? 500 : 0) + (mirrorHerbCount > 0 ? 500 : 0),
       itemBreakdown,
       ivBreakdown: { perfect: perfectCount, missing: 6 - perfectCount },
     };
@@ -542,7 +563,8 @@ export const IVsMapApp: React.FC = () => {
     if (role === 'base') {
       setExistingSpecimen(specimen);
       setStartingMode('existing');
-      const targetSpecies = findSpeciesById(specimen.speciesId) || findSpeciesByName(specimen.speciesName);
+      const targetSpecies =
+        findSpeciesById(specimen.speciesId) || findSpeciesByName(specimen.speciesName);
       if (targetSpecies) {
         handleGoalChange({ id: targetSpecies.id, name: targetSpecies.name });
       }
@@ -555,8 +577,14 @@ export const IVsMapApp: React.FC = () => {
   const handleParentSpeciesChange = (role: 'father' | 'mother', sp: any) => {
     setState((prev) => {
       if (!prev.parents) return prev;
-      const father = role === 'father' ? { ...prev.parents.father, species: sp, fromPC: false } : prev.parents.father;
-      const mother = role === 'mother' ? { ...prev.parents.mother, species: sp, fromPC: false } : prev.parents.mother;
+      const father =
+        role === 'father'
+          ? { ...prev.parents.father, species: sp, fromPC: false }
+          : prev.parents.father;
+      const mother =
+        role === 'mother'
+          ? { ...prev.parents.mother, species: sp, fromPC: false }
+          : prev.parents.mother;
       const comp = evaluateCompatibility(father, mother);
 
       return {
@@ -600,7 +628,7 @@ export const IVsMapApp: React.FC = () => {
   const handleParentIVChange = (
     role: 'father' | 'mother',
     statKey: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed',
-    value: number
+    value: number,
   ) => {
     setState((prev) => {
       if (!prev.parents || !prev.parents[role]) return prev;
@@ -614,7 +642,14 @@ export const IVsMapApp: React.FC = () => {
           [role]: {
             ...prev.parents[role],
             ivs: {
-              ...(prev.parents[role].ivs || { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 }),
+              ...(prev.parents[role].ivs || {
+                hp: 31,
+                attack: 31,
+                defense: 31,
+                spatk: 31,
+                spdef: 31,
+                speed: 31,
+              }),
               [statKey]: value,
             },
           },
@@ -625,7 +660,7 @@ export const IVsMapApp: React.FC = () => {
 
   const handleParentHeldItemChange = (
     role: 'father' | 'mother',
-    heldItem: null | { type: string; stat?: string }
+    heldItem: null | { type: string; stat?: string },
   ) => {
     setState((prev) => {
       if (!prev.parents || !prev.parents[role]) return prev;
@@ -704,7 +739,8 @@ export const IVsMapApp: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Especie seleccionada. Ajusta los IVs y naturaleza a continuación antes de calcular la ruta.
+                  Especie seleccionada. Ajusta los IVs y naturaleza a continuación antes de calcular
+                  la ruta.
                 </p>
               </div>
             </div>
@@ -717,9 +753,7 @@ export const IVsMapApp: React.FC = () => {
 
         {/* Sugerencias Frecuentes */}
         <div className="flex flex-col gap-2">
-          <span className="text-[11px] text-slate-400 font-medium">
-            Sugerencias populares:
-          </span>
+          <span className="text-[11px] text-slate-400 font-medium">Sugerencias populares:</span>
           <div className="flex items-center gap-2 flex-wrap">
             {POPULAR_SPECIES.map((spec) => (
               <button
@@ -762,9 +796,7 @@ export const IVsMapApp: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-xs font-semibold text-slate-200">
-                Punto de partida:
-              </span>
+              <span className="text-xs font-semibold text-slate-200">Punto de partida:</span>
             </div>
 
             <div className="inline-flex rounded-lg bg-slate-900 p-1 border border-slate-800 gap-1 self-start sm:self-auto">
@@ -825,9 +857,7 @@ export const IVsMapApp: React.FC = () => {
                         e.currentTarget.style.display = 'none';
                       }}
                     />
-                    <span className="font-semibold text-white">
-                      {existingSpecimen.speciesName}
-                    </span>
+                    <span className="font-semibold text-white">{existingSpecimen.speciesName}</span>
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-800/60">
                       {Object.values(existingSpecimen.ivs).filter((v) => v === 31).length}x31
                     </span>
@@ -836,9 +866,7 @@ export const IVsMapApp: React.FC = () => {
                     </span>
                   </div>
                 ) : (
-                  <span className="text-slate-400 italic">
-                    Ningún ejemplar seleccionado aún.
-                  </span>
+                  <span className="text-slate-400 italic">Ningún ejemplar seleccionado aún.</span>
                 )}
               </div>
 
@@ -869,9 +897,7 @@ export const IVsMapApp: React.FC = () => {
                       {perfectIVsCount}x31
                     </span>
                     <span className="text-slate-600">•</span>
-                    <span className="text-purple-200 font-medium">
-                      {currentNatureName}
-                    </span>
+                    <span className="text-purple-200 font-medium">{currentNatureName}</span>
                     <span className="text-slate-600">•</span>
                     <span className="text-slate-400 font-normal text-[11px]">
                       {strategy === 'economic' ? 'Económica' : 'Ditto Rápida'}
@@ -896,8 +922,12 @@ export const IVsMapApp: React.FC = () => {
                 onClick={() => setShowAdvancedConfig(!showAdvancedConfig)}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-900/90 hover:bg-slate-800 text-purple-300 border border-purple-500/30 hover:border-purple-500/60 transition-all flex items-center gap-1.5 self-start sm:self-center shrink-0 cursor-pointer shadow-sm"
               >
-                <span>{showAdvancedConfig ? 'Ocultar personalización' : 'Personalizar IVs y Naturaleza'}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAdvancedConfig ? 'rotate-180' : ''}`} />
+                <span>
+                  {showAdvancedConfig ? 'Ocultar personalización' : 'Personalizar IVs y Naturaleza'}
+                </span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform ${showAdvancedConfig ? 'rotate-180' : ''}`}
+                />
               </button>
             </div>
 
@@ -959,9 +989,7 @@ export const IVsMapApp: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-xs font-semibold text-slate-200">
-                Estrategia de Crianza:
-              </span>
+              <span className="text-xs font-semibold text-slate-200">Estrategia de Crianza:</span>
             </div>
 
             <div className="inline-flex rounded-lg bg-slate-900 p-1 border border-slate-800 gap-1 self-start sm:self-auto">
@@ -1033,19 +1061,17 @@ export const IVsMapApp: React.FC = () => {
                     </span>
                   )}
                   {ivConfig.hasHiddenAbility && (
-                    <span className="text-xs text-emerald-200">
-                      • Habilidad: Hierba Copia
-                    </span>
+                    <span className="text-xs text-emerald-200">• Habilidad: Hierba Copia</span>
                   )}
                 </div>
                 <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                   {isTrickRoom
                     ? '🌀 Espacio Raro (Trick Room): 0 IVs en Velocidad y naturaleza reductora (-Vel) fijados.'
                     : perfectIVsCount === 5
-                    ? ivConfig.useEverstone
-                      ? '⭐ Árbol trazado con Piedra Eterna para heredar la naturaleza directamente de un progenitor.'
-                      : '⚡ Método económico recomendado: 1 sola rama (15 cruces) + Menta de Naturaleza al eclosionar.'
-                    : 'Configuración lista. Presiona el botón para calcular la ruta determinista de cría.'}
+                      ? ivConfig.useEverstone
+                        ? '⭐ Árbol trazado con Piedra Eterna para heredar la naturaleza directamente de un progenitor.'
+                        : '⚡ Método económico recomendado: 1 sola rama (15 cruces) + Menta de Naturaleza al eclosionar.'
+                      : 'Configuración lista. Presiona el botón para calcular la ruta determinista de cría.'}
                 </p>
               </div>
             </div>
@@ -1098,7 +1124,8 @@ export const IVsMapApp: React.FC = () => {
               2. Elegir padres
             </h4>
             <p className="text-xs text-slate-400 mt-1">
-              Especie seleccionada: <strong className="text-purple-300">{state.goalSpecies?.name}</strong>
+              Especie seleccionada:{' '}
+              <strong className="text-purple-300">{state.goalSpecies?.name}</strong>
             </p>
           </div>
 
@@ -1125,26 +1152,33 @@ export const IVsMapApp: React.FC = () => {
         {state.parents &&
           state.parents.father?.species &&
           state.parents.mother?.species &&
-          (state.parents.compatible || (state.parents.reason && state.parents.reason !== 'Falta un progenitor')) && (
-          <div
-            className={`p-3 rounded-xl border text-xs flex items-center gap-2 ${
-              state.parents.compatible
-                ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300'
-                : 'bg-rose-950/20 border-rose-500/40 text-rose-300'
-            }`}
-          >
-            <span className="compatibility-status font-medium">
-              {state.parents.compatible
-                ? '✓ ' + (state.parents.reason || 'Esta pareja es fértil y compatible para cría y herencia determinista')
-                : '✗ Esta pareja no es compatible: ' + (state.parents.reason || 'Verificar grupos huevo')}
-            </span>
-          </div>
-        )}
+          (state.parents.compatible ||
+            (state.parents.reason && state.parents.reason !== 'Falta un progenitor')) && (
+            <div
+              className={`p-3 rounded-xl border text-xs flex items-center gap-2 ${
+                state.parents.compatible
+                  ? 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300'
+                  : 'bg-rose-950/20 border-rose-500/40 text-rose-300'
+              }`}
+            >
+              <span className="compatibility-status font-medium">
+                {state.parents.compatible
+                  ? '✓ ' +
+                    (state.parents.reason ||
+                      'Esta pareja es fértil y compatible para cría y herencia determinista')
+                  : '✗ Esta pareja no es compatible: ' +
+                    (state.parents.reason || 'Verificar grupos huevo')}
+              </span>
+            </div>
+          )}
 
         {/* Quick reminder on maternal species rule */}
         <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-400 leading-relaxed flex items-center justify-between">
           <span>
-            <strong className="text-pink-300 font-semibold">Regla Materna Diosesmon:</strong> La especie resultante de la eclosión siempre corresponde a la <strong className="text-pink-300">madre</strong> (o a la especie base no-Ditto si se cruza con Ditto).
+            <strong className="text-pink-300 font-semibold">Regla Materna Diosesmon:</strong> La
+            especie resultante de la eclosión siempre corresponde a la{' '}
+            <strong className="text-pink-300">madre</strong> (o a la especie base no-Ditto si se
+            cruza con Ditto).
           </span>
           <span className="text-[11px] font-mono text-slate-500 shrink-0 ml-2">
             Ambos slots son 100% interactivos y configurables
@@ -1264,11 +1298,11 @@ export const IVsMapApp: React.FC = () => {
         {/* Selector de visualización si hay ruta con Dittos o si se usó la estrategia con Dittos */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 shadow-md">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-300">
-              Visualización de Ruta:
-            </span>
+            <span className="text-xs font-semibold text-slate-300">Visualización de Ruta:</span>
             <span className="text-xs font-bold text-purple-300">
-              {resultsViewMode === 'ditto' ? '🧬 Ruta Rápida con tus Dittos' : '🌿 Árbol de Torneo Tradicional'}
+              {resultsViewMode === 'ditto'
+                ? '🧬 Ruta Rápida con tus Dittos'
+                : '🌿 Árbol de Torneo Tradicional'}
             </span>
           </div>
 
@@ -1281,7 +1315,7 @@ export const IVsMapApp: React.FC = () => {
                   const plan = planDittoBreedingRoute(
                     { id: state.goalSpecies.id, name: state.goalSpecies.name },
                     activeTargetStats,
-                    userDittos
+                    userDittos,
                   );
                   setDittoPlan(plan);
                 }
@@ -1319,7 +1353,7 @@ export const IVsMapApp: React.FC = () => {
                 planDittoBreedingRoute(
                   { id: state.goalSpecies?.id || 1, name: state.goalSpecies?.name || 'Pokémon' },
                   activeTargetStats,
-                  userDittos
+                  userDittos,
                 )
               }
               targetSpeciesName={state.goalSpecies?.name}
@@ -1335,9 +1369,14 @@ export const IVsMapApp: React.FC = () => {
               nature={ivConfig.nature}
               useEverstone={ivConfig.useEverstone}
               targetIVsCount={
-                [ivConfig.hp, ivConfig.attack, ivConfig.defense, ivConfig.spatk, ivConfig.spdef, ivConfig.speed].filter(
-                  (v) => v === 31
-                ).length
+                [
+                  ivConfig.hp,
+                  ivConfig.attack,
+                  ivConfig.defense,
+                  ivConfig.spatk,
+                  ivConfig.spdef,
+                  ivConfig.speed,
+                ].filter((v) => v === 31).length
               }
             />
           )}
@@ -1347,7 +1386,7 @@ export const IVsMapApp: React.FC = () => {
   };
 
   return (
-      <div className="ivsmap-app">
+    <div className="ivsmap-app">
       {/* Header institucional Diosesmon */}
       <header className="ivsmap-header relative isolate overflow-hidden">
         {/*
@@ -1367,81 +1406,81 @@ export const IVsMapApp: React.FC = () => {
             aria-hidden="true"
             className="pointer-events-none absolute -left-28 -top-28 -z-10 h-80 w-[28rem] bg-[radial-gradient(closest-side,var(--color-brand)_0%,transparent_100%)] opacity-[0.22]"
           />
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            {/* A violet halo behind the mark: the cheapest source of light here, and it
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              {/* A violet halo behind the mark: the cheapest source of light here, and it
                 echoes the bloom on the presentation screen. */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute -inset-2 rounded-full bg-brand/25 blur-xl"
-            />
-                <DiosesmonLogo
-                  size={56}
-                  className="[&>svg]:h-12 [&>svg]:w-12 sm:[&>svg]:h-14 sm:[&>svg]:w-14"
-                />
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-2 rounded-full bg-brand/25 blur-xl"
+              />
+              <DiosesmonLogo
+                size={56}
+                className="[&>svg]:h-12 [&>svg]:w-12 sm:[&>svg]:h-14 sm:[&>svg]:w-14"
+              />
+            </div>
+            <div>
+              <h1 className="m-0 text-xl font-black tracking-tight text-ink font-['Sora']">
+                IVsMap
+              </h1>
+              <p className="hidden text-xs text-ink-muted sm:block">
+                Planificador de Crianza • Cobblemon Diosesmon
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="m-0 text-xl font-black tracking-tight text-ink font-['Sora']">
-              IVsMap
-            </h1>
-<p className="hidden text-xs text-ink-muted sm:block">
-              Planificador de Crianza • Cobblemon Diosesmon
-            </p>
-          </div>
-        </div>
 
-        {/* Navigation tabs */}
-        <nav className="order-last flex w-full min-w-0 sm:order-none sm:w-auto items-center gap-1.5 overflow-x-auto p-1 rounded-xl border border-line bg-surface-sunken shadow-[inset_0_1px_0_0_var(--color-line)]">
-          <button
-            type="button"
-            onClick={() => setActiveTab('planner')}
-            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              activeTab === 'planner'
-                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
-                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
-            }`}
-          >
-            <GitBranch className="w-3.5 h-3.5" />
-            <span>Planificador</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('pc')}
-            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              activeTab === 'pc'
-                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
-                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
-            }`}
-          >
-            <Database className="w-3.5 h-3.5" />
-            <span>Banco PC</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('rules')}
-            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              activeTab === 'rules'
-                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
-                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Reglas</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('checklist')}
-            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              activeTab === 'checklist'
-                ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
-                : 'text-ink-muted hover:text-ink hover:bg-brand/10'
-            }`}
-          >
-            <ClipboardList className="w-3.5 h-3.5" />
-            <span>Checklist</span>
-          </button>
-        </nav>
-      {/*
+          {/* Navigation tabs */}
+          <nav className="order-last flex w-full min-w-0 sm:order-none sm:w-auto items-center gap-1.5 overflow-x-auto p-1 rounded-xl border border-line bg-surface-sunken shadow-[inset_0_1px_0_0_var(--color-line)]">
+            <button
+              type="button"
+              onClick={() => setActiveTab('planner')}
+              className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTab === 'planner'
+                  ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                  : 'text-ink-muted hover:text-ink hover:bg-brand/10'
+              }`}
+            >
+              <GitBranch className="w-3.5 h-3.5" />
+              <span>Planificador</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('pc')}
+              className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTab === 'pc'
+                  ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                  : 'text-ink-muted hover:text-ink hover:bg-brand/10'
+              }`}
+            >
+              <Database className="w-3.5 h-3.5" />
+              <span>Banco PC</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('rules')}
+              className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTab === 'rules'
+                  ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                  : 'text-ink-muted hover:text-ink hover:bg-brand/10'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Reglas</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('checklist')}
+              className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                activeTab === 'checklist'
+                  ? 'bg-gradient-to-b from-brand to-brand-deep text-ink font-semibold ring-1 ring-brand-soft/40 shadow-[0_0_18px] shadow-brand/35'
+                  : 'text-ink-muted hover:text-ink hover:bg-brand/10'
+              }`}
+            >
+              <ClipboardList className="w-3.5 h-3.5" />
+              <span>Checklist</span>
+            </button>
+          </nav>
+          {/*
         Session slot, deliberately inert. There is no identity layer yet: the PC bank
         lives in this browser's localStorage as a single implicit profile. A control that
         looks like it signs you in but does nothing would be a lie, so this one is
@@ -1451,96 +1490,98 @@ export const IVsMapApp: React.FC = () => {
         The server-rule chip sits under the button rather than beside it: in the row it
         competed with the tabs, and tucked underneath it reads as a caption.
       */}
-      <div className="ml-auto flex shrink-0 items-center gap-2">
-        <div className="flex flex-col items-center gap-1">
-          <button
-            type="button"
-            disabled
-            aria-disabled="true"
-            title="Perfiles: próximamente"
-            className="flex items-center gap-1.5 rounded-xl border border-line bg-surface px-3 py-2 text-xs font-medium text-ink-muted cursor-not-allowed"
-          >
-            <User className="h-4 w-4" />
-            <span className="hidden sm:inline">Perfiles</span>
-          </button>
-          <span className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-ink-muted lg:inline-flex">
-            <span
-              aria-hidden="true"
-              className="h-1 w-1 rounded-full bg-brand-soft shadow-[0_0_4px] shadow-brand-soft/70"
-            />
-            Determinista
-          </span>
-        </div>
-      </div>
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <div className="flex flex-col items-center gap-1">
+              <button
+                type="button"
+                disabled
+                aria-disabled="true"
+                title="Perfiles: próximamente"
+                className="flex items-center gap-1.5 rounded-xl border border-line bg-surface px-3 py-2 text-xs font-medium text-ink-muted cursor-not-allowed"
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Perfiles</span>
+              </button>
+              <span className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-ink-muted lg:inline-flex">
+                <span
+                  aria-hidden="true"
+                  className="h-1 w-1 rounded-full bg-brand-soft shadow-[0_0_4px] shadow-brand-soft/70"
+                />
+                Determinista
+              </span>
+            </div>
+          </div>
         </div>
       </header>
       {/* The content column. The header is full-bleed; the measure and the page
           padding live here, so the bar can span the viewport while the content keeps
           the 1040px measure it already had. */}
       <div className="mx-auto flex w-full max-w-[1040px] flex-col gap-6 px-4 pt-6 pb-12 sm:px-6">
-
-      {/* Contenido principal según pestaña activa */}
-      <main className="ivsmap-main">
-
+        {/* Contenido principal según pestaña activa */}
+        <main className="ivsmap-main">
           {showWelcome && <WelcomeScreen onStart={startPlanning} />}
 
           {/* Every tab is gated on !showWelcome so the presentation replaces the flow
               instead of stacking above it. */}
-        {!showWelcome && activeTab === 'planner' && (
-          <>
-            {state.formStep === 'select-species' && renderSpeciesSelector()}
+          {!showWelcome && activeTab === 'planner' && (
+            <>
+              {state.formStep === 'select-species' && renderSpeciesSelector()}
 
-            {state.formStep === 'select-parents' && startingMode === 'existing' && renderParentSelector()}
+              {state.formStep === 'select-parents' &&
+                startingMode === 'existing' &&
+                renderParentSelector()}
 
-            {state.formStep === 'select-parents' && startingMode === 'scratch' && renderSpeciesSelector()}
+              {state.formStep === 'select-parents' &&
+                startingMode === 'scratch' &&
+                renderSpeciesSelector()}
 
-            {state.formStep === 'generated' && renderGeneratedContent()}
+              {state.formStep === 'generated' && renderGeneratedContent()}
 
-            {state.formStep === 'review' && <p>Modo revisión</p>}
-          </>
-        )}
+              {state.formStep === 'review' && <p>Modo revisión</p>}
+            </>
+          )}
 
-        {!showWelcome && activeTab === 'checklist' && (
-          <DaycareChecklist targetSpeciesName={state.goalSpecies?.name || 'Pokémon Objetivo'} />
-        )}
+          {!showWelcome && activeTab === 'checklist' && (
+            <DaycareChecklist targetSpeciesName={state.goalSpecies?.name || 'Pokémon Objetivo'} />
+          )}
 
-        {!showWelcome && activeTab === 'pc' && (
-          <PCProgenitorBank
-            selectedSpeciesName={state.goalSpecies?.name}
-            onSelectProgenitor={handleProgenitorFromBank}
-          />
-        )}
+          {!showWelcome && activeTab === 'pc' && (
+            <PCProgenitorBank
+              selectedSpeciesName={state.goalSpecies?.name}
+              onSelectProgenitor={handleProgenitorFromBank}
+            />
+          )}
 
-        {!showWelcome && activeTab === 'rules' && <CompatibilityRulesMatrix />}
-      </main>
+          {!showWelcome && activeTab === 'rules' && <CompatibilityRulesMatrix />}
+        </main>
 
-      {/* Modal rápido del Banco PC */}
-      <PCQuickPickerModal
-        isOpen={pcModalState.isOpen}
-        onClose={() => setPcModalState({ isOpen: false, role: 'base' })}
-        targetRole={pcModalState.role}
-        onSelect={handleModalSelect}
-      />
+        {/* Modal rápido del Banco PC */}
+        <PCQuickPickerModal
+          isOpen={pcModalState.isOpen}
+          onClose={() => setPcModalState({ isOpen: false, role: 'base' })}
+          targetRole={pcModalState.role}
+          onSelect={handleModalSelect}
+        />
 
-      {/* Subtle brand footer */}
-      <footer className="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-muted font-mono">
-        {/* The version is injected at build time from `package.json`, so it follows
+        {/* Subtle brand footer */}
+        <footer className="pt-4 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-muted font-mono">
+          {/* The version is injected at build time from `package.json`, so it follows
             every release on its own. The store tariffs that used to sit here are
             gone: they were retyped from a source of truth no UI reads, and they
             listed three of the eight items. Money belongs next to the plan. */}
-        <span>Diosesmon Crianza Pro • v{__APP_VERSION__}</span>
-            <span>
-              Desarrollado por{' '}
-              <a
-                href="https://github.com/KapsCa"
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-soft underline-offset-2 transition-colors hover:text-ink hover:underline"
-              >
-                @KapsCa
-              </a>
-            </span>
-      </footer>
+          <span>Diosesmon Crianza Pro • v{__APP_VERSION__}</span>
+          <span>
+            Desarrollado por{' '}
+            <a
+              href="https://github.com/KapsCa"
+              target="_blank"
+              rel="noreferrer"
+              className="text-brand-soft underline-offset-2 transition-colors hover:text-ink hover:underline"
+            >
+              @KapsCa
+            </a>
+          </span>
+        </footer>
       </div>
     </div>
   );

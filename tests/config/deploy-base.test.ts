@@ -25,7 +25,12 @@ const repositoryName = (): string => {
       encoding: 'utf8',
     }).trim();
     // Handles both `git@github.com:owner/repo.git` and `https://github.com/owner/repo`.
-    return remote.replace(/\.git$/, '').split(/[/:]/).pop() ?? '';
+    return (
+      remote
+        .replace(/\.git$/, '')
+        .split(/[/:]/)
+        .pop() ?? ''
+    );
   } catch {
     return '';
   }

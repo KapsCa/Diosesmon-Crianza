@@ -31,7 +31,7 @@ describe('DiosesmonLogo', () => {
       <>
         <DiosesmonLogo />
         <DiosesmonLogo showText />
-      </>
+      </>,
     );
 
     const gradients = Array.from(container.querySelectorAll('linearGradient'));
@@ -47,15 +47,15 @@ describe('DiosesmonLogo', () => {
       <>
         <DiosesmonLogo />
         <DiosesmonLogo />
-      </>
+      </>,
     );
 
     const declared = new Set(
-      Array.from(container.querySelectorAll('linearGradient')).map((g) => g.getAttribute('id'))
+      Array.from(container.querySelectorAll('linearGradient')).map((g) => g.getAttribute('id')),
     );
 
     const referenced = Array.from(container.querySelectorAll('[stroke^="url(#"]')).map((el) =>
-      (el.getAttribute('stroke') || '').replace(/^url\(#/, '').replace(/\)$/, '')
+      (el.getAttribute('stroke') || '').replace(/^url\(#/, '').replace(/\)$/, ''),
     );
 
     expect(referenced).toHaveLength(2);

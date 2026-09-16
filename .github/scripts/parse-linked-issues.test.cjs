@@ -47,13 +47,7 @@ test('an unclosed HTML comment hides the rest of the body, matching rendered out
 });
 
 test('a real reference outside a comment plus the template example inside one finds exactly the real one', () => {
-  const body = [
-    'Closes #1770',
-    '',
-    '<!--',
-    'Example: Closes #42',
-    '-->',
-  ].join('\n');
+  const body = ['Closes #1770', '', '<!--', 'Example: Closes #42', '-->'].join('\n');
 
   assert.deepEqual(parseLinkedIssues(body), [1770]);
 });

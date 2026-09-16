@@ -44,7 +44,7 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
       | '5x31_special'
       | '6x31_absolute'
       | 'trick_room'
-      | 'trick_room_special'
+      | 'trick_room_special',
   ) => {
     switch (preset) {
       case '5x31_physical':
@@ -126,11 +126,15 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
     { key: 'speed', label: 'Velocidad', icon: <Gauge className="w-3.5 h-3.5" /> },
   ];
 
-  const handleStatToggle = (statKey: keyof Omit<IVTargetConfig, 'nature' | 'useEverstone' | 'hasHiddenAbility'>) => {
+  const handleStatToggle = (
+    statKey: keyof Omit<IVTargetConfig, 'nature' | 'useEverstone' | 'hasHiddenAbility'>,
+  ) => {
     const current = config[statKey];
     let next = 31;
-    if (current === 31) next = -1; // toggle to X (irrelevante)
-    else if (current === -1) next = 0; // toggle to 0 (Trick Room o Foul Play)
+    if (current === 31)
+      next = -1; // toggle to X (irrelevante)
+    else if (current === -1)
+      next = 0; // toggle to 0 (Trick Room o Foul Play)
     else next = 31; // toggle back to 31
     onChange({ ...config, [statKey]: next });
   };
@@ -145,7 +149,8 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
             Constructor de Perfil de IVs
           </span>
           <p className="text-xs text-ink-muted">
-            Haz clic en cualquier atributo para alternar entre 31 (Máximo), X (Irrelevante) y 0 (Mínimo).
+            Haz clic en cualquier atributo para alternar entre 31 (Máximo), X (Irrelevante) y 0
+            (Mínimo).
           </p>
         </div>
       </div>
@@ -165,8 +170,8 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                 is31
                   ? 'bg-success/10 border-success/50 shadow-[0_0_12px] shadow-success/15'
                   : is0
-                  ? 'bg-warning/10 border-warning/50 shadow-[0_0_12px] shadow-warning/15'
-                  : 'bg-surface-sunken/60 border-line opacity-70 hover:opacity-100'
+                    ? 'bg-warning/10 border-warning/50 shadow-[0_0_12px] shadow-warning/15'
+                    : 'bg-surface-sunken/60 border-line opacity-70 hover:opacity-100'
               }`}
             >
               <div className="flex items-center gap-1.5 text-xs font-medium text-ink">
@@ -177,11 +182,7 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
               <div className="my-1.5 flex items-center justify-center">
                 <span
                   className={`text-xl font-bold font-mono ${
-                    is31
-                      ? 'text-success'
-                      : is0
-                      ? 'text-warning'
-                      : 'text-ink-faint'
+                    is31 ? 'text-success' : is0 ? 'text-warning' : 'text-ink-faint'
                   }`}
                 >
                   {is31 ? '31' : is0 ? '0' : 'X'}
@@ -285,7 +286,11 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                     onChange={(e) => onChange({ ...config, useEverstone: e.target.checked })}
                     className="rounded border-line-strong text-brand-soft focus:ring-brand bg-surface-raised cursor-pointer"
                   />
-                  <span className={config.useEverstone ? 'text-brand-soft font-medium' : 'text-ink-muted'}>
+                  <span
+                    className={
+                      config.useEverstone ? 'text-brand-soft font-medium' : 'text-ink-muted'
+                    }
+                  >
                     Usar Piedra Eterna
                   </span>
                 </label>
@@ -301,7 +306,11 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                     className="rounded border-line-strong text-success focus:ring-success bg-surface-raised cursor-pointer"
                   />
                   <Sparkles className="w-3.5 h-3.5 text-success" />
-                  <span className={config.hasHiddenAbility ? 'text-success font-medium' : 'text-ink-muted'}>
+                  <span
+                    className={
+                      config.hasHiddenAbility ? 'text-success font-medium' : 'text-ink-muted'
+                    }
+                  >
                     Habilidad (Hierba Copia)
                   </span>
                 </label>
@@ -314,14 +323,17 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                 <div className="flex items-center gap-1.5 text-brand-soft">
                   <ItemSprite item="everstone" size={15} />
                   <span>
-                    <strong>Piedra Eterna:</strong> Hereda {selectedNatureObj.es} directamente si un progenitor la posee (rama trazada en el árbol).
+                    <strong>Piedra Eterna:</strong> Hereda {selectedNatureObj.es} directamente si un
+                    progenitor la posee (rama trazada en el árbol).
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 text-success">
                   <ItemSprite item="mint" size={15} />
                   <span>
-                    <strong>Menta recomendada:</strong> Menta {selectedNatureObj.es} (+{selectedNatureObj.plus}, -{selectedNatureObj.minus}) al eclosionar. Ahorra 50% de cruces.
+                    <strong>Menta recomendada:</strong> Menta {selectedNatureObj.es} (+
+                    {selectedNatureObj.plus}, -{selectedNatureObj.minus}) al eclosionar. Ahorra 50%
+                    de cruces.
                   </span>
                 </div>
               )}
@@ -330,7 +342,8 @@ export const IVProfileBuilder: React.FC<IVProfileBuilderProps> = ({ config, onCh
                 <div className="flex items-center gap-1.5 text-success">
                   <ItemSprite item="hierba copia" size={15} />
                   <span>
-                    <strong>Hierba Copia:</strong> Solo se transfiere si uno de los progenitores ya la posee.
+                    <strong>Hierba Copia:</strong> Solo se transfiere si uno de los progenitores ya
+                    la posee.
                   </span>
                 </div>
               )}

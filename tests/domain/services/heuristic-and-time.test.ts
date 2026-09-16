@@ -63,10 +63,9 @@ describe('estimateRouteTime', () => {
     let tempNode: TreeNode | undefined = root;
     while (tempNode) {
       allNodes.push(tempNode);
-      tempNode = tempNode.filter(c => c.progressLevel === tempNode!.progressLevel -1);
-
+      tempNode = tempNode.filter((c) => c.progressLevel === tempNode!.progressLevel - 1);
     }
-    
+
     // Fix para createLinearTree: debería construir el árbol "bottom-up" o un array con todos los nodos
     // La implementación actual crea un árbol que parece "top-down" desde el punto de vista del código, pero
     // para el solver es "bottom-up". Para fines de este test, simulamos un árbol donde maxDepth es el total de pasos.
@@ -155,7 +154,7 @@ describe('estimateRouteTime', () => {
       maxDepth: 1,
     };
     const nursery = { ...DEFAULT_NURSERY_CONFIG, freeSlots: 0, masterSlots: 0, premiumSlots: 0 };
-    
+
     const result = estimateRouteTime(tree, nursery, TIME_PER_STEP);
 
     // totalSteps = 1, criticalPath = 1, availableSlots = 0 (pero se ajusta a 1)

@@ -119,9 +119,7 @@ export const MOCK_NON_BREEDABLE_SPECIES: Species = {
 };
 
 /** Crea un Pokémon mock para tests */
-export function createMockPokemon(
-  overrides: Partial<Pokemon> = {}
-): Pokemon {
+export function createMockPokemon(overrides: Partial<Pokemon> = {}): Pokemon {
   const defaultIVs = createEmptyIVs();
 
   return {
@@ -137,7 +135,7 @@ export function createMockPokemon(
 export function createPokemonWithIVs(
   ivs: Partial<IVSpread>,
   species: Species = MOCK_SPECIES,
-  gender: Gender = Gender.Male
+  gender: Gender = Gender.Male,
 ): Pokemon {
   const defaultIVs = createEmptyIVs();
 
@@ -158,7 +156,7 @@ export function createDitto(ivs: Partial<IVSpread> = {}): Pokemon {
 export function createPokemonWithPerfectIVs(
   stats: Stat[],
   species: Species = MOCK_SPECIES,
-  gender: Gender = Gender.Male
+  gender: Gender = Gender.Male,
 ): Pokemon {
   const ivs = createEmptyIVs();
   stats.forEach((stat) => {

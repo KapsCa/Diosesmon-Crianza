@@ -100,12 +100,7 @@ export const DEFAULT_NURSERY_CONFIG: NurseryCapacityConfig = {
  * Calcula el número total de slots disponibles.
  */
 export function calculateTotalSlots(config: NurseryConfig): number {
-  return (
-    config.freeSlots +
-    config.masterSlots +
-    config.premiumSlots +
-    config.purchasedSlots
-  );
+  return config.freeSlots + config.masterSlots + config.premiumSlots + config.purchasedSlots;
 }
 
 /**

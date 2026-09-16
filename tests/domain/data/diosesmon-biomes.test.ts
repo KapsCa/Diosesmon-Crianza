@@ -40,9 +40,7 @@ describe('diosesmon-biomes', () => {
   });
 
   it('should have biome data for Trapinch in Desert', () => {
-    const trapinchBiome = biomes.find(
-      (b) => b.species.name === 'Trapinch' && b.biome === 'Desert'
-    );
+    const trapinchBiome = biomes.find((b) => b.species.name === 'Trapinch' && b.biome === 'Desert');
     expect(trapinchBiome).toBeDefined();
     expect(trapinchBiome?.encounterRate).toBeGreaterThan(0);
   });

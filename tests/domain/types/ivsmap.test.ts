@@ -10,7 +10,14 @@ describe('IVsMapConfig', () => {
       sourceIVs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
     };
 
-    expect(config.sourceIVs).toEqual({ hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 });
+    expect(config.sourceIVs).toEqual({
+      hp: 31,
+      attack: 31,
+      defense: 31,
+      spatk: 31,
+      spdef: 31,
+      speed: 31,
+    });
   });
 
   it('should accept optional targetIVs', () => {
@@ -51,7 +58,14 @@ describe('IVsMapResult', () => {
       totalCost: 0,
     };
 
-    expect(result.resultIVs).toEqual({ hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 });
+    expect(result.resultIVs).toEqual({
+      hp: 31,
+      attack: 31,
+      defense: 31,
+      spatk: 31,
+      spdef: 31,
+      speed: 31,
+    });
   });
 
   it('should track inherited free stats', () => {

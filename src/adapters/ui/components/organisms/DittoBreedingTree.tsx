@@ -87,7 +87,9 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                 )}
               </div>
               <p className="text-xs text-ink-muted mt-0.5">
-                Ruta 100% determinista. Asignación estricta de <strong>máx 1 banda por progenitor</strong> y aprovechamiento de <strong>Herencia Fija</strong>.
+                Ruta 100% determinista. Asignación estricta de{' '}
+                <strong>máx 1 banda por progenitor</strong> y aprovechamiento de{' '}
+                <strong>Herencia Fija</strong>.
               </p>
             </div>
           </div>
@@ -131,9 +133,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
             <span className="text-sm font-bold text-white font-mono">
               {plan.totalSteps} eclosiones
             </span>
-            <span className="text-[10px] text-success font-medium">
-              vs 15-31 con capturas
-            </span>
+            <span className="text-[10px] text-success font-medium">vs 15-31 con capturas</span>
           </div>
 
           <div className="p-2.5 rounded-xl bg-canvas/50 border border-line flex flex-col gap-0.5">
@@ -157,9 +157,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
             <span className="text-sm font-bold text-info font-mono">
               {plan.herenciaFijaOccurrences} activaciones
             </span>
-            <span className="text-[10px] text-ink-muted">
-              31 compartido en ambos
-            </span>
+            <span className="text-[10px] text-ink-muted">31 compartido en ambos</span>
           </div>
 
           <div className="p-2.5 rounded-xl bg-canvas/50 border border-line flex flex-col gap-0.5">
@@ -170,9 +168,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
             <span className="text-sm font-bold text-warning font-mono">
               {plan.totalSteps * 20} - {plan.totalSteps * 30} min
             </span>
-            <span className="text-[10px] text-ink-muted">
-              Acelerado con Dittos
-            </span>
+            <span className="text-[10px] text-ink-muted">Acelerado con Dittos</span>
           </div>
         </div>
       </div>
@@ -181,13 +177,15 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
       <div className="p-3.5 rounded-xl bg-info/10 border border-info/30 flex items-start gap-2.5 text-xs text-ink">
         <Info className="w-4 h-4 text-info shrink-0 mt-0.5" />
         <div className="flex flex-col gap-1 leading-relaxed">
-          <span className="font-bold text-info">
-            Regla de Herencia Determinista en Diosesmon:
-          </span>
+          <span className="font-bold text-info">Regla de Herencia Determinista en Diosesmon:</span>
           <p className="text-[11px] text-ink">
-            Cada progenitor solo puede equipar <strong>1 Power Item</strong> (máximo 2 IVs forzados por huevo).
-            Las estadísticas 31 restantes se conservan de forma 100% garantizada gracias a la <strong>Herencia Fija</strong>,
-            que ocurre cuando <strong>ambos progenitores (la especie y el Ditto) ya poseen 31 en esa misma estadística</strong>.
+            Cada progenitor solo puede equipar <strong>1 Power Item</strong> (máximo 2 IVs forzados
+            por huevo). Las estadísticas 31 restantes se conservan de forma 100% garantizada gracias
+            a la <strong>Herencia Fija</strong>, que ocurre cuando{' '}
+            <strong>
+              ambos progenitores (la especie y el Ditto) ya poseen 31 en esa misma estadística
+            </strong>
+            .
           </p>
         </div>
       </div>
@@ -231,12 +229,19 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <div>
                           <div className="text-xs font-bold text-white flex items-center gap-1">
                             <span>{step.parentSpecies.name}</span>
-                            <span className={step.parentSpecies.gender === 'female' ? 'text-role-female' : 'text-role-male'}>
+                            <span
+                              className={
+                                step.parentSpecies.gender === 'female'
+                                  ? 'text-role-female'
+                                  : 'text-role-male'
+                              }
+                            >
                               {step.parentSpecies.gender === 'female' ? '♀' : '♂'}
                             </span>
                           </div>
                           <span className="text-[10px] text-ink-muted font-mono">
-                            {Object.values(step.parentSpecies.ivs).filter((v) => v === 31).length}x31
+                            {Object.values(step.parentSpecies.ivs).filter((v) => v === 31).length}
+                            x31
                           </span>
                         </div>
                       </div>
@@ -247,7 +252,8 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                       <div className="p-1.5 rounded bg-brand/10 border border-brand/30 flex items-center gap-1.5 text-[11px] text-brand-soft">
                         <ItemSprite item={step.parentSpecies.heldItem.itemKey} size={18} />
                         <span>
-                          <strong>{step.parentSpecies.heldItem.name}</strong> (+{step.parentSpecies.heldItem.stat?.toUpperCase()})
+                          <strong>{step.parentSpecies.heldItem.name}</strong> (+
+                          {step.parentSpecies.heldItem.stat?.toUpperCase()})
                         </span>
                       </div>
                     ) : (
@@ -303,7 +309,8 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                       <div className="p-1.5 rounded bg-brand/10 border border-brand/30 flex items-center gap-1.5 text-[11px] text-brand-soft">
                         <ItemSprite item={step.parentDitto.heldItem.itemKey} size={18} />
                         <span>
-                          <strong>{step.parentDitto.heldItem.name}</strong> (+{step.parentDitto.heldItem.stat?.toUpperCase()})
+                          <strong>{step.parentDitto.heldItem.name}</strong> (+
+                          {step.parentDitto.heldItem.stat?.toUpperCase()})
                         </span>
                       </div>
                     ) : (
@@ -345,7 +352,13 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <div>
                           <div className="text-xs font-bold text-success flex items-center gap-1">
                             <span>Cría ({step.offspring.name})</span>
-                            <span className={step.offspring.gender === 'female' ? 'text-role-female' : 'text-role-male'}>
+                            <span
+                              className={
+                                step.offspring.gender === 'female'
+                                  ? 'text-role-female'
+                                  : 'text-role-male'
+                              }
+                            >
                               {step.offspring.gender === 'female' ? '♀' : '♂'}
                             </span>
                           </div>
@@ -413,7 +426,8 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
                         <span className="text-xs font-bold text-white">
                           {step.parentSpecies.name}{' '}
                           <span className="text-[10px] text-brand-soft font-mono">
-                            ({Object.values(step.parentSpecies.ivs).filter((v) => v === 31).length}x31)
+                            ({Object.values(step.parentSpecies.ivs).filter((v) => v === 31).length}
+                            x31)
                           </span>
                         </span>
                         {step.parentSpecies.heldItem && (
@@ -429,16 +443,13 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
 
                     {/* Lado Ditto */}
                     <div className="flex items-center gap-2.5">
-                      <img
-                        src={dittoSpriteUrl}
-                        alt="Ditto"
-                        className="w-7 h-7 object-contain"
-                      />
+                      <img src={dittoSpriteUrl} alt="Ditto" className="w-7 h-7 object-contain" />
                       <div className="flex flex-col">
                         <span className="text-xs font-bold text-white">
                           {step.parentDitto.name}{' '}
                           <span className="text-[10px] text-brand-soft font-mono">
-                            ({Object.values(step.parentDitto.ivs).filter((v) => v === 31).length}x31)
+                            ({Object.values(step.parentDitto.ivs).filter((v) => v === 31).length}
+                            x31)
                           </span>
                         </span>
                         {step.parentDitto.heldItem && (
@@ -454,11 +465,7 @@ export const DittoBreedingTree: React.FC<DittoBreedingTreeProps> = ({
 
                     {/* Cría resultante */}
                     <div className="flex items-center gap-2 bg-success/10 px-2.5 py-1 rounded-lg border border-success/30">
-                      <img
-                        src={speciesSpriteUrl}
-                        alt="Cría"
-                        className="w-6 h-6 object-contain"
-                      />
+                      <img src={speciesSpriteUrl} alt="Cría" className="w-6 h-6 object-contain" />
                       <span className="text-xs font-bold text-success font-mono">
                         {step.offspring.perfectCount}x31
                       </span>

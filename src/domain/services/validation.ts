@@ -27,10 +27,7 @@ export interface BreedingEntryValidation {
  * @param mother - Madre (hembra)
  * @returns CompatibilityCheck con resultado y razón
  */
-export function checkBreedingCompatibility(
-  father: Pokemon,
-  mother: Pokemon
-): CompatibilityCheck {
+export function checkBreedingCompatibility(father: Pokemon, mother: Pokemon): CompatibilityCheck {
   // Regla 1: Verificar si uno es Ditto
   const fatherIsDitto = father.species.name === 'Ditto';
   const motherIsDitto = mother.species.name === 'Ditto';
@@ -71,11 +68,7 @@ export function checkBreedingCompatibility(
   }
 
   // Regla 5: Si ambos son del mismo género y no hay Ditto
-  if (
-    father.gender === mother.gender &&
-    !fatherIsDitto &&
-    !motherIsDitto
-  ) {
+  if (father.gender === mother.gender && !fatherIsDitto && !motherIsDitto) {
     return {
       isCompatible: false,
       reason: `Ambos Pokémon son del mismo género (${father.gender})`,
@@ -155,7 +148,7 @@ export function canBreed(pokemon: Pokemon): boolean {
  */
 export function checkItemCompatibility(
   fatherItem: HeldItem | null,
-  motherItem: HeldItem | null
+  motherItem: HeldItem | null,
 ): CompatibilityCheck {
   const items = [fatherItem, motherItem].filter(Boolean);
 
@@ -179,9 +172,7 @@ export function checkItemCompatibility(
   }
 
   // Verificar que no haya dos Power Items protegiendo el mismo stat
-  const powerItems = items.filter(
-    (i) => i!.type !== ItemType.Everstone && i!.stat !== undefined
-  );
+  const powerItems = items.filter((i) => i!.type !== ItemType.Everstone && i!.stat !== undefined);
   const protectedStats = powerItems.map((i) => i!.stat);
   const uniqueStats = new Set(protectedStats);
 

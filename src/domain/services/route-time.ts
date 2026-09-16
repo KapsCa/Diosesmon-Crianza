@@ -24,7 +24,7 @@ function formatMinutes(totalMinutes: number): string {
 export function estimateRouteTime(
   tree: BreedingTree,
   nursery: NurseryCapacityConfig,
-  timePerStep: number
+  timePerStep: number,
 ): TimeEstimate {
   const totalSteps = tree.maxDepth;
   const availableSlots = Math.max(1, calculateTotalSlots(nursery));

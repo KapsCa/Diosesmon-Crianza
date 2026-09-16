@@ -16,10 +16,7 @@ import type { OverlapResult } from '../types/breeding';
  * @param mother - Madre (hembra)
  * @returns OverlapResult con stats heredados, protegidos y RNG
  */
-export function analyzeOverlap(
-  father: Pokemon,
-  mother: Pokemon
-): OverlapResult {
+export function analyzeOverlap(father: Pokemon, mother: Pokemon): OverlapResult {
   const freeInheritance: Stat[] = [];
   const itemProtected: { stat: Stat; byParent: 'father' | 'mother' }[] = [];
   const rng: Stat[] = [];
@@ -36,7 +33,11 @@ export function analyzeOverlap(
 
     // Caso 2: Solo el padre tiene 31
     if (fatherHas31 && !motherHas31) {
-      if (father.heldItem && isPowerItem(father.heldItem) && getProtectedStat(father.heldItem) === stat) {
+      if (
+        father.heldItem &&
+        isPowerItem(father.heldItem) &&
+        getProtectedStat(father.heldItem) === stat
+      ) {
         itemProtected.push({ stat, byParent: 'father' });
       } else {
         rng.push(stat);
@@ -46,7 +47,11 @@ export function analyzeOverlap(
 
     // Caso 3: Solo la madre tiene 31
     if (!fatherHas31 && motherHas31) {
-      if (mother.heldItem && isPowerItem(mother.heldItem) && getProtectedStat(mother.heldItem) === stat) {
+      if (
+        mother.heldItem &&
+        isPowerItem(mother.heldItem) &&
+        getProtectedStat(mother.heldItem) === stat
+      ) {
         itemProtected.push({ stat, byParent: 'mother' });
       } else {
         rng.push(stat);
@@ -76,16 +81,15 @@ export function analyzeOverlap(
 export function calculateMissingIVs(
   currentIVs: Stat[],
   targetIVs: Stat[],
-  overlap: OverlapResult
+  overlap: OverlapResult,
 ): number {
   const protectedStats = [
     ...overlap.freeInheritance,
     ...overlap.itemProtected.map((ip) => ip.stat),
   ];
 
-  return targetIVs.filter(
-    (stat) => !currentIVs.includes(stat) && !protectedStats.includes(stat)
-  ).length;
+  return targetIVs.filter((stat) => !currentIVs.includes(stat) && !protectedStats.includes(stat))
+    .length;
 }
 
 /**
@@ -106,10 +110,7 @@ export function isValidOverlap(overlap: OverlapResult): boolean {
  * @param itemCost - Costo por item (default: 500)
  * @returns Costo total de items
  */
-export function calculateOverlapCost(
-  overlap: OverlapResult,
-  itemCost: number = 500
-): number {
+export function calculateOverlapCost(overlap: OverlapResult, itemCost: number = 500): number {
   return overlap.itemProtected.length * itemCost;
 }
 
@@ -125,7 +126,7 @@ export function calculateOverlapCost(
 export function findBestItemCombination(
   father: Pokemon,
   mother: Pokemon,
-  targetIVs: Stat[]
+  targetIVs: Stat[],
 ): { fatherItem: HeldItem | null; motherItem: HeldItem | null } | null {
   // Primero analizamos sin items
   const baseOverlap = analyzeOverlap(father, mother);
@@ -138,7 +139,7 @@ export function findBestItemCombination(
 
   // Stats que necesitamos proteger
   const needsProtection = targetIVs.filter(
-    (stat) => !covered.has(stat) && (father.ivs[stat] === 31 || mother.ivs[stat] === 31)
+    (stat) => !covered.has(stat) && (father.ivs[stat] === 31 || mother.ivs[stat] === 31),
   );
 
   // Si necesitamos más de 2 items, no es posible con esta pareja

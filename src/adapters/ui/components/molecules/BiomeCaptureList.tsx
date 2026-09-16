@@ -50,14 +50,17 @@ interface BiomeCaptureListProps {
  */
 export const BiomeCaptureList: React.FC<BiomeCaptureListProps> = ({ biomeCaptures }) => {
   // Agrupar capturas por bioma
-  const groupedByBiome = biomeCaptures.reduce((acc, capture) => {
-    const biomeName = capture.biome;
-    if (!acc[biomeName]) {
-      acc[biomeName] = [];
-    }
-    acc[biomeName].push(capture);
-    return acc;
-  }, {} as Record<string, BiomeCapture[]>);
+  const groupedByBiome = biomeCaptures.reduce(
+    (acc, capture) => {
+      const biomeName = capture.biome;
+      if (!acc[biomeName]) {
+        acc[biomeName] = [];
+      }
+      acc[biomeName].push(capture);
+      return acc;
+    },
+    {} as Record<string, BiomeCapture[]>,
+  );
 
   return (
     <div className="biome-capture-list">
@@ -74,12 +77,8 @@ export const BiomeCaptureList: React.FC<BiomeCaptureListProps> = ({ biomeCapture
               <li key={capture.species.id} className="biome-item">
                 <span className="species-name">{capture.species.name}</span>
                 <div className="capture-rates">
-                  <span className="encounter-rate">
-                    Tasa de encuentro: {capture.encounterRate}
-                  </span>
-                  <span className="capture-chance">
-                    Taza de captura: {capture.captureChance}
-                  </span>
+                  <span className="encounter-rate">Tasa de encuentro: {capture.encounterRate}</span>
+                  <span className="capture-chance">Taza de captura: {capture.captureChance}</span>
                   <span className="capture-rate-badge">
                     Capture Rate: {capture.species.captureRate}
                   </span>

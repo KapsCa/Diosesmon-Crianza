@@ -7,19 +7,43 @@ describe('BiomeCaptureList', () => {
   it('should render biome captures grouped by biome', () => {
     const biomeCaptures = [
       {
-        species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+        species: {
+          id: 1,
+          name: 'Testmon',
+          genderRatio: 0.5,
+          eggGroups: [{ name: 'Field' }],
+          gen: 1,
+          baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+          captureRate: 45,
+        },
         biome: 'Forest',
         encounterRate: 0.4,
         captureChance: 0.8,
       },
       {
-        species: { id: 328, name: 'Trapinch', genderRatio: 0.5, eggGroups: [{ name: 'Bug' }, { name: 'Dragon' }], gen: 3, baseStats: { hp: 45, attack: 100, defense: 45, spatk: 45, spdef: 45, speed: 10 }, captureRate: 255 },
+        species: {
+          id: 328,
+          name: 'Trapinch',
+          genderRatio: 0.5,
+          eggGroups: [{ name: 'Bug' }, { name: 'Dragon' }],
+          gen: 3,
+          baseStats: { hp: 45, attack: 100, defense: 45, spatk: 45, spdef: 45, speed: 10 },
+          captureRate: 255,
+        },
         biome: 'Desert',
         encounterRate: 0.15,
         captureChance: 0.5,
       },
       {
-        species: { id: 10, name: 'Caterpie', genderRatio: 0.5, eggGroups: [{ name: 'Bug' }], gen: 1, baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 }, captureRate: 255 },
+        species: {
+          id: 10,
+          name: 'Caterpie',
+          genderRatio: 0.5,
+          eggGroups: [{ name: 'Bug' }],
+          gen: 1,
+          baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 },
+          captureRate: 255,
+        },
         biome: 'Forest',
         encounterRate: 0.5,
         captureChance: 0.9,
@@ -48,7 +72,15 @@ describe('BiomeCaptureList', () => {
   it('should display encounter rate and capture chance for each capture', () => {
     const biomeCaptures = [
       {
-        species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+        species: {
+          id: 1,
+          name: 'Testmon',
+          genderRatio: 0.5,
+          eggGroups: [{ name: 'Field' }],
+          gen: 1,
+          baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+          captureRate: 45,
+        },
         biome: 'Forest',
         encounterRate: 0.4,
         captureChance: 0.8,
@@ -68,7 +100,15 @@ describe('BiomeCaptureList', () => {
   it('should show species name and capture rate badge', () => {
     const biomeCaptures = [
       {
-        species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+        species: {
+          id: 1,
+          name: 'Testmon',
+          genderRatio: 0.5,
+          eggGroups: [{ name: 'Field' }],
+          gen: 1,
+          baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+          captureRate: 45,
+        },
         biome: 'Forest',
         encounterRate: 0.4,
         captureChance: 0.8,

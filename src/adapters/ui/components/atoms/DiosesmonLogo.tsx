@@ -42,7 +42,14 @@ export const DiosesmonLogo: React.FC<DiosesmonLogoProps> = ({
         {...svgA11y}
       >
         <defs>
-          <linearGradient id={gradientId} x1="48" y1="11" x2="48" y2="88" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id={gradientId}
+            x1="48"
+            y1="11"
+            x2="48"
+            y2="88"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="var(--color-brand-soft)" />
             <stop offset="1" stopColor="var(--color-brand-deep)" />
           </linearGradient>
@@ -70,9 +77,7 @@ export const DiosesmonLogo: React.FC<DiosesmonLogoProps> = ({
            * `ink-faint` only reaches a 4.06:1 contrast ratio against the canvas,
            * below the 4.5:1 this size needs. `ink-muted` reaches 7.53:1.
            */}
-          <span className="text-xs text-ink-muted font-mono">
-            TACTICAL BREEDING OPTIMIZER
-          </span>
+          <span className="text-xs text-ink-muted font-mono">TACTICAL BREEDING OPTIMIZER</span>
         </div>
       )}
     </div>
