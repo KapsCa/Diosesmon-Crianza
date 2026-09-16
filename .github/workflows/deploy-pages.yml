@@ -37,10 +37,22 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # The Pages actions poll internally, so a stuck deployment would otherwise hold the
+    # runner until the six-hour default.
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # `push` is restricted to `main`, but `workflow_dispatch` is not: started from
+      # another branch it would publish that branch to production and silently bypass the
+      # restriction. This refuses before anything else runs.
+      - name: Refuse to deploy anything but main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::This workflow only deploys main; got ${{ github.ref }}."
+          exit 1
+
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -74,3 +86,13 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+      # A successful deploy step only proves the artifact was uploaded and the Pages API
+      # accepted it; it does not prove production serves it. This repository has already
+      # shipped a green deploy while the site served the raw development tree (HTTP 200,
+      # blank page, and no failing check to explain it). So ask the published URL whether
+      # it references the asset hash this build emitted, and fail if it never does.
+      - name: Verify the published site serves this build
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: node .github/scripts/verify-deployed-build.mjs
