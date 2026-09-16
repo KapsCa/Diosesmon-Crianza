@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.4.0...v1.5.0) (2026-09-16)
+
+
+### Features
+
+* **ci:** verify the published site actually serves the build ([56f1a54](https://github.com/KapsCa/Diosesmon-Crianza/commit/56f1a549a6405ef4fa8df8d9c58b9a76268ab3ee)), closes [#75](https://github.com/KapsCa/Diosesmon-Crianza/issues/75)
+* **ci:** verify the published site actually serves the build, and pin the base path ([d251002](https://github.com/KapsCa/Diosesmon-Crianza/commit/d2510026d9ef57e05a84aa55b2e635715471d9ab))
+* **ci:** wire the verification into the deploy, and pin the base path ([73c7e34](https://github.com/KapsCa/Diosesmon-Crianza/commit/73c7e345ba3112b70e7cfeb03f84f0ffea85385c)), closes [#75](https://github.com/KapsCa/Diosesmon-Crianza/issues/75)
+
+
+### Bug Fixes
+
+* **ci:** report the deploy verification only after it passes ([fd78a31](https://github.com/KapsCa/Diosesmon-Crianza/commit/fd78a31fb09774deb8179ea7380c1b5a83ffe292)), closes [#75](https://github.com/KapsCa/Diosesmon-Crianza/issues/75)
+
 ## [1.4.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.3.4...v1.4.0) (2026-09-14)
 
 
