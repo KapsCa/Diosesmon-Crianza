@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { appendFileSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 /**
@@ -82,6 +82,62 @@ export async function verifyDeployedBuild({
   return { ok: false, attempts };
 }
 
+/**
+ * Verifies, and only then reports.
+ *
+ * The order is the whole point, and it is why this is a function instead of four lines in
+ * the CLI path: the summary used to be written *before* the check ran, claiming the asset
+ * had been `verified ... on the published site`, so a run that failed afterwards still
+ * carried that sentence in its step summary. That is the same silent false green this
+ * script exists to remove, printed by the script itself.
+ *
+ * Dependencies are injected so the ordering is testable without a network or a process.
+ */
+export async function verifyAndReport({
+  pageUrl,
+  expectedAsset,
+  summaryPath,
+  fetchImpl,
+  sleep,
+  attempts,
+  delayMs,
+  log = console.log,
+  fail = (message) => {
+    console.error(message);
+    process.exitCode = 1;
+  },
+  append = appendFileSync,
+}) {
+  const result = await verifyDeployedBuild({
+    pageUrl,
+    expectedAsset,
+    fetchImpl,
+    sleep,
+    attempts,
+    delayMs,
+    log,
+  });
+
+  if (!result.ok) {
+    fail(
+      `::error::the published site never served ${expectedAsset} after ${result.attempts} attempts. ` +
+        'The deploy step reported success, but production is not serving this build — the same ' +
+        'silent failure that served the development tree with HTTP 200 and a blank page.',
+    );
+    return result;
+  }
+
+  // Only now is the claim true.
+  if (summaryPath) {
+    append(
+      summaryPath,
+      `Deployed \`${process.env.GITHUB_SHA ?? 'unknown'}\` — verified \`${expectedAsset}\` on the published site.\n`,
+    );
+  }
+
+  return result;
+}
+
 const invokedDirectly =
   process.argv[1] !== undefined &&
   import.meta.url === pathToFileURL(process.argv[1]).href;
@@ -106,27 +162,16 @@ if (invokedDirectly) {
 
   console.log(`this build emitted ${expectedAsset}`);
   console.log(`deployed commit ${process.env.GITHUB_SHA ?? '(unknown)'}`);
-  if (process.env.GITHUB_STEP_SUMMARY) {
-    const { appendFileSync } = await import('node:fs');
-    appendFileSync(
-      process.env.GITHUB_STEP_SUMMARY,
-      `Deployed \`${process.env.GITHUB_SHA ?? 'unknown'}\` — verified \`${expectedAsset}\` on the published site.\n`,
-    );
-  }
 
-  const result = await verifyDeployedBuild({
+  // The default `fail` prints the `::error::` annotation and sets the exit code; the hard
+  // exit below is what makes a failed verification fail the step.
+  const result = await verifyAndReport({
     pageUrl,
     expectedAsset,
+    summaryPath: process.env.GITHUB_STEP_SUMMARY,
     attempts: Number(process.env.ATTEMPTS ?? 12),
     delayMs: Number(process.env.DELAY_MS ?? 10_000),
   });
 
-  if (!result.ok) {
-    console.error(
-      `::error::the published site never served ${expectedAsset} after ${result.attempts} attempts. ` +
-        'The deploy step reported success, but production is not serving this build — the same ' +
-        'silent failure that served the development tree with HTTP 200 and a blank page.',
-    );
-    process.exit(1);
-  }
+  if (!result.ok) process.exit(1);
 }

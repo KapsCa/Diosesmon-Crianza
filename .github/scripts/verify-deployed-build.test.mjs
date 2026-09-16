@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { extractAsset, verifyDeployedBuild } from './verify-deployed-build.mjs';
+import { extractAsset, verifyAndReport, verifyDeployedBuild } from './verify-deployed-build.mjs';
 
 const ASSET = 'assets/index-DGmOj9zy.js';
 
@@ -121,4 +121,49 @@ test('a page that mentions the asset only in another path does not count as veri
   });
 
   assert.deepEqual(result, { ok: false, attempts: 1 });
+});
+
+// The regression this pair exists for: the step summary was written before the check ran,
+// so a run that failed afterwards still claimed the asset had been `verified ... on the
+// published site` — a false green printed by the script that exists to remove false greens.
+test('does not claim verification when the published site never serves the build', async () => {
+  const written = [];
+  const failures = [];
+
+  const result = await verifyAndReport({
+    pageUrl: 'https://example.test/',
+    expectedAsset: ASSET,
+    summaryPath: 'step-summary.md',
+    fetchImpl: async () => ({ ok: true, status: 200, text: async () => developmentPage }),
+    attempts: 1,
+    sleep: async () => {},
+    log: quiet,
+    fail: (message) => failures.push(message),
+    append: (_path, content) => written.push(content),
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(failures.length, 1);
+  assert.deepEqual(written, []);
+});
+
+test('claims verification once, and only after the check passes', async () => {
+  const written = [];
+
+  const result = await verifyAndReport({
+    pageUrl: 'https://example.test/',
+    expectedAsset: ASSET,
+    summaryPath: 'step-summary.md',
+    fetchImpl: async () => ({ ok: true, status: 200, text: async () => livePage }),
+    sleep: async () => {},
+    log: quiet,
+    fail: () => {
+      throw new Error('this run should not have failed');
+    },
+    append: (_path, content) => written.push(content),
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(written.length, 1);
+  assert.match(written[0], /verified `assets\/index-DGmOj9zy\.js` on the published site/);
 });
