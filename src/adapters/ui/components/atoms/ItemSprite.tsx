@@ -37,7 +37,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'PS (HP)',
     color: '#22c55e',
     effect: '+4 HP / Pasa IV de PS al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
   },
   hp: {
     key: 'power_weight',
@@ -46,7 +47,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'PS (HP)',
     color: '#22c55e',
     effect: '+4 HP / Pasa IV de PS al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
   },
   'pesa recia': {
     key: 'power_weight',
@@ -55,7 +57,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'PS (HP)',
     color: '#22c55e',
     effect: '+4 HP / Pasa IV de PS al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-weight.png',
   },
   power_bracer: {
     key: 'power_bracer',
@@ -64,7 +67,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Ataque (Atk)',
     color: '#ef4444',
     effect: '+4 Attack / Pasa IV de Ataque al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
   },
   attack: {
     key: 'power_bracer',
@@ -73,7 +77,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Ataque (Atk)',
     color: '#ef4444',
     effect: '+4 Attack / Pasa IV de Ataque al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
   },
   'brazal recio': {
     key: 'power_bracer',
@@ -82,7 +87,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Ataque (Atk)',
     color: '#ef4444',
     effect: '+4 Attack / Pasa IV de Ataque al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
   },
   power_belt: {
     key: 'power_belt',
@@ -91,7 +97,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Defensa (Def)',
     color: '#f97316',
     effect: '+4 Defense / Pasa IV de Defensa al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
   },
   defense: {
     key: 'power_belt',
@@ -100,7 +107,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Defensa (Def)',
     color: '#f97316',
     effect: '+4 Defense / Pasa IV de Defensa al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
   },
   'cinto recio': {
     key: 'power_belt',
@@ -109,7 +117,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Defensa (Def)',
     color: '#f97316',
     effect: '+4 Defense / Pasa IV de Defensa al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-belt.png',
   },
   power_lens: {
     key: 'power_lens',
@@ -118,7 +127,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'At. Especial (SpA)',
     color: '#a855f7',
     effect: '+4 Sp. Att / Pasa IV de At. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
   },
   spatk: {
     key: 'power_lens',
@@ -127,7 +137,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'At. Especial (SpA)',
     color: '#a855f7',
     effect: '+4 Sp. Att / Pasa IV de At. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
   },
   'lente recia': {
     key: 'power_lens',
@@ -136,7 +147,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'At. Especial (SpA)',
     color: '#a855f7',
     effect: '+4 Sp. Att / Pasa IV de At. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-lens.png',
   },
   power_band: {
     key: 'power_band',
@@ -145,7 +157,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Def. Especial (SpD)',
     color: '#eab308',
     effect: '+4 Sp. Def / Pasa IV de Def. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
   },
   spdef: {
     key: 'power_band',
@@ -154,7 +167,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Def. Especial (SpD)',
     color: '#eab308',
     effect: '+4 Sp. Def / Pasa IV de Def. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
   },
   'banda recia': {
     key: 'power_band',
@@ -163,7 +177,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Def. Especial (SpD)',
     color: '#eab308',
     effect: '+4 Sp. Def / Pasa IV de Def. Especial al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-band.png',
   },
   power_anklet: {
     key: 'power_anklet',
@@ -172,7 +187,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Velocidad (Vel)',
     color: '#0ea5e9',
     effect: '+4 Speed / Pasa IV de Velocidad al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
   },
   speed: {
     key: 'power_anklet',
@@ -181,7 +197,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Velocidad (Vel)',
     color: '#0ea5e9',
     effect: '+4 Speed / Pasa IV de Velocidad al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
   },
   'franja recia': {
     key: 'power_anklet',
@@ -190,7 +207,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Velocidad (Vel)',
     color: '#0ea5e9',
     effect: '+4 Speed / Pasa IV de Velocidad al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-anklet.png',
   },
   everstone: {
     key: 'everstone',
@@ -199,7 +217,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#ffffff',
     effect: 'Transmite la Naturaleza del portador al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
   },
   nature: {
     key: 'everstone',
@@ -208,7 +227,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#ffffff',
     effect: 'Transmite la Naturaleza del portador al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
   },
   'piedra eterna': {
     key: 'everstone',
@@ -217,7 +237,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#ffffff',
     effect: 'Transmite la Naturaleza del portador al 100%',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/everstone.png',
   },
   mirror_herb: {
     key: 'mirror_herb',
@@ -226,7 +247,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Habilidad',
     color: '#10b981',
     effect: 'Transfiere la Habilidad del portador (estándar u oculta)',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mirror-herb.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mirror-herb.png',
   },
   'hierba copia': {
     key: 'mirror_herb',
@@ -235,7 +257,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Habilidad',
     color: '#10b981',
     effect: 'Transfiere la Habilidad del portador (estándar u oculta)',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mirror-herb.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/mirror-herb.png',
   },
   mint: {
     key: 'mint',
@@ -244,7 +267,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#34d399',
     effect: 'Cambia los modificadores de estadísticas a la naturaleza indicada',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
   },
   menta: {
     key: 'mint',
@@ -253,7 +277,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#34d399',
     effect: 'Cambia los modificadores de estadísticas a la naturaleza indicada',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
   },
   nature_mint: {
     key: 'mint',
@@ -262,7 +287,8 @@ export const ITEM_DATA_MAP: Record<
     statName: 'Naturaleza',
     color: '#34d399',
     effect: 'Cambia los modificadores de estadísticas a la naturaleza indicada',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/adamant-mint.png',
   },
 };
 
@@ -281,7 +307,8 @@ export const ItemSprite: React.FC<ItemSpriteProps> = ({
     statName: '',
     color: '#94a3b8',
     effect: 'Objeto Recio de Crianza',
-    spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
+    spriteUrl:
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/power-bracer.png',
   };
 
   const titleText = `${info.nameEs} (${info.nameEn}) • ${info.effect}`;
@@ -309,31 +336,57 @@ export const ItemSprite: React.FC<ItemSpriteProps> = ({
         />
       ) : (
         /* Fallback SVG representativo del brazal / piedra con los colores oficiales */
-        <svg
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-          className="drop-shadow"
-        >
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="drop-shadow">
           {info.key === 'everstone' ? (
             <g>
-              <ellipse cx="12" cy="12" rx="9" ry="7" fill="#64748b" stroke="#334155" strokeWidth="1.5" />
+              <ellipse
+                cx="12"
+                cy="12"
+                rx="9"
+                ry="7"
+                fill="#64748b"
+                stroke="#334155"
+                strokeWidth="1.5"
+              />
               <ellipse cx="11" cy="11" rx="6" ry="4" fill="#94a3b8" />
               <circle cx="14" cy="10" r="1.5" fill="#f8fafc" opacity="0.8" />
             </g>
           ) : info.key === 'mirror_herb' ? (
             <g>
               {/* Hoja / Hierba Copia */}
-              <path d="M 6 18 C 6 12, 10 7, 16 6 C 15 12, 12 16, 6 18 Z" fill="#10b981" stroke="#065f46" strokeWidth="1.2" />
-              <path d="M 10 18 C 10 13, 14 9, 19 8 C 18 13, 15 17, 10 18 Z" fill="#34d399" stroke="#065f46" strokeWidth="1" />
+              <path
+                d="M 6 18 C 6 12, 10 7, 16 6 C 15 12, 12 16, 6 18 Z"
+                fill="#10b981"
+                stroke="#065f46"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M 10 18 C 10 13, 14 9, 19 8 C 18 13, 15 17, 10 18 Z"
+                fill="#34d399"
+                stroke="#065f46"
+                strokeWidth="1"
+              />
             </g>
           ) : (
             <g>
               {/* Aro / Brazal exterior */}
-              <circle cx="12" cy="12" r="9" fill={info.color} stroke="var(--color-line)" strokeWidth="1.5" />
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                fill={info.color}
+                stroke="var(--color-line)"
+                strokeWidth="1.5"
+              />
               {/* Orificio interior */}
-              <circle cx="12" cy="12" r="4.5" fill="var(--color-canvas)" stroke="var(--color-line)" strokeWidth="1" />
+              <circle
+                cx="12"
+                cy="12"
+                r="4.5"
+                fill="var(--color-canvas)"
+                stroke="var(--color-line)"
+                strokeWidth="1"
+              />
               {/* Brillo de gema / banda */}
               <path
                 d="M 6 10 Q 12 5 18 10"

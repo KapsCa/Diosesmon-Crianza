@@ -9,7 +9,15 @@ describe('BreedingTree', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male' as const,
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -37,7 +45,15 @@ describe('BreedingTree', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male' as const,
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -65,7 +81,15 @@ describe('BreedingTree', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male' as const,
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -93,7 +117,15 @@ describe('BreedingTree', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male' as const,
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,

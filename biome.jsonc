@@ -1,0 +1,45 @@
+{
+  // The repository's style, declared so a formatter reproduces it instead of fighting it.
+  // Before this file existed, the automated formatter fell back to biome's defaults.
+  "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
+  "formatter": {
+    // Biome's default width is 80 and this repository is written wider, so at 80 the
+    // formatter rewrites 78 of its 80 source files. Indentation, quotes, semicolons and
+    // trailing commas already match biome here: line wrapping is the only real difference,
+    // which is why the width decides everything. Measured over the repository's 80 tracked
+    // JS/TS/CSS files (16,230 lines), counting changed lines:
+    //
+    //   width  80 -> 78 files | 100 -> 55 | 150 -> 58 | 200 -> 56
+    //   width 250 -> 51 files | 300 -> 51 | 320 -> 51 | 321+ -> rejected by biome
+    //
+    // Biome accepts 1..320 only, and the repository's longest line is 428 characters, so no
+    // valid width leaves the tree untouched. 100 is the width it is actually written to and
+    // the one that changes least. See the issue for the full sweep.
+    "lineWidth": 100,
+    // Biome defaults to tabs. Without these two, formatting any file re-indents it.
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "css": {
+    "parser": {
+      // src/index.css uses Tailwind 4's `@theme` directive, which biome rejects by default:
+      // it fails to parse the file and exits non-zero, taking the whole run with it.
+      "tailwindDirectives": true
+    }
+  },
+  // Generated data stays out of the formatter. `speciesData.ts` alone accounts for about
+  // 10,300 of the lines a formatter would touch here — it holds very long single-line
+  // entries that biome would explode into thousands of lines — and these files are produced
+  // by scripts, so formatting them would be undone on the next regeneration.
+  "overrides": [
+    {
+      "includes": ["src/domain/data/**"],
+      "formatter": { "enabled": false }
+    }
+  ]
+}

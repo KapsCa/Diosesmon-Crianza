@@ -1,9 +1,25 @@
 import React, { useState, useMemo } from 'react';
-import { Flame, Coins, Check, X, BookOpen, Search, ArrowRightLeft, Sparkles, Heart, MapPin } from 'lucide-react';
+import {
+  Flame,
+  Coins,
+  Check,
+  X,
+  BookOpen,
+  Search,
+  ArrowRightLeft,
+  Sparkles,
+  Heart,
+  MapPin,
+} from 'lucide-react';
 import { EggGroup, EGG_GROUP_NAMES_ES } from '../../../../domain/types/eggGroup';
 import { POKEMON_SPECIES_LIST } from '../../../../domain/data/speciesData';
 import type { Species } from '../../../../domain/types/pokemon';
-import { DIOSESMON_ITEM_COSTS, ITEM_NAMES_ES, ITEM_DESCRIPTIONS_ES, ItemType } from '../../../../domain/types/items';
+import {
+  DIOSESMON_ITEM_COSTS,
+  ITEM_NAMES_ES,
+  ITEM_DESCRIPTIONS_ES,
+  ItemType,
+} from '../../../../domain/types/items';
 
 export const CompatibilityRulesMatrix: React.FC = () => {
   // Select Pokémon species directly instead of egg groups
@@ -21,9 +37,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
 
   // Formateador de nombres de grupos huevo en español
   const getEggGroupNames = (species: Species): string[] => {
-    return (species.eggGroups || []).map(
-      (g) => EGG_GROUP_NAMES_ES[g.name as EggGroup] || g.name
-    );
+    return (species.eggGroups || []).map((g) => EGG_GROUP_NAMES_ES[g.name as EggGroup] || g.name);
   };
 
   // Determinar compatibilidad entre dos Pokémon
@@ -131,7 +145,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
       .filter(
         (s) =>
           s.name.toLowerCase().includes(query) ||
-          getEggGroupNames(s).some((g) => g.toLowerCase().includes(query))
+          getEggGroupNames(s).some((g) => g.toLowerCase().includes(query)),
       )
       .slice(0, 24);
   }, [compatibleSuggestions, suggestionFilter]);
@@ -202,7 +216,8 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               >
                 {POKEMON_SPECIES_LIST.filter((sp) => sp.id <= 1025).map((sp) => (
                   <option key={sp.id} value={sp.id}>
-                    #{String(sp.id).padStart(3, '0')} {sp.name} — {getEggGroupNames(sp).join(', ')} (Gen {sp.gen})
+                    #{String(sp.id).padStart(3, '0')} {sp.name} — {getEggGroupNames(sp).join(', ')}{' '}
+                    (Gen {sp.gen})
                   </option>
                 ))}
               </select>
@@ -254,7 +269,8 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               >
                 {POKEMON_SPECIES_LIST.filter((sp) => sp.id <= 1025).map((sp) => (
                   <option key={sp.id} value={sp.id}>
-                    #{String(sp.id).padStart(3, '0')} {sp.name} — {getEggGroupNames(sp).join(', ')} (Gen {sp.gen})
+                    #{String(sp.id).padStart(3, '0')} {sp.name} — {getEggGroupNames(sp).join(', ')}{' '}
+                    (Gen {sp.gen})
                   </option>
                 ))}
               </select>
@@ -293,7 +309,9 @@ export const CompatibilityRulesMatrix: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-sm font-bold">
-                  {compatibilityResult.compatible ? '¡100% Compatibles!' : 'Incompatibles para Crianza'}
+                  {compatibilityResult.compatible
+                    ? '¡100% Compatibles!'
+                    : 'Incompatibles para Crianza'}
                 </span>
                 <span className="text-[11px] font-mono opacity-80">
                   ({speciesA.name} + {speciesB.name})
@@ -332,7 +350,8 @@ export const CompatibilityRulesMatrix: React.FC = () => {
             <div className="flex items-center gap-1.5 text-xs text-ink font-medium">
               <Heart className="w-3.5 h-3.5 text-brand-soft" />
               <span>
-                Pokémon sugeridos compatibles con <strong className="text-white">{speciesA.name}</strong>:
+                Pokémon sugeridos compatibles con{' '}
+                <strong className="text-white">{speciesA.name}</strong>:
               </span>
               <span className="text-[11px] text-brand-soft font-mono">
                 ({compatibleSuggestions.length} encontrados)
@@ -423,7 +442,9 @@ export const CompatibilityRulesMatrix: React.FC = () => {
         <div className="p-2.5 rounded-lg bg-brand/10 border border-brand/30 flex items-start gap-2 text-xs text-brand-soft">
           <MapPin className="w-4 h-4 text-brand-soft shrink-0 mt-0.5" />
           <p className="leading-snug">
-            <strong>Acceso a la Tienda de crianza:</strong> Se accede a través del <strong>PokéPad</strong> o en el <strong>spawn en el piso superior de la guardería</strong>.
+            <strong>Acceso a la Tienda de crianza:</strong> Se accede a través del{' '}
+            <strong>PokéPad</strong> o en el{' '}
+            <strong>spawn en el piso superior de la guardería</strong>.
           </p>
         </div>
 
@@ -447,8 +468,8 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                         isEverstone
                           ? 'text-brand-soft'
                           : isMirrorHerb
-                          ? 'text-success'
-                          : 'text-danger'
+                            ? 'text-success'
+                            : 'text-danger'
                       }`}
                     />
                     {name}
@@ -473,9 +494,7 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                 <Coins className="w-3.5 h-3.5 text-info" />
                 Selección de Sexo de la Cría
               </span>
-              <span className="text-xs font-mono font-bold text-info">
-                500 Pk$
-              </span>
+              <span className="text-xs font-mono font-bold text-info">500 Pk$</span>
             </div>
             <p className="text-[11px] text-ink-muted leading-snug">
               Tarifa única para garantizar el género (Macho ♂ o Hembra ♀) de la cría al eclosionar.
@@ -493,12 +512,11 @@ export const CompatibilityRulesMatrix: React.FC = () => {
                 <Check className="w-3.5 h-3.5 text-success" />
                 Tarifa de Guardería
               </span>
-              <span className="text-xs font-mono font-bold text-success">
-                0 Pk$ (¡Gratis!)
-              </span>
+              <span className="text-xs font-mono font-bold text-success">0 Pk$ (¡Gratis!)</span>
             </div>
             <p className="text-[11px] text-ink-muted leading-snug">
-              Sin tarifa de guardería en el servidor. Las parejas de cría se incuban sin costo adicional por ciclo.
+              Sin tarifa de guardería en el servidor. Las parejas de cría se incuban sin costo
+              adicional por ciclo.
             </p>
             <div className="flex items-center justify-between text-[10px] text-success/80 font-mono pt-1 border-t border-line/60">
               <span>Sin costo base</span>
@@ -525,10 +543,14 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               Naturaleza (Piedra Eterna)
             </div>
             <p className="text-xs text-ink leading-relaxed">
-              Para garantizar que la cría herede una naturaleza específica al 100%, se debe equipar la <strong>Piedra Eterna</strong> (500 Pk$ en la tienda de crianza).
+              Para garantizar que la cría herede una naturaleza específica al 100%, se debe equipar
+              la <strong>Piedra Eterna</strong> (500 Pk$ en la tienda de crianza).
             </p>
             <div className="p-2 rounded bg-brand/10 border border-brand/30 text-[11px] text-brand-soft">
-              ⚠ <strong>Condición estricta:</strong> Solo funciona si el progenitor que equipa la piedra ya posee dicha naturaleza. <strong>No se puede pagar para fijarla arbitrariamente</strong> si ningún padre la tiene.
+              ⚠ <strong>Condición estricta:</strong> Solo funciona si el progenitor que equipa la
+              piedra ya posee dicha naturaleza.{' '}
+              <strong>No se puede pagar para fijarla arbitrariamente</strong> si ningún padre la
+              tiene.
             </div>
           </div>
 
@@ -539,10 +561,14 @@ export const CompatibilityRulesMatrix: React.FC = () => {
               Habilidad y Habilidad Oculta (Hierba Copia)
             </div>
             <p className="text-xs text-ink leading-relaxed">
-              La transferencia de habilidad se realiza mediante la <strong>Hierba Copia</strong> (500 Pk$), como en el Pokémon original.
+              La transferencia de habilidad se realiza mediante la <strong>Hierba Copia</strong>{' '}
+              (500 Pk$), como en el Pokémon original.
             </p>
             <div className="p-2 rounded bg-success/10 border border-success/30 text-[11px] text-success">
-              ★ <strong>Condición estricta:</strong> Al igual que con la naturaleza, <strong>solo se transfiere si uno de los padres ya posee la habilidad</strong> (aplica tanto a habilidades comunes como a la <strong>Habilidad Oculta</strong>). No existe método de pago para fijar una habilidad.
+              ★ <strong>Condición estricta:</strong> Al igual que con la naturaleza,{' '}
+              <strong>solo se transfiere si uno de los padres ya posee la habilidad</strong> (aplica
+              tanto a habilidades comunes como a la <strong>Habilidad Oculta</strong>). No existe
+              método de pago para fijar una habilidad.
             </div>
           </div>
         </div>

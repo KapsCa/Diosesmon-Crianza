@@ -58,8 +58,22 @@ describe('BreedingTreeNode', () => {
       ivsAtNode: [],
       items: { father: null, mother: null },
       children: [
-        { step: null, pokemon: createMockPokemon({ gender: Gender.Male }), ivsAtNode: [Stat.HP], items: { father: null, mother: null }, children: [], progressLevel: 1 },
-        { step: null, pokemon: createMockPokemon({ gender: Gender.Female }), ivsAtNode: [Stat.Attack], items: { father: null, mother: null }, children: [], progressLevel: 1 },
+        {
+          step: null,
+          pokemon: createMockPokemon({ gender: Gender.Male }),
+          ivsAtNode: [Stat.HP],
+          items: { father: null, mother: null },
+          children: [],
+          progressLevel: 1,
+        },
+        {
+          step: null,
+          pokemon: createMockPokemon({ gender: Gender.Female }),
+          ivsAtNode: [Stat.Attack],
+          items: { father: null, mother: null },
+          children: [],
+          progressLevel: 1,
+        },
       ],
       progressLevel: 1,
     };

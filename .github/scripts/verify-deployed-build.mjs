@@ -66,7 +66,9 @@ export async function verifyDeployedBuild({
     }
 
     if (!failure && body.includes(expectedAsset)) {
-      log(`verified on attempt ${attempt}/${attempts}: the published page references ${expectedAsset}`);
+      log(
+        `verified on attempt ${attempt}/${attempts}: the published page references ${expectedAsset}`,
+      );
       return { ok: true, attempts: attempt };
     }
 
@@ -148,8 +150,7 @@ export async function verifyAndReport({
 }
 
 const invokedDirectly =
-  process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href;
+  process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (invokedDirectly) {
   const pageUrl = process.env.PAGE_URL;

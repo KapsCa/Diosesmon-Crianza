@@ -28,10 +28,9 @@ describe('self-hosted webfonts', () => {
   });
 
   it.each(FONTS)('declares a swapping @font-face for $family', ({ family, file }) => {
-    const face = new RegExp(
-      `@font-face\\s*\\{[^}]*font-family:\\s*"${family}"[^}]*\\}`,
-      's',
-    ).exec(css)?.[0];
+    const face = new RegExp(`@font-face\\s*\\{[^}]*font-family:\\s*"${family}"[^}]*\\}`, 's').exec(
+      css,
+    )?.[0];
 
     expect(face).toBeDefined();
     expect(face).toContain(`url("/fonts/${file}")`);

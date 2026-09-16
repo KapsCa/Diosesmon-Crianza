@@ -58,9 +58,7 @@ export interface BreedingTreeResult {
  * @param config - Configuración del árbol de breeding
  * @returns Resultado con el árbol completo y metadatos
  */
-export function generateBreedingTree(
-  config: BreedingTreeConfig
-): BreedingTreeResult {
+export function generateBreedingTree(config: BreedingTreeConfig): BreedingTreeResult {
   const { targetSpecies, targetIVs, chooseGender, desiredGender, nurseryConfig } = config;
   const nursery = nurseryConfig || DEFAULT_NURSERY_CONFIG;
 
@@ -86,14 +84,8 @@ export function generateBreedingTree(
   const overlap = analyzeOverlap(father, mother);
 
   // 4. Calcular IVs que faltan proteger
-  const currentIVs = ALL_STATS.filter(
-    (stat) => father.ivs[stat] === 31 || mother.ivs[stat] === 31
-  );
-  const missing = calculateMissingIVs(
-    currentIVs,
-    targetIVs,
-    overlap
-  );
+  const currentIVs = ALL_STATS.filter((stat) => father.ivs[stat] === 31 || mother.ivs[stat] === 31);
+  const missing = calculateMissingIVs(currentIVs, targetIVs, overlap);
 
   // 5. Encontrar mejor combinación de items
   const itemCombination = findBestItemCombination(father, mother, targetIVs);
@@ -157,7 +149,7 @@ export function generateBreedingTree(
       maxDepth,
     },
     nursery,
-    timePerStep
+    timePerStep,
   );
 
   return {

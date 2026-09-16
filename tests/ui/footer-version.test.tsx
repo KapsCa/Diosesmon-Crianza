@@ -15,9 +15,7 @@ describe('footer version', () => {
   it('shows the version of the release, read from package.json', () => {
     render(<IVsMapApp />);
 
-    expect(
-      screen.getByText(`Diosesmon Crianza Pro • v${manifest.version}`),
-    ).toBeInTheDocument();
+    expect(screen.getByText(`Diosesmon Crianza Pro • v${manifest.version}`)).toBeInTheDocument();
   });
 
   it('gets that version injected at build time, not from a literal in the component', () => {

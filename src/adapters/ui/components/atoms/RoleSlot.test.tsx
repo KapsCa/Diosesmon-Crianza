@@ -6,7 +6,15 @@ import { render, screen } from '@testing-library/react';
 describe('RoleSlot', () => {
   it('should render with male gender and be read-only', () => {
     const pokemon = {
-      species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+      species: {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
       gender: 'male' as const,
       ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       heldItem: null,
@@ -29,7 +37,15 @@ describe('RoleSlot', () => {
 
   it('should render with female gender and be read-only', () => {
     const pokemon = {
-      species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+      species: {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
       gender: 'female' as const,
       ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       heldItem: null,
@@ -49,7 +65,15 @@ describe('RoleSlot', () => {
 
   it('should render genderless with toggle for parent/mother', () => {
     const pokemon = {
-      species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+      species: {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
       gender: 'genderless' as const,
       ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       heldItem: null,
@@ -68,7 +92,15 @@ describe('RoleSlot', () => {
 
   it('should display result badge with mother species', () => {
     const pokemon = {
-      species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+      species: {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
       gender: 'genderless' as const,
       ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
       heldItem: null,

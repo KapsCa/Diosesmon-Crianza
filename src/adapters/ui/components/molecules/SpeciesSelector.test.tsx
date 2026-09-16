@@ -6,9 +6,33 @@ import { render, screen } from '@testing-library/react';
 describe('SpeciesSelector', () => {
   it('should render dropdown with all species by default', () => {
     const speciesList = [
-      { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
-      { id: 2, name: 'Caterpie', genderRatio: 0.5, eggGroups: [{ name: 'Bug' }], gen: 1, baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 }, captureRate: 255 },
-      { id: 3, name: 'Pikachu', genderRatio: 0.5, eggGroups: [{ name: 'Fairy' }, { name: 'Dragon' }], gen: 1, baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 }, captureRate: 190 },
+      {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
+      {
+        id: 2,
+        name: 'Caterpie',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Bug' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 },
+        captureRate: 255,
+      },
+      {
+        id: 3,
+        name: 'Pikachu',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Fairy' }, { name: 'Dragon' }],
+        gen: 1,
+        baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 },
+        captureRate: 190,
+      },
     ];
 
     render(<SpeciesSelector speciesList={speciesList} />);
@@ -33,9 +57,33 @@ describe('SpeciesSelector', () => {
 
   it('should render dropdown filtered by eggGroup', () => {
     const speciesList = [
-      { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
-      { id: 2, name: 'Caterpie', genderRatio: 0.5, eggGroups: [{ name: 'Bug' }], gen: 1, baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 }, captureRate: 255 },
-      { id: 3, name: 'Pikachu', genderRatio: 0.5, eggGroups: [{ name: 'Fairy' }, { name: 'Dragon' }], gen: 1, baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 }, captureRate: 190 },
+      {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
+      {
+        id: 2,
+        name: 'Caterpie',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Bug' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 30, defense: 35, spatk: 20, spdef: 20, speed: 45 },
+        captureRate: 255,
+      },
+      {
+        id: 3,
+        name: 'Pikachu',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Fairy' }, { name: 'Dragon' }],
+        gen: 1,
+        baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 },
+        captureRate: 190,
+      },
     ];
 
     render(<SpeciesSelector speciesList={speciesList} eggGroupFilter="Bug" />);
@@ -55,7 +103,15 @@ describe('SpeciesSelector', () => {
 
   it('should display species name as option label', () => {
     const speciesList = [
-      { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+      {
+        id: 1,
+        name: 'Testmon',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+        captureRate: 45,
+      },
     ];
 
     render(<SpeciesSelector speciesList={speciesList} />);
@@ -75,9 +131,33 @@ describe('SpeciesSelector', () => {
 
   it('should allow writing species name and filter options', async () => {
     const speciesList = [
-      { id: 1, name: 'Bulbasaur', genderRatio: 0.5, eggGroups: [{ name: 'Monster' }], gen: 1, baseStats: { hp: 45, attack: 49, defense: 49, spatk: 65, spdef: 65, speed: 45 }, captureRate: 45 },
-      { id: 25, name: 'Pikachu', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 }, captureRate: 190 },
-      { id: 4, name: 'Charmander', genderRatio: 0.5, eggGroups: [{ name: 'Monster' }], gen: 1, baseStats: { hp: 39, attack: 52, defense: 43, spatk: 60, spdef: 50, speed: 65 }, captureRate: 45 },
+      {
+        id: 1,
+        name: 'Bulbasaur',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Monster' }],
+        gen: 1,
+        baseStats: { hp: 45, attack: 49, defense: 49, spatk: 65, spdef: 65, speed: 45 },
+        captureRate: 45,
+      },
+      {
+        id: 25,
+        name: 'Pikachu',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Field' }],
+        gen: 1,
+        baseStats: { hp: 35, attack: 55, defense: 40, spatk: 50, spdef: 50, speed: 90 },
+        captureRate: 190,
+      },
+      {
+        id: 4,
+        name: 'Charmander',
+        genderRatio: 0.5,
+        eggGroups: [{ name: 'Monster' }],
+        gen: 1,
+        baseStats: { hp: 39, attack: 52, defense: 43, spatk: 60, spdef: 50, speed: 65 },
+        captureRate: 45,
+      },
     ];
 
     const onSelect = vi.fn();

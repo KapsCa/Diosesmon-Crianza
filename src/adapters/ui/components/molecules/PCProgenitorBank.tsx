@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Plus, Trash2, X, Search } from 'lucide-react';
 import { POKEMON_SPECIES_LIST } from '../../../../domain/data/speciesData';
-import {
-  type StoredPokemon,
-  DEFAULT_SPECIMENS,
-} from '../../../../domain/data/pcStorage';
+import { type StoredPokemon, DEFAULT_SPECIMENS } from '../../../../domain/data/pcStorage';
 
 export type { StoredPokemon };
 
@@ -55,7 +52,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
   const handleAddSpecimen = (e: React.FormEvent) => {
     e.preventDefault();
     const found = POKEMON_SPECIES_LIST.find(
-      (s) => s.name.toLowerCase() === formSpecies.toLowerCase()
+      (s) => s.name.toLowerCase() === formSpecies.toLowerCase(),
     );
 
     const newSpecimen: StoredPokemon = {
@@ -86,9 +83,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Database className="w-4 h-4 text-brand-soft" />
-          <span className="text-sm font-semibold text-white">
-            Banco de Progenitores (PC Local)
-          </span>
+          <span className="text-sm font-semibold text-white">Banco de Progenitores (PC Local)</span>
           <span className="text-xs px-2 py-0.5 rounded-full bg-surface-raised text-ink-muted font-mono">
             {specimens.length} especímenes
           </span>
@@ -239,8 +234,8 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                       isGenderless
                         ? 'text-role-genderless'
                         : isMale
-                        ? 'text-role-male'
-                        : 'text-role-female'
+                          ? 'text-role-male'
+                          : 'text-role-female'
                     }`}
                   >
                     {isGenderless ? '⚲' : isMale ? '♂' : '♀'}
@@ -280,9 +275,7 @@ export const PCProgenitorBank: React.FC<PCProgenitorBankProps> = ({
                 })}
               </div>
 
-              {item.notes && (
-                <p className="text-[10px] text-ink-muted truncate">{item.notes}</p>
-              )}
+              {item.notes && <p className="text-[10px] text-ink-muted truncate">{item.notes}</p>}
 
               {onSelectProgenitor && (
                 <div className="flex items-center gap-1.5 pt-1 border-t border-line">

@@ -7,12 +7,12 @@ import { Stat } from './stat';
  */
 export const ItemType = {
   // Power Items - Heredan un IV específico del padre equipado
-  PowerWeight: 'power_weight' as const,    // Hereda HP
-  PowerBracer: 'power_bracer' as const,   // Hereda Attack
-  PowerBelt: 'power_belt' as const,       // Hereda Defense
-  PowerLens: 'power_lens' as const,       // Hereda SpAtk
-  PowerBand: 'power_band' as const,       // Hereda SpDef
-  PowerAnklet: 'power_anklet' as const,   // Hereda Speed
+  PowerWeight: 'power_weight' as const, // Hereda HP
+  PowerBracer: 'power_bracer' as const, // Hereda Attack
+  PowerBelt: 'power_belt' as const, // Hereda Defense
+  PowerLens: 'power_lens' as const, // Hereda SpAtk
+  PowerBand: 'power_band' as const, // Hereda SpDef
+  PowerAnklet: 'power_anklet' as const, // Hereda Speed
 
   // Everstone - Hereda la naturaleza del padre equipado (solo si la tiene)
   Everstone: 'everstone' as const,
@@ -87,8 +87,10 @@ export const ITEM_DESCRIPTIONS_ES: Record<ItemType, string> = {
   [ItemType.PowerLens]: 'Fija y hereda el IV de At. Especial al 100%. Consumo 1x cruza.',
   [ItemType.PowerBand]: 'Fija y hereda el IV de Def. Especial al 100%. Consumo 1x cruza.',
   [ItemType.PowerAnklet]: 'Fija y hereda el IV de Velocidad al 100%. Consumo 1x cruza.',
-  [ItemType.Everstone]: 'Fija y transmite la Naturaleza del portador al 100%. Solo si el padre la tiene. Consumo 1x cruza.',
-  [ItemType.MirrorHerb]: 'Transfiere la Habilidad del portador (estándar u oculta). Solo si uno de los padres la posee.',
+  [ItemType.Everstone]:
+    'Fija y transmite la Naturaleza del portador al 100%. Solo si el padre la tiene. Consumo 1x cruza.',
+  [ItemType.MirrorHerb]:
+    'Transfiere la Habilidad del portador (estándar u oculta). Solo si uno de los padres la posee.',
 };
 
 /** Crea un Power Item para una stat específica */

@@ -15,7 +15,7 @@ export function getBiomeCaptures(speciesList: Species[]): BiomeEntry[] {
   return speciesList
     .map((species): BiomeEntry | undefined => {
       const biomeEntry = biomes.find(
-        (b) => b.species.id === species.id && b.species.name === species.name
+        (b) => b.species.id === species.id && b.species.name === species.name,
       );
       return biomeEntry;
     })
@@ -26,20 +26,13 @@ export function getBiomeCaptures(speciesList: Species[]): BiomeEntry[] {
  * Obtiene la captura biome para una sola especie.
  * Retorna undefined si la especie no está en los biomas conocidos.
  */
-export function getBiomeCapture(
-  species: Species
-): BiomeEntry | undefined {
-  return biomes.find(
-    (b) => b.species.id === species.id && b.species.name === species.name
-  );
+export function getBiomeCapture(species: Species): BiomeEntry | undefined {
+  return biomes.find((b) => b.species.id === species.id && b.species.name === species.name);
 }
 
 /**
  * Filtra biomas por nombre (ej: "Forest", "Desert", "Any").
  */
-export function filterBiomesByName(
-  biomesList: BiomeEntry[],
-  biomeName: string
-): BiomeEntry[] {
+export function filterBiomesByName(biomesList: BiomeEntry[], biomeName: string): BiomeEntry[] {
   return biomesList.filter((b) => b.biome === biomeName);
 }

@@ -52,7 +52,11 @@ test('keeps trying while the CDN still serves the previous build', async () => {
     expectedAsset: ASSET,
     fetchImpl: async () => {
       attempt += 1;
-      return { ok: true, status: 200, text: async () => (attempt < 3 ? developmentPage : livePage) };
+      return {
+        ok: true,
+        status: 200,
+        text: async () => (attempt < 3 ? developmentPage : livePage),
+      };
     },
     sleep: async () => {},
     log: quiet,
@@ -193,7 +197,10 @@ test('the default failure path prints the ::error:: annotation and sets the exit
 
     assert.deepEqual(result, { ok: false, attempts: 2 });
     assert.equal(errors.length, 1);
-    assert.match(errors[0], /^::error::the published site never served assets\/index-DGmOj9zy\.js after 2 attempts/);
+    assert.match(
+      errors[0],
+      /^::error::the published site never served assets\/index-DGmOj9zy\.js after 2 attempts/,
+    );
     assert.match(errors[0], /production is not serving this build/);
     assert.equal(process.exitCode, 1);
   } finally {

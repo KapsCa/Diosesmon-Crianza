@@ -118,11 +118,11 @@ export const DaycareChecklist: React.FC<DaycareChecklistProps> = ({
 
   const totalSpent = steps.reduce(
     (acc, step) => acc + (completedSteps[step.id] ? step.cost : 0),
-    0
+    0,
   );
   const totalRemaining = steps.reduce(
     (acc, step) => acc + (!completedSteps[step.id] ? step.cost : 0),
-    0
+    0,
   );
 
   return (

@@ -24,7 +24,7 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
     (s) =>
       s.speciesName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       s.speciesId.toString() === searchTerm ||
-      (s.notes && s.notes.toLowerCase().includes(searchTerm.toLowerCase()))
+      (s.notes && s.notes.toLowerCase().includes(searchTerm.toLowerCase())),
   );
 
   const getSpriteUrl = (id: number) =>
@@ -145,15 +145,15 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
                             specimen.gender === 'female'
                               ? 'bg-role-female/15 text-role-female border border-role-female/30'
                               : specimen.gender === 'male'
-                              ? 'bg-role-male/10 text-role-male border border-role-male/30'
-                              : 'bg-surface-raised text-ink'
+                                ? 'bg-role-male/10 text-role-male border border-role-male/30'
+                                : 'bg-surface-raised text-ink'
                           }`}
                         >
                           {specimen.gender === 'female'
                             ? '♀ Hembra'
                             : specimen.gender === 'male'
-                            ? '♂ Macho'
-                            : '⚲ Neutro'}
+                              ? '♂ Macho'
+                              : '⚲ Neutro'}
                         </span>
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-success/15 text-success border border-success/30">
                           {count31}x31
@@ -178,8 +178,8 @@ export const PCQuickPickerModal: React.FC<PCQuickPickerModalProps> = ({
                                 is31
                                   ? 'bg-success/10 border-success/50 text-success font-bold'
                                   : is0
-                                  ? 'bg-warning/10 border-warning/50 text-warning font-bold'
-                                  : 'bg-surface-sunken border-line text-ink-muted'
+                                    ? 'bg-warning/10 border-warning/50 text-warning font-bold'
+                                    : 'bg-surface-sunken border-line text-ink-muted'
                               }`}
                             >
                               {statLabels[key]}: {val !== undefined ? val : 'X'}

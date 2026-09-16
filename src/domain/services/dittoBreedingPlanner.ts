@@ -211,7 +211,7 @@ export function planDittoBreedingRoute(
   targetSpecies: { id: number; name: string },
   targetIVs: Stat[],
   availableDittos: UserDitto[],
-  baseSpeciesSpecimen?: { ivs: IVSpread; gender?: 'female' | 'male'; name?: string }
+  baseSpeciesSpecimen?: { ivs: IVSpread; gender?: 'female' | 'male'; name?: string },
 ): DittoBreedingPlan {
   // Verificar qué estadísticas faltan en la piscina de Dittos + espécimen base
   const availableStats = new Set<Stat>();
@@ -390,7 +390,7 @@ export function planDittoBreedingRoute(
 
     // Herencia fija: todos los stats que están en ambos y no son el protegido por la banda
     const herenciaFijaStats = shared31s.filter(
-      (s) => s !== speciesProtectedStat && s !== dittoProtectedStat
+      (s) => s !== speciesProtectedStat && s !== dittoProtectedStat,
     );
 
     // Construir cría resultante
@@ -486,7 +486,7 @@ export function planDittoBreedingRoute(
   const totalCost = steps.reduce((sum, s) => sum + s.cost, 0);
   const powerItemsCount = steps.reduce(
     (sum, s) => sum + (s.parentSpecies.heldItem ? 1 : 0) + (s.parentDitto.heldItem ? 1 : 0),
-    0
+    0,
   );
 
   const dittosUsed = Array.from(dittoUsageCount.entries()).map(([id, timesUsed]) => {

@@ -12,7 +12,15 @@ describe('estimateRouteTime', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -26,7 +34,15 @@ describe('estimateRouteTime', () => {
       allNodes: Array(5).fill({
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -58,7 +74,15 @@ describe('estimateRouteTime', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -72,7 +96,15 @@ describe('estimateRouteTime', () => {
       allNodes: Array(20).fill({
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -104,7 +136,15 @@ describe('estimateRouteTime', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -118,7 +158,15 @@ describe('estimateRouteTime', () => {
       allNodes: Array(30).fill({
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -150,7 +198,15 @@ describe('estimateRouteTime', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -185,7 +241,15 @@ describe('estimateRouteTime', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -199,7 +263,15 @@ describe('estimateRouteTime', () => {
       allNodes: Array(6).fill({
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -233,7 +305,15 @@ describe('estimateRoute', () => {
       root: {
         step: null,
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -271,7 +351,15 @@ describe('estimateRoute', () => {
           genderChosen: true,
         },
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,
@@ -321,7 +409,15 @@ describe('estimateRoute', () => {
           genderChosen: false,
         },
         pokemon: {
-          species: { id: 1, name: 'Testmon', genderRatio: 0.5, eggGroups: [{ name: 'Field' }], gen: 1, baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 }, captureRate: 45 },
+          species: {
+            id: 1,
+            name: 'Testmon',
+            genderRatio: 0.5,
+            eggGroups: [{ name: 'Field' }],
+            gen: 1,
+            baseStats: { hp: 45, attack: 60, defense: 40, spatk: 70, spdef: 50, speed: 45 },
+            captureRate: 45,
+          },
           gender: 'male',
           ivs: { hp: 31, attack: 31, defense: 31, spatk: 31, spdef: 31, speed: 31 },
           heldItem: null,

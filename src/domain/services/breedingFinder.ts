@@ -19,9 +19,7 @@ import { createPerfectIVs } from '../types/stat';
  * @param targetSpecies - Especie objetivo de la cría
  * @returns Objeto con padres compatibles y metadatos
  */
-export function findCompatibleParents(
-  targetSpecies: Species
-): {
+export function findCompatibleParents(targetSpecies: Species): {
   parents: Pokemon[];
   compatible: boolean;
   reason?: string;
@@ -54,8 +52,7 @@ export function findCompatibleParents(
   const targetEggGroups = targetSpecies.eggGroups
     ? targetSpecies.eggGroups.map((g) => g.name).filter((g) => g !== 'Undiscovered')
     : [];
-  const hasUndiscoveredOnly =
-    targetEggGroups.length === 0 && targetSpecies.eggGroups?.length === 1;
+  const hasUndiscoveredOnly = targetEggGroups.length === 0 && targetSpecies.eggGroups?.length === 1;
 
   if (hasUndiscoveredOnly) {
     return {
@@ -87,25 +84,26 @@ export function findCompatibleParents(
   const motherValid = validateBreedingEntry(mother).isValid;
 
   // Si alguna entrada no es válida, usar Ditto
-  const fatherToUse = fatherValid ? father : {
-    species: targetSpecies,
-    gender: Gender.Genderless,
-    ivs: createPerfectIVs(),
-    heldItem: null,
-  };
+  const fatherToUse = fatherValid
+    ? father
+    : {
+        species: targetSpecies,
+        gender: Gender.Genderless,
+        ivs: createPerfectIVs(),
+        heldItem: null,
+      };
 
-  const motherToUse = motherValid ? mother : {
-    species: targetSpecies,
-    gender: Gender.Genderless,
-    ivs: createPerfectIVs(),
-    heldItem: null,
-  };
+  const motherToUse = motherValid
+    ? mother
+    : {
+        species: targetSpecies,
+        gender: Gender.Genderless,
+        ivs: createPerfectIVs(),
+        heldItem: null,
+      };
 
   // Verificar compatibilidad de la pareja
-  const compatibility = checkBreedingCompatibility(
-    fatherToUse,
-    motherToUse
-  );
+  const compatibility = checkBreedingCompatibility(fatherToUse, motherToUse);
 
   // Verificar match de grupos huevo (excluir Undiscovered que impede breeding normal)
   const fg = fatherToUse.species.eggGroups || [];

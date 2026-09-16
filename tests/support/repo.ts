@@ -23,14 +23,11 @@ export const repoRoot = resolve(here, '..', '..');
 // shape, this throws instead of quietly reading a different file and producing a
 // test result that means nothing.
 if (!existsSync(resolve(repoRoot, 'package.json'))) {
-  throw new Error(
-    `could not locate the repository root from ${here} (resolved to ${repoRoot})`,
-  );
+  throw new Error(`could not locate the repository root from ${here} (resolved to ${repoRoot})`);
 }
 
 /** Absolute path to a repository file or directory. */
-export const repoPath = (...segments: string[]): string =>
-  resolve(repoRoot, ...segments);
+export const repoPath = (...segments: string[]): string => resolve(repoRoot, ...segments);
 
 /** Reads a repository text file by its path relative to the repository root. */
 export const readRepoFile = (relativePath: string): string =>

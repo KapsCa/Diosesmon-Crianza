@@ -40,7 +40,7 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
   const handleImportFromPC = () => {
     const pcSpecimens: StoredPokemon[] = getStoredSpecimens();
     const pcDittos = pcSpecimens.filter(
-      (p) => p.speciesId === 132 || p.speciesName.toLowerCase() === 'ditto'
+      (p) => p.speciesId === 132 || p.speciesName.toLowerCase() === 'ditto',
     );
 
     if (pcDittos.length > 0) {
@@ -116,7 +116,9 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
               <span>¿Qué Dittos tienes en tu PC / Mochila?</span>
             </h3>
             <p className="text-xs text-ink-muted mt-0.5">
-              Configura tus Dittos. El árbol armará la ruta exacta asignando <strong>1 banda por progenitor</strong> y aprovechando <strong>Herencia Fija</strong> (stats compartidos en 31).
+              Configura tus Dittos. El árbol armará la ruta exacta asignando{' '}
+              <strong>1 banda por progenitor</strong> y aprovechando <strong>Herencia Fija</strong>{' '}
+              (stats compartidos en 31).
             </p>
           </div>
         </div>
@@ -131,7 +133,9 @@ export const DittoInventoryManager: React.FC<DittoInventoryManagerProps> = ({
           ) : (
             <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-warning/15 text-warning border border-warning/30 flex items-center gap-1.5">
               <ShieldAlert className="w-3.5 h-3.5 text-warning" />
-              <span>Falta Ditto para: {missingStats.map((s) => STAT_METADATA[s].short).join(', ')}</span>
+              <span>
+                Falta Ditto para: {missingStats.map((s) => STAT_METADATA[s].short).join(', ')}
+              </span>
             </span>
           )}
         </div>

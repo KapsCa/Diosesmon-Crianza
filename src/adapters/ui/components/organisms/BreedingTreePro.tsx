@@ -97,7 +97,10 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
   }, [targetIVsCount, useEverstone]);
 
   const currentConfigKey = `${targetIVsCount}-${useEverstone}`;
-  const [userModelOverride, setUserModelOverride] = useState<{ key: string; model: TreeModelType } | null>(null);
+  const [userModelOverride, setUserModelOverride] = useState<{
+    key: string;
+    model: TreeModelType;
+  } | null>(null);
 
   const activeModel =
     userModelOverride && userModelOverride.key === currentConfigKey
@@ -117,33 +120,149 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
   const activeStats: StatDefinition[] = useMemo(() => {
     if (activeModel === '6x31-pure' || activeModel === '6x31-nature') {
       return [
-        { id: 'hp', name: 'PS', short: 'PS', color: '#22c55e', powerItem: 'Pesa Recia', itemKey: 'power_weight' },
-        { id: 'attack', name: 'Ataque', short: 'Atk', color: '#ef4444', powerItem: 'Brazal Recio', itemKey: 'power_bracer' },
-        { id: 'defense', name: 'Defensa', short: 'Def', color: '#f97316', powerItem: 'Cinto Recio', itemKey: 'power_belt' },
-        { id: 'spatk', name: 'A. Especial', short: 'At.Esp', color: '#a855f7', powerItem: 'Lente Recia', itemKey: 'power_lens' },
-        { id: 'spdef', name: 'D. Especial', short: 'Def.Esp', color: '#eab308', powerItem: 'Banda Recia', itemKey: 'power_band', textColor: 'text-slate-950' },
-        { id: 'speed', name: 'Velocidad', short: 'Vel', color: '#0ea5e9', powerItem: 'Franja Recia', itemKey: 'power_anklet' },
+        {
+          id: 'hp',
+          name: 'PS',
+          short: 'PS',
+          color: '#22c55e',
+          powerItem: 'Pesa Recia',
+          itemKey: 'power_weight',
+        },
+        {
+          id: 'attack',
+          name: 'Ataque',
+          short: 'Atk',
+          color: '#ef4444',
+          powerItem: 'Brazal Recio',
+          itemKey: 'power_bracer',
+        },
+        {
+          id: 'defense',
+          name: 'Defensa',
+          short: 'Def',
+          color: '#f97316',
+          powerItem: 'Cinto Recio',
+          itemKey: 'power_belt',
+        },
+        {
+          id: 'spatk',
+          name: 'A. Especial',
+          short: 'At.Esp',
+          color: '#a855f7',
+          powerItem: 'Lente Recia',
+          itemKey: 'power_lens',
+        },
+        {
+          id: 'spdef',
+          name: 'D. Especial',
+          short: 'Def.Esp',
+          color: '#eab308',
+          powerItem: 'Banda Recia',
+          itemKey: 'power_band',
+          textColor: 'text-slate-950',
+        },
+        {
+          id: 'speed',
+          name: 'Velocidad',
+          short: 'Vel',
+          color: '#0ea5e9',
+          powerItem: 'Franja Recia',
+          itemKey: 'power_anklet',
+        },
       ];
     }
 
     const ivs = treeData.root?.pokemon?.ivs;
-    const isSpecial = !ivs || (ivs.spatk === 31 && ivs.attack !== 31) || (ivs.spatk || 0) > (ivs.attack || 0);
+    const isSpecial =
+      !ivs || (ivs.spatk === 31 && ivs.attack !== 31) || (ivs.spatk || 0) > (ivs.attack || 0);
 
     if (isSpecial) {
       return [
-        { id: 'hp', name: 'PS', short: 'PS', color: '#22c55e', powerItem: 'Pesa Recia', itemKey: 'power_weight' },
-        { id: 'spatk', name: 'A. Especial', short: 'At.Esp', color: '#a855f7', powerItem: 'Lente Recia', itemKey: 'power_lens' },
-        { id: 'defense', name: 'Defensa', short: 'Def', color: '#f97316', powerItem: 'Cinto Recio', itemKey: 'power_belt' },
-        { id: 'spdef', name: 'D. Especial', short: 'Def.Esp', color: '#eab308', powerItem: 'Banda Recia', itemKey: 'power_band', textColor: 'text-slate-950' },
-        { id: 'speed', name: 'Velocidad', short: 'Vel', color: '#0ea5e9', powerItem: 'Franja Recia', itemKey: 'power_anklet' },
+        {
+          id: 'hp',
+          name: 'PS',
+          short: 'PS',
+          color: '#22c55e',
+          powerItem: 'Pesa Recia',
+          itemKey: 'power_weight',
+        },
+        {
+          id: 'spatk',
+          name: 'A. Especial',
+          short: 'At.Esp',
+          color: '#a855f7',
+          powerItem: 'Lente Recia',
+          itemKey: 'power_lens',
+        },
+        {
+          id: 'defense',
+          name: 'Defensa',
+          short: 'Def',
+          color: '#f97316',
+          powerItem: 'Cinto Recio',
+          itemKey: 'power_belt',
+        },
+        {
+          id: 'spdef',
+          name: 'D. Especial',
+          short: 'Def.Esp',
+          color: '#eab308',
+          powerItem: 'Banda Recia',
+          itemKey: 'power_band',
+          textColor: 'text-slate-950',
+        },
+        {
+          id: 'speed',
+          name: 'Velocidad',
+          short: 'Vel',
+          color: '#0ea5e9',
+          powerItem: 'Franja Recia',
+          itemKey: 'power_anklet',
+        },
       ];
     } else {
       return [
-        { id: 'hp', name: 'PS', short: 'PS', color: '#22c55e', powerItem: 'Pesa Recia', itemKey: 'power_weight' },
-        { id: 'attack', name: 'Ataque', short: 'Atk', color: '#ef4444', powerItem: 'Brazal Recio', itemKey: 'power_bracer' },
-        { id: 'defense', name: 'Defensa', short: 'Def', color: '#f97316', powerItem: 'Cinto Recio', itemKey: 'power_belt' },
-        { id: 'spdef', name: 'D. Especial', short: 'Def.Esp', color: '#eab308', powerItem: 'Banda Recia', itemKey: 'power_band', textColor: 'text-slate-950' },
-        { id: 'speed', name: 'Velocidad', short: 'Vel', color: '#0ea5e9', powerItem: 'Franja Recia', itemKey: 'power_anklet' },
+        {
+          id: 'hp',
+          name: 'PS',
+          short: 'PS',
+          color: '#22c55e',
+          powerItem: 'Pesa Recia',
+          itemKey: 'power_weight',
+        },
+        {
+          id: 'attack',
+          name: 'Ataque',
+          short: 'Atk',
+          color: '#ef4444',
+          powerItem: 'Brazal Recio',
+          itemKey: 'power_bracer',
+        },
+        {
+          id: 'defense',
+          name: 'Defensa',
+          short: 'Def',
+          color: '#f97316',
+          powerItem: 'Cinto Recio',
+          itemKey: 'power_belt',
+        },
+        {
+          id: 'spdef',
+          name: 'D. Especial',
+          short: 'Def.Esp',
+          color: '#eab308',
+          powerItem: 'Banda Recia',
+          itemKey: 'power_band',
+          textColor: 'text-slate-950',
+        },
+        {
+          id: 'speed',
+          name: 'Velocidad',
+          short: 'Vel',
+          color: '#0ea5e9',
+          powerItem: 'Franja Recia',
+          itemKey: 'power_anklet',
+        },
       ];
     }
   }, [treeData, activeModel]);
@@ -166,7 +285,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         p3: { stats: number[]; hasNat?: boolean; gender: 'female' | 'male' }[];
         p4: { stat: number; hasNat?: boolean; gender: 'female' | 'male' }[];
         hasNatureBranch?: boolean;
-      }
+      },
     ) => {
       const nodeList: TournamentNode[] = [];
       const connList: { from: TournamentNode; to: TournamentNode }[] = [];
@@ -249,7 +368,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         { from: p1_0, to: p2Nodes[0] },
         { from: p1_0, to: p2Nodes[1] },
         { from: p1_1, to: p2Nodes[2] },
-        { from: p1_1, to: p2Nodes[3] }
+        { from: p1_1, to: p2Nodes[3] },
       );
 
       // Nivel 3 (8 Bisabuelos)
@@ -266,9 +385,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         stats: cfg.stats,
         isNatureNode: cfg.hasNat,
         label: `Bisabuelo/a N3-${i + 1} (Rama ${branch})`,
-        powerItemNeeded: cfg.hasNat
-          ? 'Piedra Eterna'
-          : activeStats[cfg.stats[0]]?.powerItem,
+        powerItemNeeded: cfg.hasNat ? 'Piedra Eterna' : activeStats[cfg.stats[0]]?.powerItem,
         itemKey: cfg.hasNat ? 'everstone' : activeStats[cfg.stats[0]]?.itemKey,
       }));
       nodeList.push(...p3Nodes);
@@ -276,16 +393,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
       for (let i = 0; i < 4; i++) {
         connList.push(
           { from: p2Nodes[i], to: p3Nodes[2 * i] },
-          { from: p2Nodes[i], to: p3Nodes[2 * i + 1] }
+          { from: p2Nodes[i], to: p3Nodes[2 * i + 1] },
         );
       }
 
       // Nivel 4 (16 Hojas Base 1x31)
       const p4X = [75, 120, 175, 220, 270, 315, 365, 410, 470, 515, 565, 610, 660, 705, 755, 800];
       const p4Nodes: TournamentNode[] = config.p4.map((cfg, i) => {
-        const itemNeeded = cfg.hasNat
-          ? 'Piedra Eterna'
-          : activeStats[cfg.stat]?.powerItem;
+        const itemNeeded = cfg.hasNat ? 'Piedra Eterna' : activeStats[cfg.stat]?.powerItem;
         const itemKey = cfg.hasNat ? 'everstone' : activeStats[cfg.stat]?.itemKey;
 
         return {
@@ -311,7 +426,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
       for (let i = 0; i < 8; i++) {
         connList.push(
           { from: p3Nodes[i], to: p4Nodes[2 * i] },
-          { from: p3Nodes[i], to: p4Nodes[2 * i + 1] }
+          { from: p3Nodes[i], to: p4Nodes[2 * i + 1] },
         );
       }
 
@@ -334,38 +449,38 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
           { stats: [1, 2, 3, 4] }, // Padre N1: Atk, Def, SpA, SpD
         ],
         p2: [
-          { stats: [0, 1, 2] },    // F2-1: PS, Atk, Def
-          { stats: [1, 2, 3] },    // F2-2: Atk, Def, SpA
-          { stats: [1, 2, 3] },    // F2-3: Atk, Def, SpA
-          { stats: [2, 3, 4] },    // F2-4: Def, SpA, SpD
+          { stats: [0, 1, 2] }, // F2-1: PS, Atk, Def
+          { stats: [1, 2, 3] }, // F2-2: Atk, Def, SpA
+          { stats: [1, 2, 3] }, // F2-3: Atk, Def, SpA
+          { stats: [2, 3, 4] }, // F2-4: Def, SpA, SpD
         ],
         p3: [
           { stats: [0, 1], gender: 'female' }, // PS, Atk
-          { stats: [1, 2], gender: 'male' },   // Atk, Def
+          { stats: [1, 2], gender: 'male' }, // Atk, Def
           { stats: [1, 2], gender: 'female' }, // Atk, Def
-          { stats: [1, 3], gender: 'male' },   // Atk, SpA
+          { stats: [1, 3], gender: 'male' }, // Atk, SpA
           { stats: [1, 2], gender: 'female' }, // Atk, Def
-          { stats: [1, 3], gender: 'male' },   // Atk, SpA
+          { stats: [1, 3], gender: 'male' }, // Atk, SpA
           { stats: [2, 3], gender: 'female' }, // Def, SpA
-          { stats: [2, 4], gender: 'male' },   // Def, SpD
+          { stats: [2, 4], gender: 'male' }, // Def, SpD
         ],
         p4: [
           { stat: 0, gender: 'female' }, // PS (1x31 Base PS Hembra)
-          { stat: 1, gender: 'male' },   // Atk
+          { stat: 1, gender: 'male' }, // Atk
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 2, gender: 'male' },   // Def
+          { stat: 2, gender: 'male' }, // Def
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 2, gender: 'male' },   // Def
+          { stat: 2, gender: 'male' }, // Def
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 2, gender: 'male' },   // Def
+          { stat: 2, gender: 'male' }, // Def
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 2, gender: 'female' }, // Def
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 2, gender: 'female' }, // Def
-          { stat: 4, gender: 'male' },   // SpD
+          { stat: 4, gender: 'male' }, // SpD
         ],
       });
 
@@ -376,38 +491,38 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
           { stats: [2, 3, 4, 5] }, // Padre N1: Def, SpA, SpD, Vel
         ],
         p2: [
-          { stats: [1, 2, 3] },    // F2-1: Atk, Def, SpA
-          { stats: [2, 3, 4] },    // F2-2: Def, SpA, SpD
-          { stats: [2, 3, 4] },    // F2-3: Def, SpA, SpD
-          { stats: [3, 4, 5] },    // F2-4: SpA, SpD, Vel
+          { stats: [1, 2, 3] }, // F2-1: Atk, Def, SpA
+          { stats: [2, 3, 4] }, // F2-2: Def, SpA, SpD
+          { stats: [2, 3, 4] }, // F2-3: Def, SpA, SpD
+          { stats: [3, 4, 5] }, // F2-4: SpA, SpD, Vel
         ],
         p3: [
           { stats: [1, 2], gender: 'female' }, // Atk, Def
-          { stats: [1, 3], gender: 'male' },   // Atk, SpA
+          { stats: [1, 3], gender: 'male' }, // Atk, SpA
           { stats: [2, 3], gender: 'female' }, // Def, SpA
-          { stats: [2, 4], gender: 'male' },   // Def, SpD
+          { stats: [2, 4], gender: 'male' }, // Def, SpD
           { stats: [2, 3], gender: 'female' }, // Def, SpA
-          { stats: [2, 4], gender: 'male' },   // Def, SpD
+          { stats: [2, 4], gender: 'male' }, // Def, SpD
           { stats: [3, 4], gender: 'female' }, // SpA, SpD
-          { stats: [3, 5], gender: 'male' },   // SpA, Vel
+          { stats: [3, 5], gender: 'male' }, // SpA, Vel
         ],
         p4: [
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 2, gender: 'male' },   // Def
+          { stat: 2, gender: 'male' }, // Def
           { stat: 1, gender: 'female' }, // Atk
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 2, gender: 'female' }, // Def
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 2, gender: 'female' }, // Def
-          { stat: 4, gender: 'male' },   // SpD
+          { stat: 4, gender: 'male' }, // SpD
           { stat: 2, gender: 'female' }, // Def
-          { stat: 3, gender: 'male' },   // SpA
+          { stat: 3, gender: 'male' }, // SpA
           { stat: 2, gender: 'female' }, // Def
-          { stat: 4, gender: 'male' },   // SpD
+          { stat: 4, gender: 'male' }, // SpD
           { stat: 3, gender: 'female' }, // SpA
-          { stat: 4, gender: 'male' },   // SpD
+          { stat: 4, gender: 'male' }, // SpD
           { stat: 3, gender: 'female' }, // SpA
-          { stat: 5, gender: 'male' },   // Vel
+          { stat: 5, gender: 'male' }, // Vel
         ],
       });
 
@@ -419,16 +534,8 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
       // Rama A: Stats [0, 1, 2, 3] (PS, Atk, Def, SpD)
       const subA = generateBranch('A', 0, {
         apexStats: [0, 1, 2, 3],
-        p1: [
-          { stats: [0, 1, 2] },
-          { stats: [1, 2, 3] },
-        ],
-        p2: [
-          { stats: [0, 1] },
-          { stats: [1, 2] },
-          { stats: [1, 2] },
-          { stats: [2, 3] },
-        ],
+        p1: [{ stats: [0, 1, 2] }, { stats: [1, 2, 3] }],
+        p2: [{ stats: [0, 1] }, { stats: [1, 2] }, { stats: [1, 2] }, { stats: [2, 3] }],
         p3: [
           { stats: [0, 1], gender: 'female' },
           { stats: [1, 2], gender: 'male' },
@@ -468,13 +575,13 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         hasNatureBranch: true,
         p1: [
           { stats: [1, 2], hasNat: true }, // Madre N1: ⚪ Naturaleza + Stat 1 + Stat 2
-          { stats: [1, 2, 4] },            // Padre N1: Stat 1 + Stat 2 + Stat 4 (Vel)
+          { stats: [1, 2, 4] }, // Padre N1: Stat 1 + Stat 2 + Stat 4 (Vel)
         ],
         p2: [
           { stats: [1, 2], hasNat: true }, // F2-1: ⚪ Naturaleza + Stat 1 + Stat 2
-          { stats: [1, 2] },               // F2-2: Stat 1 + Stat 2
-          { stats: [1, 2] },               // F2-3: Stat 1 + Stat 2
-          { stats: [2, 4] },               // F2-4: Stat 2 + Stat 4
+          { stats: [1, 2] }, // F2-2: Stat 1 + Stat 2
+          { stats: [1, 2] }, // F2-3: Stat 1 + Stat 2
+          { stats: [2, 4] }, // F2-4: Stat 2 + Stat 4
         ],
         p3: [
           // ¡Aquí está la corrección clave que solicitó el usuario!
@@ -490,7 +597,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
         ],
         p4: [
           { stat: 0, hasNat: true, gender: 'female' }, // Hoja 0: Naturaleza + Piedra Eterna
-          { stat: 1, gender: 'male' },                 // Hoja 1: Stat 1 (Rojo) + Brazal Recio
+          { stat: 1, gender: 'male' }, // Hoja 1: Stat 1 (Rojo) + Brazal Recio
           { stat: 1, gender: 'female' },
           { stat: 2, gender: 'male' },
           { stat: 1, gender: 'female' },
@@ -515,12 +622,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
     const subA = generateBranch('A', 0, {
       apexStats: [0, 1, 2, 3, 4],
       p1: [{ stats: [0, 1, 2, 3] }, { stats: [1, 2, 3, 4] }],
-      p2: [
-        { stats: [0, 1, 2] },
-        { stats: [1, 2, 3] },
-        { stats: [1, 2, 3] },
-        { stats: [2, 3, 4] },
-      ],
+      p2: [{ stats: [0, 1, 2] }, { stats: [1, 2, 3] }, { stats: [1, 2, 3] }, { stats: [2, 3, 4] }],
       p3: [
         { stats: [0, 1], gender: 'female' },
         { stats: [1, 2], gender: 'male' },
@@ -561,7 +663,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
       const femaleCounts = [5, 10, 10, 5, 1, 0];
       const maleCounts = [0, 1, 5, 10, 10, 5];
       const totalCaptures = [1, 5, 10, 10, 5, 1]; // Suma = 32 capturas base
-      const brazales = [5, 11, 15, 15, 11, 5];   // Suma = 62 brazales (31 cruces * 2)
+      const brazales = [5, 11, 15, 15, 11, 5]; // Suma = 62 brazales (31 cruces * 2)
       const totalBrazales = 62;
       const totalEverstone = 0;
 
@@ -840,10 +942,11 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
             {activeModel === '5x31-basic'
               ? ` • Menta recomendada: ${nature.split(' ')[0]} (1 sola rama de 16 base)`
               : activeModel === '5x31-nature'
-              ? ` • Naturaleza ${nature.split(' ')[0]} heredada con Piedra Eterna (doble rama)`
-              : nature
-              ? ` con Naturaleza ${nature}`
-              : ''} • Modelo piramidal binario
+                ? ` • Naturaleza ${nature.split(' ')[0]} heredada con Piedra Eterna (doble rama)`
+                : nature
+                  ? ` con Naturaleza ${nature}`
+                  : ''}{' '}
+            • Modelo piramidal binario
           </p>
         </div>
 
@@ -965,9 +1068,13 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
           </div>
 
           <p className="text-[11px] text-slate-300 leading-relaxed">
-            Cría este árbol en <strong>1 sola rama (15 cruces)</strong>. Al eclosionar tu cría 5x31, simplemente dale una{' '}
-            <strong className="text-emerald-300">Menta de Naturaleza ({nature.split(' ')[0]})</strong> para fijar los modificadores.
-            Ahorras <strong>16 capturas silvestres</strong> y <strong>~24,000 Pk$</strong> en brazales y sexo.
+            Cría este árbol en <strong>1 sola rama (15 cruces)</strong>. Al eclosionar tu cría 5x31,
+            simplemente dale una{' '}
+            <strong className="text-emerald-300">
+              Menta de Naturaleza ({nature.split(' ')[0]})
+            </strong>{' '}
+            para fijar los modificadores. Ahorras <strong>16 capturas silvestres</strong> y{' '}
+            <strong>~24,000 Pk$</strong> en brazales y sexo.
           </p>
         </div>
 
@@ -1008,8 +1115,9 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
 
           <p className="text-[11px] text-slate-300 leading-relaxed">
             Si uno de tus Pokémon capturados o en tu PC ya tiene la naturaleza deseada (
-            <strong className="text-purple-300">{nature.split(' ')[0]}</strong>), se traza el árbol asignándole directamente la{' '}
-            <strong className="text-white">Piedra Eterna</strong> a ese padre en la rama inferior para transmitirla en cada cruce.
+            <strong className="text-purple-300">{nature.split(' ')[0]}</strong>), se traza el árbol
+            asignándole directamente la <strong className="text-white">Piedra Eterna</strong> a ese
+            padre en la rama inferior para transmitirla en cada cruce.
           </p>
         </div>
       </div>
@@ -1114,9 +1222,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                       : 'Árbol de Crianza Completo (16 Capturas Base)'}
                   </span>
                 </div>
-                <span className="text-[10px] text-slate-400 font-sans">15 Cruces • 30 Brazales</span>
+                <span className="text-[10px] text-slate-400 font-sans">
+                  15 Cruces • 30 Brazales
+                </span>
               </div>
-              <svg viewBox="0 0 880 340" className="w-full h-auto overflow-visible select-none drop-shadow-md">
+              <svg
+                viewBox="0 0 880 340"
+                className="w-full h-auto overflow-visible select-none drop-shadow-md"
+              >
                 {/* Conexiones */}
                 <g className="connections">
                   {treeA.connList.map((conn, idx) => (
@@ -1147,7 +1260,8 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-4 h-4 text-amber-500" />
                   <h3 className="text-base font-black tracking-wider text-red-600 font-['Sora'] uppercase">
-                    RESULTADO FINAL: {activeModel === '6x31-pure' ? '6x31 PERFECTO' : '5x31 CON NATURALEZA'}
+                    RESULTADO FINAL:{' '}
+                    {activeModel === '6x31-pure' ? '6x31 PERFECTO' : '5x31 CON NATURALEZA'}
                   </h3>
                   <Sparkles className="w-4 h-4 text-amber-500" />
                 </div>
@@ -1156,7 +1270,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Progenitor Rama A */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="56" height="56" viewBox="0 0 56 56" className="overflow-visible drop-shadow">
+                      <svg
+                        width="56"
+                        height="56"
+                        viewBox="0 0 56 56"
+                        className="overflow-visible drop-shadow"
+                      >
                         <g transform="translate(28, 28)">
                           <defs>
                             <clipPath id="clip-final-a">
@@ -1166,22 +1285,83 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                           <g clipPath="url(#clip-final-a)">
                             {activeModel === '6x31-pure' ? (
                               <>
-                                <rect x="-24" y="-24" width="9.6" height="48" fill={activeStats[0]?.color} />
-                                <rect x="-14.4" y="-24" width="9.6" height="48" fill={activeStats[1]?.color} />
-                                <rect x="-4.8" y="-24" width="9.6" height="48" fill={activeStats[2]?.color} />
-                                <rect x="4.8" y="-24" width="9.6" height="48" fill={activeStats[3]?.color} />
-                                <rect x="14.4" y="-24" width="9.6" height="48" fill={activeStats[4]?.color} />
+                                <rect
+                                  x="-24"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[0]?.color}
+                                />
+                                <rect
+                                  x="-14.4"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="-4.8"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="4.8"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[3]?.color}
+                                />
+                                <rect
+                                  x="14.4"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[4]?.color}
+                                />
                               </>
                             ) : (
                               <>
-                                <rect x="-24" y="-24" width="12" height="48" fill={activeStats[0]?.color} />
-                                <rect x="-12" y="-24" width="12" height="48" fill={activeStats[1]?.color} />
-                                <rect x="0" y="-24" width="12" height="48" fill={activeStats[2]?.color} />
-                                <rect x="12" y="-24" width="12" height="48" fill={activeStats[3]?.color} />
+                                <rect
+                                  x="-24"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[0]?.color}
+                                />
+                                <rect
+                                  x="-12"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="0"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="12"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[3]?.color}
+                                />
                               </>
                             )}
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
+                          <circle
+                            r="24"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="var(--color-line)"
+                            strokeWidth="2.2"
+                          />
                           <text
                             x="0"
                             y="9"
@@ -1199,7 +1379,11 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                       {/* Sprite de brazal equipado */}
                       <div className="absolute -top-1 -right-2 bg-slate-900 rounded-full p-0.5 border border-slate-700 shadow">
                         <ItemSprite
-                          item={activeModel === '6x31-pure' ? activeStats[0]?.itemKey : activeStats[0]?.itemKey}
+                          item={
+                            activeModel === '6x31-pure'
+                              ? activeStats[0]?.itemKey
+                              : activeStats[0]?.itemKey
+                          }
                           size={18}
                         />
                       </div>
@@ -1214,7 +1398,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Progenitor Rama B */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="56" height="56" viewBox="0 0 56 56" className="overflow-visible drop-shadow">
+                      <svg
+                        width="56"
+                        height="56"
+                        viewBox="0 0 56 56"
+                        className="overflow-visible drop-shadow"
+                      >
                         <g transform="translate(28, 28)">
                           <defs>
                             <clipPath id="clip-final-b">
@@ -1224,22 +1413,77 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                           <g clipPath="url(#clip-final-b)">
                             {activeModel === '6x31-pure' ? (
                               <>
-                                <rect x="-24" y="-24" width="9.6" height="48" fill={activeStats[1]?.color} />
-                                <rect x="-14.4" y="-24" width="9.6" height="48" fill={activeStats[2]?.color} />
-                                <rect x="-4.8" y="-24" width="9.6" height="48" fill={activeStats[3]?.color} />
-                                <rect x="4.8" y="-24" width="9.6" height="48" fill={activeStats[4]?.color} />
-                                <rect x="14.4" y="-24" width="9.6" height="48" fill={activeStats[5]?.color} />
+                                <rect
+                                  x="-24"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="-14.4"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="-4.8"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[3]?.color}
+                                />
+                                <rect
+                                  x="4.8"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[4]?.color}
+                                />
+                                <rect
+                                  x="14.4"
+                                  y="-24"
+                                  width="9.6"
+                                  height="48"
+                                  fill={activeStats[5]?.color}
+                                />
                               </>
                             ) : (
                               <>
                                 <rect x="-24" y="-24" width="12" height="48" fill="#ffffff" />
-                                <rect x="-12" y="-24" width="12" height="48" fill={activeStats[1]?.color} />
-                                <rect x="0" y="-24" width="12" height="48" fill={activeStats[2]?.color} />
-                                <rect x="12" y="-24" width="12" height="48" fill={activeStats[4]?.color} />
+                                <rect
+                                  x="-12"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="0"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="12"
+                                  y="-24"
+                                  width="12"
+                                  height="48"
+                                  fill={activeStats[4]?.color}
+                                />
                               </>
                             )}
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
+                          <circle
+                            r="24"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="var(--color-line)"
+                            strokeWidth="2.2"
+                          />
                           <text
                             x="0"
                             y="9"
@@ -1272,7 +1516,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Cría Final (6x31 con todos los colores y Pokémon) */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="64" height="64" viewBox="0 0 64 64" className="overflow-visible drop-shadow-xl">
+                      <svg
+                        width="64"
+                        height="64"
+                        viewBox="0 0 64 64"
+                        className="overflow-visible drop-shadow-xl"
+                      >
                         <g transform="translate(32, 32)">
                           <defs>
                             <clipPath id="clip-final-child">
@@ -1282,25 +1531,98 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                           <g clipPath="url(#clip-final-child)">
                             {activeModel === '6x31-pure' ? (
                               <>
-                                <rect x="-28" y="-28" width="9.33" height="56" fill={activeStats[0]?.color} />
-                                <rect x="-18.66" y="-28" width="9.33" height="56" fill={activeStats[1]?.color} />
-                                <rect x="-9.33" y="-28" width="9.33" height="56" fill={activeStats[2]?.color} />
-                                <rect x="0" y="-28" width="9.33" height="56" fill={activeStats[3]?.color} />
-                                <rect x="9.33" y="-28" width="9.33" height="56" fill={activeStats[4]?.color} />
-                                <rect x="18.66" y="-28" width="9.34" height="56" fill={activeStats[5]?.color} />
+                                <rect
+                                  x="-28"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[0]?.color}
+                                />
+                                <rect
+                                  x="-18.66"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="-9.33"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="0"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[3]?.color}
+                                />
+                                <rect
+                                  x="9.33"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[4]?.color}
+                                />
+                                <rect
+                                  x="18.66"
+                                  y="-28"
+                                  width="9.34"
+                                  height="56"
+                                  fill={activeStats[5]?.color}
+                                />
                               </>
                             ) : (
                               <>
                                 <rect x="-28" y="-28" width="9.33" height="56" fill="#ffffff" />
-                                <rect x="-18.66" y="-28" width="9.33" height="56" fill={activeStats[0]?.color} />
-                                <rect x="-9.33" y="-28" width="9.33" height="56" fill={activeStats[1]?.color} />
-                                <rect x="0" y="-28" width="9.33" height="56" fill={activeStats[2]?.color} />
-                                <rect x="9.33" y="-28" width="9.33" height="56" fill={activeStats[3]?.color} />
-                                <rect x="18.66" y="-28" width="9.34" height="56" fill={activeStats[4]?.color} />
+                                <rect
+                                  x="-18.66"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[0]?.color}
+                                />
+                                <rect
+                                  x="-9.33"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[1]?.color}
+                                />
+                                <rect
+                                  x="0"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[2]?.color}
+                                />
+                                <rect
+                                  x="9.33"
+                                  y="-28"
+                                  width="9.33"
+                                  height="56"
+                                  fill={activeStats[3]?.color}
+                                />
+                                <rect
+                                  x="18.66"
+                                  y="-28"
+                                  width="9.34"
+                                  height="56"
+                                  fill={activeStats[4]?.color}
+                                />
                               </>
                             )}
                           </g>
-                          <circle r="28" cx="0" cy="0" fill="none" stroke="#e11d48" strokeWidth="3" />
+                          <circle
+                            r="28"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="#e11d48"
+                            strokeWidth="3"
+                          />
                         </g>
                       </svg>
                       {/* Avatar del Pokémon en miniatura sobrepuesto */}
@@ -1353,7 +1675,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Progenitor Madre N1 */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="56" height="56" viewBox="0 0 56 56" className="overflow-visible drop-shadow">
+                      <svg
+                        width="56"
+                        height="56"
+                        viewBox="0 0 56 56"
+                        className="overflow-visible drop-shadow"
+                      >
                         <g transform="translate(28, 28)">
                           <defs>
                             <clipPath id="clip-final-basic-mother">
@@ -1361,12 +1688,43 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                             </clipPath>
                           </defs>
                           <g clipPath="url(#clip-final-basic-mother)">
-                            <rect x="-24" y="-24" width="12" height="48" fill={activeStats[0]?.color} />
-                            <rect x="-12" y="-24" width="12" height="48" fill={activeStats[1]?.color} />
-                            <rect x="0" y="-24" width="12" height="48" fill={activeStats[2]?.color} />
-                            <rect x="12" y="-24" width="12" height="48" fill={activeStats[3]?.color} />
+                            <rect
+                              x="-24"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[0]?.color}
+                            />
+                            <rect
+                              x="-12"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[1]?.color}
+                            />
+                            <rect
+                              x="0"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[2]?.color}
+                            />
+                            <rect
+                              x="12"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[3]?.color}
+                            />
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
+                          <circle
+                            r="24"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="var(--color-line)"
+                            strokeWidth="2.2"
+                          />
                           <text
                             x="0"
                             y="9"
@@ -1383,10 +1741,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                       </svg>
                       {/* Sprite de brazal equipado */}
                       <div className="absolute -top-1 -right-2 bg-slate-900 rounded-full p-0.5 border border-slate-700 shadow">
-                        <ItemSprite
-                          item={activeStats[0]?.itemKey}
-                          size={18}
-                        />
+                        <ItemSprite item={activeStats[0]?.itemKey} size={18} />
                       </div>
                     </div>
                     <span className="text-[10px] font-bold text-slate-700">Madre N1 (4x31)</span>
@@ -1397,7 +1752,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Progenitor Padre N1 */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="56" height="56" viewBox="0 0 56 56" className="overflow-visible drop-shadow">
+                      <svg
+                        width="56"
+                        height="56"
+                        viewBox="0 0 56 56"
+                        className="overflow-visible drop-shadow"
+                      >
                         <g transform="translate(28, 28)">
                           <defs>
                             <clipPath id="clip-final-basic-father">
@@ -1405,12 +1765,43 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                             </clipPath>
                           </defs>
                           <g clipPath="url(#clip-final-basic-father)">
-                            <rect x="-24" y="-24" width="12" height="48" fill={activeStats[1]?.color} />
-                            <rect x="-12" y="-24" width="12" height="48" fill={activeStats[2]?.color} />
-                            <rect x="0" y="-24" width="12" height="48" fill={activeStats[3]?.color} />
-                            <rect x="12" y="-24" width="12" height="48" fill={activeStats[4]?.color} />
+                            <rect
+                              x="-24"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[1]?.color}
+                            />
+                            <rect
+                              x="-12"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[2]?.color}
+                            />
+                            <rect
+                              x="0"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[3]?.color}
+                            />
+                            <rect
+                              x="12"
+                              y="-24"
+                              width="12"
+                              height="48"
+                              fill={activeStats[4]?.color}
+                            />
                           </g>
-                          <circle r="24" cx="0" cy="0" fill="none" stroke="var(--color-line)" strokeWidth="2.2" />
+                          <circle
+                            r="24"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="var(--color-line)"
+                            strokeWidth="2.2"
+                          />
                           <text
                             x="0"
                             y="9"
@@ -1427,10 +1818,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                       </svg>
                       {/* Sprite de brazal equipado */}
                       <div className="absolute -top-1 -right-2 bg-slate-900 rounded-full p-0.5 border border-slate-700 shadow">
-                        <ItemSprite
-                          item={activeStats[4]?.itemKey}
-                          size={18}
-                        />
+                        <ItemSprite item={activeStats[4]?.itemKey} size={18} />
                       </div>
                     </div>
                     <span className="text-[10px] font-bold text-slate-700">Padre N1 (4x31)</span>
@@ -1441,7 +1829,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   {/* Cría Final (5x31 con todos los colores y Pokémon) */}
                   <div className="flex flex-col items-center gap-1.5">
                     <div className="relative flex items-center justify-center">
-                      <svg width="64" height="64" viewBox="0 0 64 64" className="overflow-visible drop-shadow-xl">
+                      <svg
+                        width="64"
+                        height="64"
+                        viewBox="0 0 64 64"
+                        className="overflow-visible drop-shadow-xl"
+                      >
                         <g transform="translate(32, 32)">
                           <defs>
                             <clipPath id="clip-final-child-basic">
@@ -1449,13 +1842,50 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                             </clipPath>
                           </defs>
                           <g clipPath="url(#clip-final-child-basic)">
-                            <rect x="-28" y="-28" width="11.2" height="56" fill={activeStats[0]?.color} />
-                            <rect x="-16.8" y="-28" width="11.2" height="56" fill={activeStats[1]?.color} />
-                            <rect x="-5.6" y="-28" width="11.2" height="56" fill={activeStats[2]?.color} />
-                            <rect x="5.6" y="-28" width="11.2" height="56" fill={activeStats[3]?.color} />
-                            <rect x="16.8" y="-28" width="11.2" height="56" fill={activeStats[4]?.color} />
+                            <rect
+                              x="-28"
+                              y="-28"
+                              width="11.2"
+                              height="56"
+                              fill={activeStats[0]?.color}
+                            />
+                            <rect
+                              x="-16.8"
+                              y="-28"
+                              width="11.2"
+                              height="56"
+                              fill={activeStats[1]?.color}
+                            />
+                            <rect
+                              x="-5.6"
+                              y="-28"
+                              width="11.2"
+                              height="56"
+                              fill={activeStats[2]?.color}
+                            />
+                            <rect
+                              x="5.6"
+                              y="-28"
+                              width="11.2"
+                              height="56"
+                              fill={activeStats[3]?.color}
+                            />
+                            <rect
+                              x="16.8"
+                              y="-28"
+                              width="11.2"
+                              height="56"
+                              fill={activeStats[4]?.color}
+                            />
                           </g>
-                          <circle r="28" cx="0" cy="0" fill="none" stroke="#059669" strokeWidth="3" />
+                          <circle
+                            r="28"
+                            cx="0"
+                            cy="0"
+                            fill="none"
+                            stroke="#059669"
+                            strokeWidth="3"
+                          />
                         </g>
                       </svg>
                       {/* Avatar del Pokémon en miniatura sobrepuesto */}
@@ -1488,7 +1918,8 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                         Paso Final Recomendado: Dale una Menta {nature.split(' ')[0]}
                       </span>
                       <span className="text-[11px] text-emerald-700">
-                        Al nacer la cría 5x31, usa una Menta de Naturaleza para cambiar sus stats a {nature.split(' ')[0]} sin gastar en otra rama.
+                        Al nacer la cría 5x31, usa una Menta de Naturaleza para cambiar sus stats a{' '}
+                        {nature.split(' ')[0]} sin gastar en otra rama.
                       </span>
                     </div>
                   </div>
@@ -1521,9 +1952,14 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                         : 'RAMA INFERIOR B (Línea con Naturaleza Favorable & Piedra Eterna - 16 Capturas Base)'}
                     </span>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-sans">15 Cruces • 30 Brazales</span>
+                  <span className="text-[10px] text-slate-400 font-sans">
+                    15 Cruces • 30 Brazales
+                  </span>
                 </div>
-                <svg viewBox="0 0 880 340" className="w-full h-auto overflow-visible select-none drop-shadow-md">
+                <svg
+                  viewBox="0 0 880 340"
+                  className="w-full h-auto overflow-visible select-none drop-shadow-md"
+                >
                   {/* Conexiones */}
                   <g className="connections">
                     {treeB.connList.map((conn, idx) => (
@@ -1558,9 +1994,12 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                   backgroundColor: selectedNode.isNatureNode
                     ? '#ffffff'
                     : selectedNode.stats.length === 1
-                    ? activeStats[selectedNode.stats[0]]?.color
-                    : '#1e293b',
-                  color: selectedNode.gender === 'female' ? 'var(--color-role-female)' : 'var(--color-role-male)',
+                      ? activeStats[selectedNode.stats[0]]?.color
+                      : '#1e293b',
+                  color:
+                    selectedNode.gender === 'female'
+                      ? 'var(--color-role-female)'
+                      : 'var(--color-role-male)',
                 }}
               >
                 {selectedNode.gender === 'female' ? '♀' : '♂'}
@@ -1717,7 +2156,9 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
               </div>
               <div className="text-[11px] text-slate-400 mt-0.5">
                 {auditData.totalBrazales} Brazales Recios
-                {auditData.totalEverstone > 0 ? ` + ${auditData.totalEverstone} Piedras Eternas` : ''}
+                {auditData.totalEverstone > 0
+                  ? ` + ${auditData.totalEverstone} Piedras Eternas`
+                  : ''}
               </div>
             </div>
           </div>
@@ -1753,13 +2194,22 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
               <span>Aclaración de las cantidades:</span>
             </div>
             <p>
-              • <strong>Pokémon que Equipa (♀ Hembra / ♂ Macho):</strong> Muestra cuántos Pokémon hembras y machos equipan ese objeto a lo largo de todo el árbol genealógico (incluyendo el cruce final del resultado). Por ejemplo, la <strong>Pesa Recia</strong> la equipan exactamente <strong>5 hembras ♀</strong> (Hoja base N4, Bisabuela N3, Abuela N2, Madre N1 y Ápice 5x31 en el resultado final) y <strong>0 machos ♂</strong>.
+              • <strong>Pokémon que Equipa (♀ Hembra / ♂ Macho):</strong> Muestra cuántos Pokémon
+              hembras y machos equipan ese objeto a lo largo de todo el árbol genealógico
+              (incluyendo el cruce final del resultado). Por ejemplo, la <strong>Pesa Recia</strong>{' '}
+              la equipan exactamente <strong>5 hembras ♀</strong> (Hoja base N4, Bisabuela N3,
+              Abuela N2, Madre N1 y Ápice 5x31 en el resultado final) y <strong>0 machos ♂</strong>.
             </p>
             <p>
-              • <strong>Brazales a Usar:</strong> Muestra el total de veces que se equipa ese objeto a lo largo de las cruzas en la pirámide de crianza (57 brazales + 5 piedras eternas = 62 objetos en total para los 31 cruces en 5x31 con Naturaleza).
+              • <strong>Brazales a Usar:</strong> Muestra el total de veces que se equipa ese objeto
+              a lo largo de las cruzas en la pirámide de crianza (57 brazales + 5 piedras eternas =
+              62 objetos en total para los 31 cruces en 5x31 con Naturaleza).
             </p>
             <p>
-              • <strong>Guardería Diosesmon:</strong> En el servidor Cobblemon Diosesmon, depositar Pokémon es <strong>gratis (0 Pk$)</strong>. El costo de dinero es únicamente <strong>500 Pk$ por brazal/piedra eterna</strong> y <strong>500 Pk$ por forzar el sexo</strong> de la cría.
+              • <strong>Guardería Diosesmon:</strong> En el servidor Cobblemon Diosesmon, depositar
+              Pokémon es <strong>gratis (0 Pk$)</strong>. El costo de dinero es únicamente{' '}
+              <strong>500 Pk$ por brazal/piedra eterna</strong> y{' '}
+              <strong>500 Pk$ por forzar el sexo</strong> de la cría.
             </p>
           </div>
         )}
@@ -1797,9 +2247,7 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                           className="w-3.5 h-3.5 rounded-full shadow-sm shrink-0 border border-slate-950"
                           style={{ backgroundColor: row.statColor }}
                         />
-                        <span className="font-bold text-white text-sm">
-                          {row.statName}
-                        </span>
+                        <span className="font-bold text-white text-sm">{row.statName}</span>
                       </div>
                     </td>
 
@@ -1810,7 +2258,9 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                         <div>
                           <div className="font-bold text-slate-200">{row.itemName}</div>
                           <div className="text-[11px] text-slate-400">
-                            {row.type === 'nature' ? 'Hereda Naturaleza 100%' : `Garantiza 31 en ${row.statName}`}
+                            {row.type === 'nature'
+                              ? 'Hereda Naturaleza 100%'
+                              : `Garantiza 31 en ${row.statName}`}
                           </div>
                         </div>
                       </div>
@@ -1828,7 +2278,11 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                           <span>{row.males}</span>
                         </span>
                         <span className="text-slate-400 text-xs">
-                          = <strong className="text-white font-mono">{row.females + row.males}</strong> {row.females + row.males === 1 ? 'uso' : 'usos'}
+                          ={' '}
+                          <strong className="text-white font-mono">
+                            {row.females + row.males}
+                          </strong>{' '}
+                          {row.females + row.males === 1 ? 'uso' : 'usos'}
                         </span>
                       </div>
                     </td>
@@ -1851,12 +2305,8 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-slate-700 bg-slate-900/90 font-bold text-xs">
-                  <td className="py-3 px-4 text-white font-bold">
-                    TOTAL GENERAL
-                  </td>
-                  <td className="py-3 px-4 text-slate-300">
-                    {totalItemsCount} Objetos en Tienda
-                  </td>
+                  <td className="py-3 px-4 text-white font-bold">TOTAL GENERAL</td>
+                  <td className="py-3 px-4 text-slate-300">{totalItemsCount} Objetos en Tienda</td>
                   <td className="py-3 px-4 text-slate-200 font-mono">
                     <span className="text-role-female font-bold">{totalFemales} ♀</span> +{' '}
                     <span className="text-role-male font-bold">{totalMales} ♂</span> ={' '}
@@ -1998,13 +2448,19 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
                     ? auditData.brazales.map((cnt, i) => {
                         const cost = cnt * 500;
                         return (
-                          <td key={i} className="py-2.5 px-3 text-emerald-300 font-mono font-semibold">
+                          <td
+                            key={i}
+                            className="py-2.5 px-3 text-emerald-300 font-mono font-semibold"
+                          >
                             {cost >= 1000 ? `${cost / 1000}k` : `${cost}`}
                           </td>
                         );
                       })
                     : auditData.externalBrazalesByStat.map((kVal, i) => (
-                        <td key={i} className="py-2.5 px-3 text-emerald-300 font-mono font-semibold">
+                        <td
+                          key={i}
+                          className="py-2.5 px-3 text-emerald-300 font-mono font-semibold"
+                        >
                           {kVal}k
                         </td>
                       ))}
@@ -2027,11 +2483,13 @@ export const BreedingTreePro: React.FC<BreedingTreeProProps> = ({
               <span className="font-semibold text-purple-200">
                 Desglose Oficial Servidor Diosesmon:
               </span>{' '}
-              {auditData.totalBrazales} Brazales Recios (500 Pk$ c/u = {auditData.diosesmonBrazalesCost.toLocaleString()} Pk$) +{' '}
+              {auditData.totalBrazales} Brazales Recios (500 Pk$ c/u ={' '}
+              {auditData.diosesmonBrazalesCost.toLocaleString()} Pk$) +{' '}
               {auditData.totalEverstone > 0
                 ? `${auditData.totalEverstone} Piedras Eternas (500 Pk$ c/u = ${auditData.diosesmonEverstoneCost.toLocaleString()} Pk$) + `
                 : ''}
-              {auditData.diosesmonSexCost.toLocaleString()} Pk$ en selecciones de sexo (500 Pk$ por cruce) + Guardería Gratis (0 Pk$).
+              {auditData.diosesmonSexCost.toLocaleString()} Pk$ en selecciones de sexo (500 Pk$ por
+              cruce) + Guardería Gratis (0 Pk$).
             </div>
           </div>
           <div className="flex items-center gap-2 font-mono font-bold text-sm text-emerald-300 shrink-0 bg-slate-900 px-3.5 py-1.5 rounded-xl border border-emerald-500/30 shadow">

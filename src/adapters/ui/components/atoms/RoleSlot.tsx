@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { Database, Search, Sparkles, Heart, Sword, Shield, Wand2, Gauge, Package, ChevronDown, Lock } from 'lucide-react';
+import {
+  Database,
+  Search,
+  Sparkles,
+  Heart,
+  Sword,
+  Shield,
+  Wand2,
+  Gauge,
+  Package,
+  ChevronDown,
+  Lock,
+} from 'lucide-react';
 import type { Gender } from '../../../../domain/types/pokemon';
 import { EggGroup, EGG_GROUP_NAMES_ES } from '../../../../domain/types/eggGroup';
 import { POKEMON_SPECIES_LIST } from '../../../../domain/data/speciesData';
@@ -41,22 +53,68 @@ export interface RoleSlotProps {
   };
   ivsReadOnly?: boolean;
   onGenderChange?: (gender: Gender) => void;
-  onSpeciesChange?: (species: { id: number; name: string; eggGroups: { name: string }[]; genderRatio: number; gen: number; baseStats: any; captureRate: number }) => void;
-  onIVChange?: (statKey: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed', value: number) => void;
+  onSpeciesChange?: (species: {
+    id: number;
+    name: string;
+    eggGroups: { name: string }[];
+    genderRatio: number;
+    gen: number;
+    baseStats: any;
+    captureRate: number;
+  }) => void;
+  onIVChange?: (
+    statKey: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed',
+    value: number,
+  ) => void;
   onHeldItemChange?: (item: null | { type: string; stat?: string }) => void;
   onOpenPCModal?: () => void;
 }
 
 const HELD_ITEMS_OPTIONS = [
   { id: 'none', label: 'Sin objeto equipado', type: null, stat: undefined },
-  { id: 'destiny_knot', label: 'Lazo Destino (Hereda 5 IVs en total)', type: 'destiny_knot', stat: undefined },
-  { id: 'everstone', label: 'Piedra Eterna (Hereda 100% naturaleza)', type: 'everstone', stat: undefined },
+  {
+    id: 'destiny_knot',
+    label: 'Lazo Destino (Hereda 5 IVs en total)',
+    type: 'destiny_knot',
+    stat: undefined,
+  },
+  {
+    id: 'everstone',
+    label: 'Piedra Eterna (Hereda 100% naturaleza)',
+    type: 'everstone',
+    stat: undefined,
+  },
   { id: 'power_weight', label: 'Pesa Recia (Fija IV 31 en PS)', type: 'power_weight', stat: 'hp' },
-  { id: 'power_bracer', label: 'Brazal Recio (Fija IV 31 en Ataque)', type: 'power_bracer', stat: 'attack' },
-  { id: 'power_belt', label: 'Cinto Recio (Fija IV 31 en Defensa)', type: 'power_belt', stat: 'defense' },
-  { id: 'power_lens', label: 'Lente Recia (Fija IV 31 en At. Esp.)', type: 'power_lens', stat: 'spatk' },
-  { id: 'power_band', label: 'Banda Recia (Fija IV 31 en Def. Esp.)', type: 'power_band', stat: 'spdef' },
-  { id: 'power_anklet', label: 'Franja Recia (Fija IV 31 en Velocidad)', type: 'power_anklet', stat: 'speed' },
+  {
+    id: 'power_bracer',
+    label: 'Brazal Recio (Fija IV 31 en Ataque)',
+    type: 'power_bracer',
+    stat: 'attack',
+  },
+  {
+    id: 'power_belt',
+    label: 'Cinto Recio (Fija IV 31 en Defensa)',
+    type: 'power_belt',
+    stat: 'defense',
+  },
+  {
+    id: 'power_lens',
+    label: 'Lente Recia (Fija IV 31 en At. Esp.)',
+    type: 'power_lens',
+    stat: 'spatk',
+  },
+  {
+    id: 'power_band',
+    label: 'Banda Recia (Fija IV 31 en Def. Esp.)',
+    type: 'power_band',
+    stat: 'spdef',
+  },
+  {
+    id: 'power_anklet',
+    label: 'Franja Recia (Fija IV 31 en Velocidad)',
+    type: 'power_anklet',
+    stat: 'speed',
+  },
 ];
 
 export const RoleSlot: React.FC<RoleSlotProps> = ({
@@ -82,7 +140,11 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
   const getSpriteUrl = (id: number) =>
     `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
-  const statList: { key: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed'; label: string; icon: React.ReactNode }[] = [
+  const statList: {
+    key: 'hp' | 'attack' | 'defense' | 'spatk' | 'spdef' | 'speed';
+    label: string;
+    icon: React.ReactNode;
+  }[] = [
     { key: 'hp', label: 'PS', icon: <Heart className="w-3 h-3" /> },
     { key: 'attack', label: 'Atk', icon: <Sword className="w-3 h-3" /> },
     { key: 'defense', label: 'Def', icon: <Shield className="w-3 h-3" /> },
@@ -97,7 +159,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
     }
     const clean = speciesSearch.toLowerCase();
     return POKEMON_SPECIES_LIST.filter(
-      (s) => s.name.toLowerCase().includes(clean) || s.id.toString() === clean
+      (s) => s.name.toLowerCase().includes(clean) || s.id.toString() === clean,
     ).slice(0, 30);
   }, [speciesSearch]);
 
@@ -124,13 +186,15 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
       data-readonly={isFixedGender.toString()}
     >
       {/* 1. DOM element requerido por los tests de vitest */}
-      <span className="result-badge hidden">
-        Resultado: {species.name}
-      </span>
+      <span className="result-badge hidden">Resultado: {species.name}</span>
 
       {/* 2. Toggle solo para Pokémon genderless requerido por test */}
       {isGenderless && (
-        <div className="gender-toggle flex items-center gap-3 text-xs text-ink" role="radiogroup" aria-label="Seleccionar rol para Pokémon sin género">
+        <div
+          className="gender-toggle flex items-center gap-3 text-xs text-ink"
+          role="radiogroup"
+          aria-label="Seleccionar rol para Pokémon sin género"
+        >
           <label className="flex items-center gap-1.5 cursor-pointer">
             <input
               type="radio"
@@ -186,9 +250,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
               {isMother ? 'Madre / Progenitor A' : 'Padre / Progenitor B'}
             </h5>
             <span className="text-[10px] text-ink-muted">
-              {isMother
-                ? 'Define la especie del huevo'
-                : 'Donante de IVs & movimientos'}
+              {isMother ? 'Define la especie del huevo' : 'Donante de IVs & movimientos'}
             </span>
           </div>
         </div>
@@ -215,7 +277,9 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
           >
             <Search className="w-3 h-3" />
             <span>Cambiar</span>
-            <ChevronDown className={`w-3 h-3 transition-transform ${showSpeciesPicker ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              className={`w-3 h-3 transition-transform ${showSpeciesPicker ? 'rotate-180' : ''}`}
+            />
           </button>
         </div>
       </div>
@@ -345,8 +409,8 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                   is31
                     ? 'bg-success/10 border-success/60 text-success font-bold shadow-[0_0_8px] shadow-success/20'
                     : is0
-                    ? 'bg-warning/10 border-warning/60 text-warning font-bold'
-                    : 'bg-surface-sunken/60 border-line text-ink-muted hover:border-line-strong'
+                      ? 'bg-warning/10 border-warning/60 text-warning font-bold'
+                      : 'bg-surface-sunken/60 border-line text-ink-muted hover:border-line-strong'
                 }`}
                 title={
                   isIVReadOnly
@@ -358,9 +422,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
                   <span className="text-ink-faint">{icon}</span>
                   <span>{label}</span>
                 </div>
-                <span className="text-xs font-mono mt-0.5">
-                  {val !== undefined ? val : 'X'}
-                </span>
+                <span className="text-xs font-mono mt-0.5">{val !== undefined ? val : 'X'}</span>
               </button>
             );
           })}
@@ -403,10 +465,7 @@ export const RoleSlot: React.FC<RoleSlotProps> = ({
           className="w-full text-xs px-2.5 py-1.5 rounded-lg bg-surface border border-line text-white focus:outline-none focus:border-brand"
         >
           {HELD_ITEMS_OPTIONS.map((opt) => (
-            <option
-              key={opt.id}
-              value={opt.stat ? `${opt.type}_${opt.stat}` : opt.type || 'none'}
-            >
+            <option key={opt.id} value={opt.stat ? `${opt.type}_${opt.stat}` : opt.type || 'none'}>
               {opt.label}
             </option>
           ))}

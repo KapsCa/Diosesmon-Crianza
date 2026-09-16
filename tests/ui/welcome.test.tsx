@@ -14,9 +14,7 @@ describe('presentation screen', () => {
   it('is what the application opens on, instead of the planner', () => {
     render(<IVsMapApp />);
 
-    expect(
-      screen.getByRole('button', { name: /comenzar a planificar/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /comenzar a planificar/i })).toBeInTheDocument();
     // The wizard must not be reachable before the call to action: if it were, the
     // presentation would be decoration rather than a screen.
     expect(screen.queryByText(/¿Qué Pokémon deseas criar\?/i)).not.toBeInTheDocument();
@@ -60,9 +58,7 @@ describe('footer credits', () => {
     expect(link).toHaveAttribute('rel', 'noreferrer');
     expect(link).toHaveAttribute('target', '_blank');
 
-    expect(
-      screen.getByText(`Diosesmon Crianza Pro • v${manifest.version}`),
-    ).toBeInTheDocument();
+    expect(screen.getByText(`Diosesmon Crianza Pro • v${manifest.version}`)).toBeInTheDocument();
   });
 });
 

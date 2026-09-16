@@ -15,7 +15,7 @@ describe('EstimationPanel', () => {
           { type: 'Power Lens', count: 1, cost: 500 },
         ]}
         ivBreakdown={{ perfect: 4, missing: 2 }}
-      />
+      />,
     );
 
     // Debe mostrar el tiempo estimado
@@ -37,11 +37,9 @@ describe('EstimationPanel', () => {
         totalTime="3 horas"
         totalSteps={20}
         totalCost={5000}
-        itemBreakdown={[
-          { type: 'Power Anklet', count: 2, cost: 1000 },
-        ]}
+        itemBreakdown={[{ type: 'Power Anklet', count: 2, cost: 1000 }]}
         ivBreakdown={{ perfect: 5, missing: 1 }}
-      />
+      />,
     );
 
     // Debe mostrar el número de steps
@@ -68,7 +66,7 @@ describe('EstimationPanel', () => {
           { type: 'Power Belt', count: 1, cost: 500 },
         ]}
         ivBreakdown={{ perfect: 3, missing: 3 }}
-      />
+      />,
     );
 
     // Debe mostrar cada type de item
@@ -90,7 +88,7 @@ describe('EstimationPanel', () => {
           totalCost={3000}
           itemBreakdown={[]}
           ivBreakdown={{ perfect: 6, missing: 0 }}
-        />
+        />,
       );
     }).not.toThrow();
   });

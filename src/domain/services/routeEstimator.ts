@@ -52,7 +52,7 @@ export function estimateRoute(
   tree: BreedingTree,
   nurseryConfig?: NurseryCapacityConfig,
   timePerStep?: number,
-  costModel?: BreedingCostModel
+  costModel?: BreedingCostModel,
 ): RouteEstimate {
   const nursery = nurseryConfig || DEFAULT_NURSERY_CONFIG;
   const perStep = timePerStep || 10;

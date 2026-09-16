@@ -8,10 +8,7 @@ interface StrategySelectorProps {
   onChange: (strategy: BreedingStrategy) => void;
 }
 
-export const StrategySelector: React.FC<StrategySelectorProps> = ({
-  strategy,
-  onChange,
-}) => {
+export const StrategySelector: React.FC<StrategySelectorProps> = ({ strategy, onChange }) => {
   return (
     <div className="flex flex-col gap-2 p-4 rounded-xl bg-surface border border-line">
       <div className="flex items-center justify-between">
@@ -19,9 +16,7 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
           <Zap className="w-4 h-4 text-brand-soft" />
           Estrategia Algorítmica de Crianza
         </span>
-        <span className="text-[11px] text-ink-muted font-mono">
-          Optimización Diosesmon
-        </span>
+        <span className="text-[11px] text-ink-muted font-mono">Optimización Diosesmon</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
@@ -47,7 +42,8 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
             )}
           </div>
           <p className="text-xs text-ink-muted leading-relaxed">
-            Aprovecha capturas silvestres de 1x31 y 2x31 en grupos huevo compartidos. Minimiza el gasto en Power Items y cuotas de guardería.
+            Aprovecha capturas silvestres de 1x31 y 2x31 en grupos huevo compartidos. Minimiza el
+            gasto en Power Items y cuotas de guardería.
           </p>
           <div className="flex items-center gap-3 text-[11px] font-mono text-ink-faint mt-1">
             <span>• 100% Determinista</span>
@@ -77,7 +73,8 @@ export const StrategySelector: React.FC<StrategySelectorProps> = ({
             )}
           </div>
           <p className="text-xs text-ink-muted leading-relaxed">
-            Utiliza Ditto con múltiples IVs perfectos (3x31 / 4x31 / 5x31) del PC. Reduce drásticamente las generaciones intermedias.
+            Utiliza Ditto con múltiples IVs perfectos (3x31 / 4x31 / 5x31) del PC. Reduce
+            drásticamente las generaciones intermedias.
           </p>
           <div className="flex items-center gap-3 text-[11px] font-mono text-ink-faint mt-1">
             <span>• Menos generaciones</span>

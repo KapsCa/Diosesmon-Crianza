@@ -28,12 +28,12 @@ describe('analyzeOverlap', () => {
     const father = createPokemonWithPerfectIVs(
       [Stat.HP, Stat.Attack, Stat.Defense],
       undefined,
-      Gender.Male
+      Gender.Male,
     );
     const mother = createPokemonWithPerfectIVs(
       [Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Female
+      Gender.Female,
     );
 
     const result = analyzeOverlap(father, mother);
@@ -47,12 +47,12 @@ describe('analyzeOverlap', () => {
     const father = createPokemonWithPerfectIVs(
       [Stat.HP, Stat.Attack, Stat.Defense],
       undefined,
-      Gender.Male
+      Gender.Male,
     );
     const mother = createPokemonWithPerfectIVs(
       [Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Female
+      Gender.Female,
     );
 
     const result = analyzeOverlap(father, mother);
@@ -66,12 +66,12 @@ describe('analyzeOverlap', () => {
     const father = createPokemonWithPerfectIVs(
       [Stat.HP, Stat.Attack, Stat.Defense, Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Male
+      Gender.Male,
     );
     const mother = createPokemonWithPerfectIVs(
       [Stat.HP, Stat.Attack, Stat.Defense, Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Female
+      Gender.Female,
     );
 
     const result = analyzeOverlap(father, mother);
@@ -124,14 +124,14 @@ describe('analyzeOverlap', () => {
     const trapinch = createPokemonWithPerfectIVs(
       [Stat.HP, Stat.Defense, Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Female
+      Gender.Female,
     );
 
     // Weedle macho: Atk, Def, SpAtk, SpDef, Speed = 31
     const weedle = createPokemonWithPerfectIVs(
       [Stat.Attack, Stat.Defense, Stat.SpAtk, Stat.SpDef, Stat.Speed],
       undefined,
-      Gender.Male
+      Gender.Male,
     );
 
     const result = analyzeOverlap(trapinch, weedle);
@@ -160,11 +160,7 @@ describe('calculateMissingIVs', () => {
       rng: [],
     };
 
-    const result = calculateMissingIVs(
-      [Stat.HP, Stat.Attack],
-      [Stat.HP, Stat.Attack],
-      overlap
-    );
+    const result = calculateMissingIVs([Stat.HP, Stat.Attack], [Stat.HP, Stat.Attack], overlap);
 
     expect(result).toBe(0);
   });
@@ -176,11 +172,7 @@ describe('calculateMissingIVs', () => {
       rng: [],
     };
 
-    const result = calculateMissingIVs(
-      [Stat.HP],
-      [Stat.HP, Stat.Attack, Stat.Defense],
-      overlap
-    );
+    const result = calculateMissingIVs([Stat.HP], [Stat.HP, Stat.Attack, Stat.Defense], overlap);
 
     expect(result).toBe(2); // Attack y Defense faltan
   });

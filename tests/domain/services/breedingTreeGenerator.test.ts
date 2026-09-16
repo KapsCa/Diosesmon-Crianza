@@ -2,7 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { Stat } from '../../../src/domain/types/stat';
 import { Species } from '../../../src/domain/types/pokemon';
 import { generateBreedingTree } from '../../../src/domain/services/breedingTreeGenerator';
-import { analyzeOverlap, calculateMissingIVs, findBestItemCombination } from '../../../src/domain/services/overlap';
+import {
+  analyzeOverlap,
+  calculateMissingIVs,
+  findBestItemCombination,
+} from '../../../src/domain/services/overlap';
 import { Gender } from '../../../src/domain/types/pokemon';
 import { findCompatibleParents } from '../../../src/domain/services/breedingFinder';
 

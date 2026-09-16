@@ -51,7 +51,9 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedGen, setSelectedGen] = useState<number | 'all'>('all');
-  const [internalSelectedId, setInternalSelectedId] = useState<number | ''>(selectedSpeciesId ?? '');
+  const [internalSelectedId, setInternalSelectedId] = useState<number | ''>(
+    selectedSpeciesId ?? '',
+  );
   const selectedId = selectedSpeciesId !== undefined ? selectedSpeciesId : internalSelectedId;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -72,7 +74,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
   const baseFilteredSpecies = useMemo(() => {
     return eggGroupFilter
       ? speciesList.filter((species) =>
-          species.eggGroups.some((group) => group.name === eggGroupFilter)
+          species.eggGroups.some((group) => group.name === eggGroupFilter),
         )
       : speciesList;
   }, [speciesList, eggGroupFilter]);
@@ -96,7 +98,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
       (species) =>
         species.name.toLowerCase().includes(cleanSearch) ||
         species.id.toString() === cleanSearch ||
-        species.eggGroups.some((g) => g.name.toLowerCase().includes(cleanSearch))
+        species.eggGroups.some((g) => g.name.toLowerCase().includes(cleanSearch)),
     );
   }, [baseFilteredSpecies, selectedGen, searchTerm]);
 
@@ -106,7 +108,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
       filteredSpecies.length > MAX_VISIBLE_SPECIES
         ? filteredSpecies.slice(0, MAX_VISIBLE_SPECIES)
         : filteredSpecies,
-    [filteredSpecies]
+    [filteredSpecies],
   );
 
   const handleSelectSpecies = (species: { id: number; name: string }) => {
@@ -125,7 +127,7 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
 
     // Si el usuario escribe exactamente el nombre de una especie, seleccionarla
     const exactMatch = baseFilteredSpecies.find(
-      (s) => s.name.toLowerCase() === val.trim().toLowerCase()
+      (s) => s.name.toLowerCase() === val.trim().toLowerCase(),
     );
     if (exactMatch) {
       setInternalSelectedId(exactMatch.id);
@@ -157,7 +159,10 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
 
   return (
     <div ref={containerRef} className="species-selector w-full flex flex-col gap-2 relative">
-      <label htmlFor="species-search-input" className="text-xs font-semibold text-ink flex items-center justify-between">
+      <label
+        htmlFor="species-search-input"
+        className="text-xs font-semibold text-ink flex items-center justify-between"
+      >
         <span>Especie Pokémon Objetivo</span>
         {currentSelectedSpecies && (
           <span className="text-[11px] font-mono text-brand-soft">
@@ -284,7 +289,9 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
           }}
           aria-label={isOpen ? 'Cerrar lista' : 'Abrir lista'}
         >
-          <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-brand-soft' : ''}`} />
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180 text-brand-soft' : ''}`}
+          />
         </button>
       </div>
 
@@ -302,7 +309,9 @@ export const SpeciesSelector: React.FC<SpeciesSelectorProps> = ({
                 </span>
               )}
             </span>
-            {searchTerm && <span className="font-mono text-brand-soft">Filtro: "{searchTerm}"</span>}
+            {searchTerm && (
+              <span className="font-mono text-brand-soft">Filtro: "{searchTerm}"</span>
+            )}
           </div>
 
           {/* Filtro rápido por Generación (1 a 9) */}
