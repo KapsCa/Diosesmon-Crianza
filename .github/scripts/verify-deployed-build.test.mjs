@@ -167,3 +167,61 @@ test('claims verification once, and only after the check passes', async () => {
   assert.equal(written.length, 1);
   assert.match(written[0], /verified `assets\/index-DGmOj9zy\.js` on the published site/);
 });
+
+// The two tests below cover the paths a test double used to hide: the default `fail` and the
+// skipped-summary branch. Both were previously reachable only by replacing them with a spy,
+// which is how an error message and a silent skip go untested in the script whose whole job
+// is to remove silent results.
+test('the default failure path prints the ::error:: annotation and sets the exit code', async () => {
+  const errors = [];
+  const previousExitCode = process.exitCode;
+  process.exitCode = undefined;
+
+  try {
+    // Only the error sink is injected. `fail` itself is the real one.
+    const result = await verifyAndReport({
+      pageUrl: 'https://example.test/',
+      expectedAsset: ASSET,
+      summaryPath: 'step-summary.md',
+      fetchImpl: async () => ({ ok: true, status: 200, text: async () => developmentPage }),
+      attempts: 2,
+      sleep: async () => {},
+      log: quiet,
+      error: (message) => errors.push(message),
+      append: (_path, content) => errors.push(`APPENDED: ${content}`),
+    });
+
+    assert.deepEqual(result, { ok: false, attempts: 2 });
+    assert.equal(errors.length, 1);
+    assert.match(errors[0], /^::error::the published site never served assets\/index-DGmOj9zy\.js after 2 attempts/);
+    assert.match(errors[0], /production is not serving this build/);
+    assert.equal(process.exitCode, 1);
+  } finally {
+    // `process.exitCode` is global state: leaving it at 1 would misreport the test run itself.
+    process.exitCode = previousExitCode;
+  }
+});
+
+test('says out loud that nothing will report the verification when no summary path is given', async () => {
+  const lines = [];
+
+  const result = await verifyAndReport({
+    pageUrl: 'https://example.test/',
+    expectedAsset: ASSET,
+    summaryPath: undefined,
+    fetchImpl: async () => ({ ok: true, status: 200, text: async () => livePage }),
+    attempts: 1,
+    sleep: async () => {},
+    log: (message) => lines.push(message),
+    fail: () => {
+      throw new Error('this run should not have failed');
+    },
+    append: () => {
+      throw new Error('nothing should have been appended without a summary path');
+    },
+  });
+
+  assert.equal(result.ok, true);
+  const reported = lines.filter((line) => /no step summary path was provided/.test(line));
+  assert.equal(reported.length, 1);
+});

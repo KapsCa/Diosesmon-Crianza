@@ -102,8 +102,13 @@ export async function verifyAndReport({
   attempts,
   delayMs,
   log = console.log,
+  // Declared before `fail` so the default failure path can reach it. The error sink is
+  // injected like every other dependency, which is what lets a test run the default `fail`
+  // itself instead of replacing it: a `::error::` message no test ever reads is a message
+  // that breaks in silence, and breaking in silence is what this script exists to remove.
+  error = console.error,
   fail = (message) => {
-    console.error(message);
+    error(message);
     process.exitCode = 1;
   },
   append = appendFileSync,
@@ -133,6 +138,10 @@ export async function verifyAndReport({
       summaryPath,
       `Deployed \`${process.env.GITHUB_SHA ?? 'unknown'}\` — verified \`${expectedAsset}\` on the published site.\n`,
     );
+  } else {
+    // A skipped report is a silent result too, and this script exists to remove silent
+    // results. Say it out loud instead of returning ok with nothing written anywhere.
+    log('no step summary path was provided, so this verification is not reported anywhere');
   }
 
   return result;
