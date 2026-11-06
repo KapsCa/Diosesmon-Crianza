@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.5.0...v1.6.0) (2026-11-06)
+
+
+### Features
+
+* KapsCa brand header + vendored assets ([320bd6c](https://github.com/KapsCa/Diosesmon-Crianza/commit/320bd6c3728921866cf0be34ab0a1fa50c33e5b0))
+* KapsCa brand header + vendored assets ([9b015b9](https://github.com/KapsCa/Diosesmon-Crianza/commit/9b015b9a4b2a5a84b8f9bed805053449a4aee873))
+
 ## [1.5.0](https://github.com/KapsCa/Diosesmon-Crianza/compare/v1.4.0...v1.5.0) (2026-09-16)
 
 
