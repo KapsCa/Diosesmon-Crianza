@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 312" width="400" height="312" font-family="ui-sans-serif, -apple-system, Segoe UI, Roboto, sans-serif">
+<rect width="400" height="312" fill="#0D0E12"/>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#CE97EB"/></marker></defs>
+<text x="30" y="38" fill="#ECE9F2" font-size="16" font-weight="700">Estructura del proyecto</text>
+<text x="30" y="58" fill="#8F8A9F" font-size="12">React 19 + TypeScript, sin estado global acoplado</text>
+<rect x="30" y="84" width="160" height="70" rx="10" fill="#180F1F" stroke="#CE97EB" stroke-width="1.5"/>
+<text x="110.0" y="112.0" fill="#CE97EB" font-size="15" font-weight="600" text-anchor="middle">ui/</text>
+<text x="110.0" y="132.0" fill="#8F8A9F" font-size="11.5" text-anchor="middle">componentes y vistas</text>
+<rect x="210" y="84" width="160" height="70" rx="10" fill="#180F1F" stroke="#3A2445" stroke-width="1.5"/>
+<text x="290.0" y="112.0" fill="#ECE9F2" font-size="15" font-weight="600" text-anchor="middle">adapters/</text>
+<text x="290.0" y="132.0" fill="#8F8A9F" font-size="11.5" text-anchor="middle">persistencia y servicios</text>
+<rect x="30" y="176" width="160" height="70" rx="10" fill="#180F1F" stroke="#B26FE0" stroke-width="1.5"/>
+<text x="110.0" y="204.0" fill="#ECE9F2" font-size="15" font-weight="600" text-anchor="middle">domain/</text>
+<text x="110.0" y="224.0" fill="#8F8A9F" font-size="11.5" text-anchor="middle">reglas del criadero</text>
+<rect x="210" y="176" width="160" height="70" rx="10" fill="#180F1F" stroke="#3A2445" stroke-width="1.5"/>
+<text x="290.0" y="204.0" fill="#ECE9F2" font-size="15" font-weight="600" text-anchor="middle">config/</text>
+<text x="290.0" y="224.0" fill="#8F8A9F" font-size="11.5" text-anchor="middle">constantes y datos base</text>
+<line x1="110" y1="154" x2="110" y2="176" stroke="#CE97EB" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="290" y1="154" x2="290" y2="176" stroke="#8F8A9F" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#ar)"/>
+<line x1="190" y1="211" x2="210" y2="211" stroke="#3A2445" stroke-width="1.5"/>
+<text x="30" y="290" fill="#8F8A9F" font-size="11.5">Tests con Vitest + Testing Library sobre la UI; lint con oxlint.</text>
+
+</svg>

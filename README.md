@@ -1,36 +1,90 @@
-<!-- kapsca-brand v1 (vendored copy of KapsCa/kapsca-brand; do not edit manually) -->
-<p align="center"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/kapsca-512.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/brand/kapsca-mono-white.svg">
-  <img src="assets/brand/kapsca-512.png" alt="KapsCa" width="96">
-</picture></p>
-<p align="center"><img src="assets/brand/banner.png" alt="KapsCa" width="700"></p>
-<!-- /kapsca-brand -->
+<a id="top"></a>
 
+<div align="center">
 
-# Diosesmon Crianza
+<img width="100%" alt="KapsCa" src="assets/brand/banner.png" />
 
-Una app sencilla para ayudarte a planear y organizar tu crianza en Diosesmon.
+<h1>Diosesmon Crianza</h1>
 
-## ¿Qué hace?
+<p><strong>Cruces, IVs y roles en una sola vista: planificar la crianza sin planillas sueltas.</strong></p>
 
-- Te ayuda a pensar mejor tus cruces
-- Ordena la información de forma clara
-- Hace más fácil seguir tu progreso
-- Te ahorra tiempo y confusión
+<p>
+  <img alt="React" src="https://img.shields.io/badge/React-19-CE97EB?style=for-the-badge&labelColor=180F1F" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-CE97EB?style=for-the-badge&labelColor=180F1F" />
+  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-4-D7A0B8?style=for-the-badge&labelColor=180F1F" />
+  <a href="https://github.com/KapsCa/Diosesmon-Crianza/releases"><img alt="Release" src="https://img.shields.io/github/v/release/KapsCa/Diosesmon-Crianza?style=for-the-badge&labelColor=180F1F&color=E5384F" /></a>
+</p>
 
-## ¿Para quién es?
+<p>
+<a href="#que-hace"><strong>Qué hace</strong></a> &bull;
+<a href="#estructura"><strong>Estructura</strong></a> &bull;
+<a href="#stack"><strong>Stack</strong></a> &bull;
+<a href="#desarrollo"><strong>Desarrollo</strong></a> &bull;
+<a href="#estado"><strong>Estado</strong></a>
+</p>
 
-Para cualquiera que quiera criar sin perderse entre cálculos, notas o decisiones complicadas.
-
-## Idea principal
-
-La app busca que todo sea más simple: elegir, comparar y avanzar con una vista clara de lo que necesitás.
-
-## Estado del proyecto
-
-Está en desarrollo y va creciendo paso a paso.
+</div>
 
 ---
 
-Hecho con cariño para la comunidad de Diosesmon.
+<p>
+Una herramienta para quien cría en <strong>Diosesmon</strong>: ordena la información que normalmente vive
+repartida entre notas, calculadoras y memoria, y la muestra donde importa. El objetivo no es automatizar
+la decisión — es que puedas verla.
+</p>
+
+## Qué hace
+
+- Arma y compara cruces con la información relevante a la vista.
+- Gestiona el banco de progenitores y el inventario de capturas por bioma.
+- Perfila IVs sobre el espécimen que estás por criar.
+- Deja las reglas del servidor visibles, para no planificar sobre supuestos equivocados.
+
+## Estructura
+
+<img width="100%" alt="Capas del proyecto: UI en adapters, reglas en domain" src="docs/assets/layers.svg" />
+
+Separación por responsabilidad, con componentes de UI en diseño atómico:
+
+```
+src/
+├── adapters/ui/components/   atoms · molecules · organisms
+├── domain/                   data · services · types (reglas del criadero)
+└── assets/                   sprites e imágenes
+tests/                        UI, dominio y helpers (Vitest + Testing Library)
+docs/                         documentación del proyecto
+```
+
+## Stack
+
+| Pieza | Elección |
+|---|---|
+| UI | React `19` + TypeScript |
+| Estilos | Tailwind CSS `4` |
+| Build | Vite |
+| Iconografía | `lucide-react` |
+| Pruebas | Vitest + Testing Library (`happy-dom`) |
+| Calidad | `oxlint` + `biome` |
+| Releases | `release-please` |
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+```
+
+```bash
+npm test         # suite completa
+npm run lint     # oxlint
+npm run build    # build de producción
+```
+
+## Estado
+
+En desarrollo activo: crece por incrementos, con pruebas que acompañan cada funcionalidad y releases
+generadas desde los commits.
+
+## Licencia
+
+Uso personal del autor. El kit de marca vive en [`kapsca-brand`](https://github.com/KapsCa/kapsca-brand).
